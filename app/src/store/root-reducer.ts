@@ -7,7 +7,7 @@ import { reducer as purposeReducer } from "../slices/memo/purposeSlice";
 import { reducer as learningEfficiencyReducer } from "../slices/home/learningEfficiencySlice";
 
 
-export const rootReducer = combineReducers({
+export const appReducer = combineReducers({
     auth: authReducer,
     note: noteReducer,
     memoCategory: memoCategoryReducer,
@@ -15,3 +15,12 @@ export const rootReducer = combineReducers({
     purpose: purposeReducer,
     learningEfficiency: learningEfficiencyReducer,
 });
+
+export const rootReducer = (state, action) => {
+    if (action.type === "auth/logout") {
+        state = undefined;
+    }
+    return appReducer(state, action);
+}
+
+export default rootReducer

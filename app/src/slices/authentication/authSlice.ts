@@ -100,7 +100,7 @@ export const fetchAsyncGetMyProf = createAsyncThunk(
 
 const initialState: AuthState = {
   isAuthenticated: false,
-  isInitialized: false,
+  isInitialized: true,
   user: null
 };
 
@@ -122,6 +122,9 @@ export const authSlice = createSlice({
     },
     editNickname(state, action) {
       state.user.profileNickname = action.payload;
+    },
+    logout(state){
+      state.isInitialized = true;
     }
   },
   extraReducers: (builder) => {
@@ -158,6 +161,7 @@ export const {
   setIsInitialized,
   resetIsInitialized,
   editNickname, 
+  logout,
 } = authSlice.actions;
 
 export const selectIsAuthenticated = (state: RootState) => state.auth.isAuthenticated;

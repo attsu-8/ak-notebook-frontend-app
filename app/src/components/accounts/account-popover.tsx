@@ -3,10 +3,11 @@ import { useRouter } from "next/router";
 import { VFC } from "react";
 import { useSelector } from "react-redux";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { selectUser } from "../../slices/authentication/authSlice";
+import { logout, selectUser } from "../../slices/authentication/authSlice";
 import  PropTypes from "prop-types"
 import LogoutIcon from '@mui/icons-material/Logout';
-
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from '../../store/store';
 
 interface AccountPopoverProps {
     anchorEl: null | Element;
@@ -18,18 +19,15 @@ export const AccountPopover: VFC<AccountPopoverProps> = (props) => {
     const { anchorEl, onClose, open, ...other } = props;
     const router = useRouter();
     const user = useSelector(selectUser);
+    const dispatch: AppDispatch = useDispatch();
 
     const removeToken = () => {
         window.localStorage.removeItem('accessToken')
     }
     const handleLogout = async (): Promise<void> => {
-        const result = await removeToken();
-        // window.localStorage.removeItem('accessToken')
-        router.push('/authentication/login')
-        // router.push({
-        //     pathname: '/',
-        //     query: { returnUrl: router.asPath }
-        // });
+        await removeToken();
+        await router.push('/authentication/login')
+        await dispatch(logout());
     };
 
     return (
@@ -54,7 +52,7 @@ export const AccountPopover: VFC<AccountPopoverProps> = (props) => {
                 }}
             >
                 <Avatar
-                    src={user.profileImage ? user.profileImage.toString() : null}
+                    // src={user.profileImage ? user.profileImage.toString() : null}
                     sx = {{
                         height:40,
                         width:40
@@ -68,7 +66,7 @@ export const AccountPopover: VFC<AccountPopoverProps> = (props) => {
                     }}
                 >
                     <Typography variant="body1">
-                        {user.profileNickname}
+                        {/* {user.profileNickname} */}
                     </Typography>
                 </Box>
             </Box>

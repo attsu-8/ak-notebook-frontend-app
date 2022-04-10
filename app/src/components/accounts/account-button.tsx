@@ -37,7 +37,7 @@ export const AccountButton = () => {
                         height: 40,
                         width: 40
                     }}
-                    src={user.profileImage? user.profileImage.toString() : null}
+                    // src={user.profileImage? user.profileImage.toString() : null}
                 >
                     <AccountCircleIcon fontSize="small" />
                 </Avatar>
