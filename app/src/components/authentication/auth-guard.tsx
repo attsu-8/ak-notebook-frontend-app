@@ -1,9 +1,10 @@
 import { VFC, ReactNode, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { selectIsAuthenticated } from '../../slices/authentication/authSlice';
+import { logout, selectIsAuthenticated, setIsInitialized } from '../../slices/authentication/authSlice';
 import { useSelector,useDispatch } from "react-redux";
 import PropTypes from 'prop-types';
 import {fetchAsyncGetMyProf,setIsAuthenticated} from '../../slices/authentication/authSlice';
+import { initializeStoreData } from '../../utils/load/initializeStoreData';
 
 interface AuthGuardProps {
     children: ReactNode;
@@ -27,19 +28,25 @@ export const AuthGuard: VFC<AuthGuardProps> = (props) => {
                 const getProfResult: any = await dispatch(fetchAsyncGetMyProf());
                 if (fetchAsyncGetMyProf.rejected.match(getProfResult)) {
                     window.localStorage.removeItem('accessToken')
+                    dispatch(logout())
                     router.push({
                         pathname: '/authentication/login',
                         query: { returnUrl: router.asPath }
                     });
                 } else {
-                    dispatch(setIsAuthenticated());
-                    setIsChecked(true);
+                    if (!isAuthenticated) {
+                        await initializeStoreData(dispatch)
+                        await dispatch(setIsAuthenticated());
+                    }
+                    await setIsChecked(true);
                     router.push({
                         pathname: '/',
                     });
                 }
             }
              else {
+                dispatch(logout())
+                dispatch(setIsInitialized());
                 router.push({
                     pathname: '/authentication/login',
                     query: { returnUrl: router.asPath }
