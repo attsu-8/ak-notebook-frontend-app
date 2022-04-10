@@ -2,10 +2,11 @@ import { VFC } from "react";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useMounted } from "../../hooks/use-mounted";
-import { fetchAsyncLogin, fetchAsyncGetMyProf, setIsAuthenticated } from "../../slices/authentication/authSlice";
+import { fetchAsyncLogin, fetchAsyncGetMyProf, setIsAuthenticated, resetIsInitialized, setIsInitialized } from "../../slices/authentication/authSlice";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { TextField, Box, FormHelperText, Button} from "@mui/material";
+import {initializeStoreData} from "../../utils/load/initializeStoreData";
 
 export const JWTLogin: VFC = (props) => {
     const isMounted = useMounted();
@@ -38,14 +39,19 @@ export const JWTLogin: VFC = (props) => {
                 }
                 const result: any = await dispatch(fetchAsyncLogin(auth));
                 if (fetchAsyncLogin.fulfilled.match(result)) {
+                    await dispatch(resetIsInitialized());
                     await dispatch(fetchAsyncGetMyProf());
                     await dispatch(setIsAuthenticated());
+                    await initializeStoreData(dispatch);
+                }
+                
+                if (isMounted()) {
+                    const returnUrl = await (router.query.returnUrl as string) || '/';
+                    await router.push(returnUrl);
                 }
 
-                if (isMounted()) {
-                    const returnUrl = (router.query.returnUrl as string) || '/';
-                    router.push(returnUrl);
-                }
+                await dispatch(setIsInitialized());
+
             } catch (err) {
                 console.error(err);
 
