@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../store/store';
 import axios from 'axios';
-import { LearningEfficiencyState } from '../../types/home/learningEfficiency';
+import { LearningEfficiencyPostData, LearningEfficiencyState } from '../../types/home/learningEfficiency';
 
 const apiUrl = process.env.NEXT_PUBLIC_AKNOTEBOOK_API_URL;
 
@@ -92,6 +92,23 @@ export const fetchAsyncGetSelectMemoLearningEfficiency = createAsyncThunk(
           }
       );
       return res.data.results;
+  }
+);
+
+export const fetchAsyncCreateLearningEfficiency = createAsyncThunk(
+  'learningEfficiency/post',
+  async (learningEfficiencyPatchData: LearningEfficiencyPostData) => {
+    const res = await axios.post(
+      `${apiUrl}api/dm-learning-efficiency/`,
+      learningEfficiencyPatchData,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `JWT ${localStorage.accessToken}`,
+        },
+      }
+    );
+    return res.data;
   }
 );
 
