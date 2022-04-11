@@ -31,7 +31,6 @@ export interface EachMemoLearningEfficiency {
     elapsedDateCount: number;
 }
 
-
 export interface LearningEfficiencyState {
     todayLearningEfficiency: {
         aggregateDate: Date | "";
@@ -57,5 +56,15 @@ export interface LearningEfficiencyState {
         isFetchData: boolean;
     };
     selectMemo: Memo;
+}
 
+export interface LearningEfficiencyPostData {
+    id: string,
+    aggregateDate: string,
+    learningEfficiencyRate: number;
+    note: string;
+    parentMemoCategory: string;
+    childMemoCategory: string;
+    purpose: string;
+    memo: string;
 }
