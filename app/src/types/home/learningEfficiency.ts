@@ -19,6 +19,7 @@ export interface EachParentMemoCategoryLearningEfficiency {
 }
 
 export interface EachMemoLearningEfficiency {
+    id: string,
     aggregateDate: Date,
     noteId: string;
     parentMemoCategoryId: string;
