@@ -201,9 +201,13 @@ export const learningEfficiencySlice = createSlice({
     builder.addCase(
       fetchAsyncGetTodayLearningEfficiency.fulfilled,
       (state, action) => {
-        state.todayLearningEfficiency.aggregateDate = action.payload[1].aggregateDate;
-        state.todayLearningEfficiency.todayLearningEfficiencyRate = action.payload[1].averageLearningEfficiencyRate;
-        state.todayLearningEfficiency.yesterdayLearningEfficiencyRate = action.payload[0].averageLearningEfficiencyRate;
+        if (action.payload[1]){
+          state.todayLearningEfficiency.aggregateDate = action.payload[1].aggregateDate;
+          state.todayLearningEfficiency.todayLearningEfficiencyRate = action.payload[1].averageLearningEfficiencyRate;
+        }
+        if (action.payload[0]){
+          state.todayLearningEfficiency.yesterdayLearningEfficiencyRate = action.payload[0].averageLearningEfficiencyRate;
+        }
       }
     ),
     builder.addCase(
