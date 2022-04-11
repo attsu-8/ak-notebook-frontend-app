@@ -12,6 +12,8 @@ import { MemoCardItemProperty } from "./memo-card-item-property";
 import { changeEditMemo, fetchAsyncCountBrowsingMemo } from "../../../slices/memo/memoSlice";
 import { useDispatch } from "react-redux";
 import { debounce } from "../../../utils/debounce";
+import { fetchAsyncPatchLearningEfficiency } from "../../../slices/home/learningEfficiencySlice";
+import { formatDate } from "../../../utils/date/formatDate";
 
 
 interface MemoCardProps {
@@ -43,10 +45,12 @@ export const MemoCard: VFC<MemoCardProps> = (props) => {
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
+
         !expanded ? 
             debounce(
                 () => {
                     dispatch(fetchAsyncCountBrowsingMemo(memo.memoId))
+                    dispatch(fetchAsyncPatchLearningEfficiency(`${formatDate(new Date)}${memo.memoId}`))
                 },
                 browsingCountTimerId,
                 setBrowsingCountTimerId,

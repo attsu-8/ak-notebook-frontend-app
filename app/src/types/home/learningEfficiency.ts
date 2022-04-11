@@ -19,6 +19,7 @@ export interface EachParentMemoCategoryLearningEfficiency {
 }
 
 export interface EachMemoLearningEfficiency {
+    id: string,
     aggregateDate: Date,
     noteId: string;
     parentMemoCategoryId: string;
@@ -30,7 +31,6 @@ export interface EachMemoLearningEfficiency {
     learningEfficiencyRate: number;
     elapsedDateCount: number;
 }
-
 
 export interface LearningEfficiencyState {
     todayLearningEfficiency: {
@@ -57,5 +57,15 @@ export interface LearningEfficiencyState {
         isFetchData: boolean;
     };
     selectMemo: Memo;
+}
 
+export interface LearningEfficiencyPostData {
+    id: string,
+    aggregateDate: string,
+    learningEfficiencyRate: number;
+    note: string;
+    parentMemoCategory: string;
+    childMemoCategory: string;
+    purpose: string;
+    memo: string;
 }

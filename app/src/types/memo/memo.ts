@@ -21,6 +21,7 @@ export interface MemoState {
     isMemoReflesh: boolean;
     isMemoNextPageLoading: boolean;
     memos: Memo[];
+    latestCreateMemo: Memo;
 }
 
 export interface MemoFilterProps {

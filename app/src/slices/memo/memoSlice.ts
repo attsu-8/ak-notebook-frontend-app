@@ -219,6 +219,20 @@ const initialState: MemoState = {
     isMemoReflesh: true,
     isMemoNextPageLoading: false,
     memos: [],
+    latestCreateMemo: {
+      memoId: "",
+      memoTitle: "",
+      memoPriority: 0,
+      memoText: "",
+      note: "",
+      parentMemoCategory: "",
+      childMemoCategory: "",
+      purpose: "",
+      user: "",
+      isActive: false,
+      createdAt: "",
+      updatedAt: "",
+    },
 };
 
 export const memoSlice = createSlice({
@@ -259,6 +273,9 @@ export const memoSlice = createSlice({
     endMemoReflesh(state) {
       state.isMemoReflesh = true
     },
+    resetLatestCreateMemo(state) {
+      state.latestCreateMemo = initialState.latestCreateMemo
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(
@@ -296,6 +313,7 @@ export const memoSlice = createSlice({
       (state, action) => {
         return {
           ...state,
+          latestCreateMemo: action.payload,
           memoOptions: [...state.memoOptions, action.payload]
         };
       }
@@ -354,7 +372,8 @@ export const {
   changeEditMemo,
   resetEditMemo,
   startMemoReflesh,
-  endMemoReflesh
+  endMemoReflesh,
+  resetLatestCreateMemo
 } = memoSlice.actions;
 
 export const selectEditMemo = (state: RootState) => state.memo.editMemo;
@@ -364,6 +383,7 @@ export const selectMemoNextPage = (state: RootState) => state.memo.memoNextPage;
 export const selectIsMemoReflesh = (state: RootState) => state.memo.isMemoReflesh;
 export const selectIsMemoNextPageLoading = (state: RootState) => state.memo.isMemoNextPageLoading;
 export const selectMemos = (state: RootState) => state.memo.memos;
+export const selectLatestCreateMemo = (state: RootState) => state.memo.latestCreateMemo;
 
 export default memoSlice.reducer;
 
