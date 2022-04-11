@@ -112,6 +112,26 @@ export const fetchAsyncCreateLearningEfficiency = createAsyncThunk(
   }
 );
 
+export const fetchAsyncPatchLearningEfficiency = createAsyncThunk(
+  'learningEfficiency/patch',
+  async (learningEfficiencyId: string) => {
+    const patchData = {
+      learningEfficiencyRate: 100
+    }
+    const res = await axios.patch(
+      `${apiUrl}api/dm-learning-efficiency/${learningEfficiencyId}/`,
+      patchData,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `JWT ${localStorage.accessToken}`,
+        },
+      }
+    );
+    return res.data;
+  }
+);
+
 const initialState: LearningEfficiencyState = {
   todayLearningEfficiency: {
     aggregateDate: "",
