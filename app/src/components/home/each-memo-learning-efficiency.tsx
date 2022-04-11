@@ -16,13 +16,14 @@ import {
 } from 'chart.js';
 import { getElementAtEvent, Scatter } from 'react-chartjs-2';
 import { useSelector, useDispatch } from "react-redux";
-import { selectEachMemoLearningEfficiencyOptions, fetchAsyncGetSelectMemoLearningEfficiency, selectSelectEachParentMemoCategoryLearningEfficiency, selectIsFetchMemoData, selectAggregateDate, resetSelectMemoLearningEfficiency } from "../../slices/home/learningEfficiencySlice";
+import { selectEachMemoLearningEfficiencyOptions, fetchAsyncGetSelectMemoLearningEfficiency, selectSelectEachParentMemoCategoryLearningEfficiency, selectIsFetchMemoData, selectAggregateDate, fetchAsyncPatchLearningEfficiency, fetchAsyncGetEachMemoLearningEfficiency } from "../../slices/home/learningEfficiencySlice";
 import { _DeepPartialObject } from "chart.js/types/utils";
 import { SelectMemoDialog } from "./select-memo-dialog";
 import { MemoEmojiIcon } from "../memo/commons/icon/memo-emoji-icon";
 import { MemoCategoryIcon } from "../memo/commons/icon/memo-category-icon";
 import { useTheme } from '@mui/material/styles';
 import { fetchAsyncCountBrowsingMemo } from "../../slices/memo/memoSlice";
+import { formatDate } from "../../utils/date/formatDate";
 
 ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend);
 interface memoData {memoId: string, childMemoCategoryName: string, title: string, x: number, y: number}
@@ -39,6 +40,7 @@ export const EachMemoLearningEfficiency: VFC = () => {
     const dispatch = useDispatch();
     const aggregateDate = useSelector(selectAggregateDate);
     const theme = useTheme();
+    const eachParentMemoCategoryLearningEfficiencySelectData = useSelector(selectSelectEachParentMemoCategoryLearningEfficiency);
     
     const colorSets = [
       theme.palette.primary.dark,
@@ -152,6 +154,8 @@ export const EachMemoLearningEfficiency: VFC = () => {
         await dispatch(fetchAsyncGetSelectMemoLearningEfficiency(memoId));
         await setIsOpenSelectMemoDialog(true);
         await dispatch(fetchAsyncCountBrowsingMemo(memoId));
+        await dispatch(fetchAsyncPatchLearningEfficiency(`${formatDate(new Date)}${memoId}`))
+        await dispatch(fetchAsyncGetEachMemoLearningEfficiency(eachParentMemoCategoryLearningEfficiencySelectData.parentMemoCategoryId))
       }
     }      
 
