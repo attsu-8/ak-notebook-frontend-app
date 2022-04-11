@@ -1,6 +1,6 @@
 import { useEffect, useState, VFC } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { selectMemoOptions, selectIsMemoNextPageLoading, fetchAsyncGetMemosNextPage, selectMemoNextPage, fetchAsyncCreateMemo, fetchAsyncLogicalDeleteMemo, selectIsMemoReflesh, startMemoReflesh, endMemoReflesh } from "../../../slices/memo/memoSlice";
+import { selectMemoOptions, selectIsMemoNextPageLoading, fetchAsyncGetMemosNextPage, selectMemoNextPage, fetchAsyncCreateMemo, fetchAsyncLogicalDeleteMemo, selectIsMemoReflesh, startMemoReflesh, endMemoReflesh, selectLatestCreateMemo, resetLatestCreateMemo } from "../../../slices/memo/memoSlice";
 import { fetchAsyncGetPurposes} from "../../../slices/memo/purposeSlice"; 
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { MemoCard } from "./memo-card";
@@ -10,6 +10,9 @@ import { MemoProps } from "../../../types/memo/memo";
 import { MemoAddButton } from "../commons/button/memo-add-button";
 import { MemoDeleteDialog } from "./memo-delete-dialog";
 import { DeleteMemoButton } from "./memo-delete-memo-button";
+import { fetchAsyncCreateLearningEfficiency } from "../../../slices/home/learningEfficiencySlice";
+import { LearningEfficiencyPostData } from "../../../types/home/learningEfficiency";
+import { formatDate } from "../../../utils/date/formatDate";
 
 interface NewMemoButtonProps { 
     initialMemoProps: MemoProps;
@@ -62,6 +65,7 @@ export const MemoMain: VFC = () => {
     let isSelectChildMemoCategory = selectChildeMemoCategory.memoCategoryId
     const [isDeleteMemoOpen, setIsDeleteMemoOpen] = useState<boolean>(false);
     const isMemoReflesh = useSelector(selectIsMemoReflesh);
+    const latestCreateMemo = useSelector(selectLatestCreateMemo);
 
     const initialMemoProps: MemoProps = {
         memoTitle: null,
@@ -98,6 +102,27 @@ export const MemoMain: VFC = () => {
     useEffect(() => {
         dispatch(fetchAsyncGetPurposes());
     }, [] )
+
+    useEffect(() => {
+        const functions = async () => {
+            if (latestCreateMemo.memoId !== "") {
+                const date = await formatDate(new Date)
+                const initialLearningEfficiencyProps: LearningEfficiencyPostData = await {
+                    id: `${date}${latestCreateMemo.memoId}`,
+                    aggregateDate: date,
+                    learningEfficiencyRate: 100,
+                    note: selectChildeMemoCategory.note,
+                    parentMemoCategory: selectChildeMemoCategory.parentMemoCategory,
+                    childMemoCategory: selectChildeMemoCategory.memoCategoryId,
+                    purpose: latestCreateMemo.purpose,
+                    memo: latestCreateMemo.memoId,
+                }
+                await dispatch(fetchAsyncCreateLearningEfficiency(initialLearningEfficiencyProps))
+                await dispatch(resetLatestCreateMemo())
+            }
+        }
+        functions()
+    }, [latestCreateMemo])
 
     return (
         
