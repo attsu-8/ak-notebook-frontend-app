@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../store/store';
 import axios from 'axios';
-import type { AuthState, AuthProps, Nickname, ProfileProps } from '../../types/auth';
+import type { AuthState, AuthProps, Nickname, NicknamePatchProps, ProfileImagePatchProps } from '../../types/auth';
 
 const apiUrl = process.env.NEXT_PUBLIC_AKNOTEBOOK_API_URL;
 
@@ -55,23 +55,36 @@ export const fetchAsyncCreateProf = createAsyncThunk(
   }
 );
 
-export const fetchAsyncUpdateProf = createAsyncThunk(
-  'profile/put',
-  async (profile: ProfileProps) => {
+export const fetchAsyncPatchProfileImage = createAsyncThunk(
+  'profileImage/patch',
+  async (profileImage: ProfileImagePatchProps) => {
     const uploadData = new FormData();
     uploadData.append(
-      'profileNickname', 
-      profile.profileNickname
-      );
-    profile.profileImage && uploadData.append(
       'profileImage', 
-      profile.profileImage, 
-      profile.profileImage.name
-      );
-
-    const res = await axios.put(
-      `${apiUrl}api/profile/${profile.profileId}/`,
+      profileImage.profileImage, 
+      profileImage.profileImage.name
+    );
+    const res = await axios.patch(
+      `${apiUrl}api/profile/${profileImage.profileId}/`,
       uploadData,
+      {
+        headers: {
+          'Content-Type': "application/json",
+          'Authorization': `JWT ${localStorage.accessToken}`  
+        },
+      }
+    );
+    return res.data.results;
+  }
+);
+
+export const fetchAsyncPatchProfileNickname = createAsyncThunk(
+  'profileNickname/patch',
+  async (profileNickname: NicknamePatchProps) => {
+
+    const res = await axios.patch(
+      `${apiUrl}api/profile/${profileNickname.profileId}/`,
+      profileNickname,
       {
         headers: {
           'Content-Type': "application/json",
@@ -143,13 +156,15 @@ export const authSlice = createSlice({
     builder.addCase(
       fetchAsyncGetMyProf.fulfilled,
       (state, action) => {
-        state.user = action.payload;
+        if(action.payload) {
+          state.user = action.payload;
+        }
       }
     );
     builder.addCase(
-      fetchAsyncUpdateProf.fulfilled,
+      fetchAsyncPatchProfileNickname.fulfilled,
       (state, action) => {
-        state.user = action.payload;
+        state.user.profileNickname = action.meta.arg.profileNickname;
       }
     );
   },
