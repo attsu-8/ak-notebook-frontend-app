@@ -21,3 +21,13 @@ export interface AuthState {
     isAuthenticated: boolean;
     user: User | null;
 };
+
+export interface NicknamePatchProps {
+    profileId: string;
+    profileNickname: string;
+}
+
+export interface ProfileImagePatchProps {
+    profileId: string;
+    profileImage: File | null;
+}
