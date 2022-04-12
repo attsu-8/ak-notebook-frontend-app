@@ -2,13 +2,13 @@ import { VFC } from "react";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useMounted } from "../../hooks/use-mounted";
-import { fetchAsyncLogin, fetchAsyncGetMyProf, setIsAuthenticated, resetIsInitialized, setIsInitialized } from "../../slices/authentication/authSlice";
+import { fetchAsyncLogin, setIsAuthenticated, resetIsInitialized, setIsInitialized, fetchAsyncRegister, fetchAsyncCreateProf } from "../../slices/authentication/authSlice";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { TextField, Box, FormHelperText, Button} from "@mui/material";
 import {initializeStoreData} from "../../utils/load/initializeStoreData";
 
-export const JWTLogin: VFC = (props) => {
+export const JWTRegister: VFC = (props) => {
     const isMounted = useMounted();
     const dispatch = useDispatch();
     const router = useRouter();
@@ -16,11 +16,15 @@ export const JWTLogin: VFC = (props) => {
     
     const formik = useFormik({
         initialValues: {
+            profileNickname: '',
             userEmail: '',
             password: '',
             submit: null
         },
         validationSchema: Yup.object({
+            profileNickname: Yup
+                .string()
+                .max(30),
             userEmail: Yup
                 .string()
                 .email('Must be a valid email')
@@ -37,12 +41,26 @@ export const JWTLogin: VFC = (props) => {
                     userEmail: values.userEmail,
                     password: values.password,
                 }
-                const result: any = await dispatch(fetchAsyncLogin(auth));
-                if (fetchAsyncLogin.fulfilled.match(result)) {
-                    await dispatch(resetIsInitialized());
-                    await dispatch(fetchAsyncGetMyProf());
-                    await dispatch(setIsAuthenticated());
-                    await initializeStoreData(dispatch);
+                let profile = {
+                    profileNickname: values.profileNickname
+                }
+
+                if (values.profileNickname === '') {
+                    profile = {
+                        profileNickname: 'anonymous'
+                    }
+                }
+
+                const result: any = await dispatch(fetchAsyncRegister(auth));
+                if (fetchAsyncRegister.fulfilled.match(result)) {
+
+                    const loginResult: any = await dispatch(fetchAsyncLogin(values));
+                    if (fetchAsyncLogin.fulfilled.match(loginResult)){
+                        await dispatch(resetIsInitialized());
+                        await dispatch(fetchAsyncCreateProf(profile));
+                        await dispatch(setIsAuthenticated());
+                        await initializeStoreData(dispatch);    
+                    }
                 }
                 
                 if (isMounted()) {
@@ -70,6 +88,23 @@ export const JWTLogin: VFC = (props) => {
             onSubmit={formik.handleSubmit}
             {...props}
         >
+            <TextField
+                error={Boolean(
+                    formik.touched.profileNickname
+                    && formik.errors.profileNickname
+                )}
+                fullWidth
+                helperText={
+                    formik.touched.profileNickname
+                    && formik.errors.profileNickname}
+                label="Nickname"
+                margin="normal"
+                name="profileNickname"
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                value={formik.values.profileNickname}
+            />
+
             <TextField
                 error={Boolean(
                     formik.touched.userEmail
@@ -117,8 +152,9 @@ export const JWTLogin: VFC = (props) => {
                     size="large"
                     type="submit"
                     variant="contained"
+                    color="secondary"
                 >
-                    Log In
+                    Create
                 </Button>
             </Box>
         </form>

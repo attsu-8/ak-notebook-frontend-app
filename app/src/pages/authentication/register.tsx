@@ -2,8 +2,8 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { Box, Card, Container, Divider, Link, Typography } from '@mui/material';
 import { Logo } from '../../components/logo';
-import { JWTLogin } from '../../components/authentication/jwt-login';
 import NextLink from 'next/link';
+import { JWTRegister } from '../../components/authentication/jwt-register';
 
 const Login: NextPage = () => {
 
@@ -11,7 +11,7 @@ const Login: NextPage = () => {
     <>
         <Head>
             <title>
-                Login | ak-notebook
+                Create Account | ak-notebook
             </title>
         </Head>
 
@@ -53,7 +53,20 @@ const Login: NextPage = () => {
                             }}
                         />
                         <Typography variant="h4">
-                            Log in
+                            Create Account
+                        </Typography>
+                        <Typography
+                            color="textSecondary"
+                            sx={{ mt: 2 }}
+                            variant="body2"
+                        >
+                            アカウント情報を入力してください
+                        </Typography>
+                        <Typography
+                            color="textSecondary"
+                            variant="body2"
+                        >
+                            ※ ニックネームは省略可能
                         </Typography>
                     </Box>
                     <Box
@@ -62,7 +75,7 @@ const Login: NextPage = () => {
                         mt: 3
                         }}
                     >
-                        <JWTLogin />
+                        <JWTRegister />
                     </Box>
                     <Divider sx={{ my: 3 }} />
                     <Box
@@ -73,7 +86,7 @@ const Login: NextPage = () => {
                         }}
                     >
                         <NextLink
-                            href={'/authentication/register'}
+                            href={'/authentication/login'}
                         >
                             <Link
                                 color="textSecondary"
@@ -81,7 +94,7 @@ const Login: NextPage = () => {
                                 underline='always'
                                 sx={{cursor: "pointer"}}
                             >
-                                アカウント作成
+                                アカウントをお持ちの方
                             </Link>
                         </NextLink>
                     </Box>
