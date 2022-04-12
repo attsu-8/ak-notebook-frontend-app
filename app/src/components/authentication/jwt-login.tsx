@@ -71,7 +71,6 @@ export const JWTLogin: VFC = (props) => {
             {...props}
         >
             <TextField
-                autoFocus
                 error={Boolean(
                     formik.touched.userEmail
                     && formik.errors.userEmail

@@ -1,8 +1,9 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { Box, Card, Container, Divider, Typography } from '@mui/material';
+import { Box, Card, Container, Divider, Link, Typography } from '@mui/material';
 import { Logo } from '../../components/logo';
 import { JWTLogin } from '../../components/authentication/jwt-login';
+import NextLink from 'next/link';
 
 const Login: NextPage = () => {
 
@@ -64,6 +65,26 @@ const Login: NextPage = () => {
                         <JWTLogin />
                     </Box>
                     <Divider sx={{ my: 3 }} />
+                    <Box
+                        sx={{
+                            mr: 1,
+                            display: "flex",
+                            justifyContent: "flex-end",
+                        }}
+                    >
+                        <NextLink
+                            href={'/authentication/register'}
+                        >
+                            <Link
+                                color="textSecondary"
+                                variant="body1"
+                                underline='always'
+                                sx={{cursor: "pointer"}}
+                            >
+                                アカウント作成
+                            </Link>
+                        </NextLink>
+                    </Box>
                 </Card>
             </Container>
         </Box>
