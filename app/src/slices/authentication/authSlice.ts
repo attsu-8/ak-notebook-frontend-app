@@ -88,7 +88,8 @@ export const fetchAsyncPatchProfileNickname = createAsyncThunk(
       {
         headers: {
           'Content-Type': "application/json",
-          'Authorization': `JWT ${localStorage.accessToken}`  
+          'Authorization': `JWT ${localStorage.accessToken}`,
+          'Access-Control-Allow-Origin': "*"
         },
       }
     );
