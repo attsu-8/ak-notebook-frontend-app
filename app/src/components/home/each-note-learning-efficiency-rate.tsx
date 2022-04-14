@@ -16,7 +16,7 @@ import { Bar, getElementAtEvent } from 'react-chartjs-2';
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAsyncGetEachParentMemoCategoryLearningEfficiency, resetSelectEachParentMemoCategoryLearningEfficiency, selectAggregateDate, selectEachNoteLearningEfficiencyOptions, setIsFetchParentMemoCategoryData, setSelectEachNoteLearningEfficiency } from "../../slices/home/learningEfficiencySlice";
 import { omitName } from '../../utils/omitName';
-// import { fetchAsyncGetPurposesFilter } from '../../slices/memo/purposeSlice';
+import { fetchAsyncGetPurposesFilter } from '../../slices/memo/purposeSlice';
 
 ChartJS.register(
     CategoryScale,
@@ -57,7 +57,7 @@ export const EachNoteLearningEfficiencyRate:VFC = () => {
         dispatch(resetSelectEachParentMemoCategoryLearningEfficiency())
         dispatch(setSelectEachNoteLearningEfficiency(note))
         dispatch(fetchAsyncGetEachParentMemoCategoryLearningEfficiency(note.noteId))
-        // dispatch(fetchAsyncGetPurposesFilter(note.noteId))
+        dispatch(fetchAsyncGetPurposesFilter(note.noteId))
       }
     }      
 
