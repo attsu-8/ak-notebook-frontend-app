@@ -42,7 +42,7 @@ export const JWTLogin: VFC = (props) => {
                     await dispatch(resetIsInitialized());
                     await dispatch(fetchAsyncGetMyProf());
                     await dispatch(setIsAuthenticated());
-                    await initializeStoreData(dispatch);
+                    // await initializeStoreData(dispatch);
                 }
                 
                 if (isMounted()) {
