@@ -1,4 +1,4 @@
-import { Box, Card, CircularProgress, Divider, Typography } from "@mui/material";
+import { Box, Card, CircularProgress, Dialog, Typography } from "@mui/material";
 import { MouseEvent, useRef, useState, VFC } from "react";
 import {
   Chart as ChartJS,
@@ -16,7 +16,7 @@ import {
 } from 'chart.js';
 import { getElementAtEvent, Scatter } from 'react-chartjs-2';
 import { useSelector, useDispatch } from "react-redux";
-import { selectEachMemoLearningEfficiencyOptions, fetchAsyncGetSelectMemoLearningEfficiency, selectSelectEachParentMemoCategoryLearningEfficiency, selectIsFetchMemoData, selectAggregateDate, fetchAsyncPatchLearningEfficiency, fetchAsyncGetEachMemoLearningEfficiency, selectSelectPriority } from "../../slices/home/learningEfficiencySlice";
+import { selectEachMemoLearningEfficiencyOptions, fetchAsyncGetSelectMemoLearningEfficiency, selectSelectEachParentMemoCategoryLearningEfficiency, selectIsFetchMemoData, selectAggregateDate, fetchAsyncPatchLearningEfficiency, fetchAsyncGetEachMemoLearningEfficiency } from "../../slices/home/learningEfficiencySlice";
 import { _DeepPartialObject } from "chart.js/types/utils";
 import { SelectMemoDialog } from "./select-memo-dialog";
 import { MemoEmojiIcon } from "../memo/commons/icon/memo-emoji-icon";
@@ -24,7 +24,6 @@ import { MemoCategoryIcon } from "../memo/commons/icon/memo-category-icon";
 import { useTheme } from '@mui/material/styles';
 import { fetchAsyncCountBrowsingMemo } from "../../slices/memo/memoSlice";
 import { formatDate } from "../../utils/date/formatDate";
-import { PriorityForm } from "./each-memo-priority-form";
 
 ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend);
 interface memoData {memoId: string, childMemoCategoryName: string, title: string, x: number, y: number}
@@ -42,15 +41,6 @@ export const EachMemoLearningEfficiency: VFC = () => {
     const aggregateDate = useSelector(selectAggregateDate);
     const theme = useTheme();
     const eachParentMemoCategoryLearningEfficiencySelectData = useSelector(selectSelectEachParentMemoCategoryLearningEfficiency);
-    const priority = useSelector(selectSelectPriority);
-    const priorityValues: any[] = Object.values(priority);
-    const dummySets: [string | boolean] = ['dummy']; 
-    const selectPriority = dummySets.concat(priorityValues);
-    const filterdEachMemoLearningEfficiencyOptions = eachMemoLearningEfficiencyOptions.filter(
-      (option) => {
-        return selectPriority[option.memoPriority]
-      }
-    )
     
     const colorSets = [
       theme.palette.primary.dark,
@@ -60,6 +50,7 @@ export const EachMemoLearningEfficiency: VFC = () => {
 
     const handleOnClose = () => {
       setIsOpenSelectMemoDialog(false);
+      // dispatch(resetSelectMemoLearningEfficiency())
     }
 
     const titleItem = (tooltipItem) => {
@@ -81,7 +72,7 @@ export const EachMemoLearningEfficiency: VFC = () => {
     const datasets:memoDataset[] = []
     let childMemoCategoryCount = 0
     
-    filterdEachMemoLearningEfficiencyOptions.forEach((memoOption) => {
+    eachMemoLearningEfficiencyOptions.forEach((memoOption) => {
       const index = datasets.findIndex((dataset) => dataset.label === memoOption.childMemoCategoryName)
       //データセットに子カテゴリが存在しない場合は−1を返す
       if (index ===  -1) {
@@ -95,7 +86,7 @@ export const EachMemoLearningEfficiency: VFC = () => {
       }
     })
 
-    filterdEachMemoLearningEfficiencyOptions.forEach((memoOption, index) => {
+    eachMemoLearningEfficiencyOptions.forEach((memoOption, index) => {
       const datasetIndex = datasets.findIndex((data) => data.label === memoOption.childMemoCategoryName)
       datasets[datasetIndex].data.push({
         memoId: memoOption.memoId, 
@@ -178,50 +169,43 @@ export const EachMemoLearningEfficiency: VFC = () => {
                 >
             {selectParentMemoCategory
               ?
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
+                <>
                   <Box
                     sx={{
+                      p:0.5,
                       display: "flex",
-                      flexDirection: "column",
-                      alignItems: "stretch",
-                      width: "85%"
+                      justifyContent: "center",
+                      alignItems: "center"
                     }}
                   >
-                    <Box
-                      sx={{
-                        p:0.5,
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
+                    <Typography
+                        color="textSecondary"
+                        variant="body2"
+                        align="center"
+                        sx={{
+                          position: "absolute",
+                          mx: "auto"
+                        }}
                     >
-                      <Typography
-                          color="textSecondary"
-                          variant="body2"
-                          align="center"
-                          sx={{
-                            position: "absolute",
-                            mx: "auto"
-                          }}
-                      >
-                        {`メモ別学習効率`}
-                      </Typography>
-                      
-                      <Typography
-                          color="textSecondary"
-                          variant="body2"
-                          sx={{
-                            ml: "auto"
-                          }}
-                      >
-                        {`(${aggregateDate} 時点)`}
-                      </Typography>
-                    </Box>
+                      {`メモ別学習効率`}
+                    </Typography>
+                    
+                    <Typography
+                        color="textSecondary"
+                        variant="body2"
+                        sx={{
+                          ml: "auto"
+                        }}
+                    >
+                      {`(${aggregateDate} 時点)`}
+                    </Typography>
+                  </Box>
+                  
+                  <Box
+                    sx={{
+                      p:1
+                    }}
+                  >
                     <Box
                       sx={{
                         display: "flex",
@@ -259,66 +243,17 @@ export const EachMemoLearningEfficiency: VFC = () => {
                         </Typography>
                       </Box>
                     </Box>
-                    
-                  </Box>
-
-                  <Box
-                    sx={{
-                      display: "flex",
-                      width: "100%"
-                    }}
-                  >
-
-                    
-                    <Box
-                      sx={{
-                        p:1,
-                        width:"85%",
-                      }}
-                    >
-                      <Scatter 
-                          ref={chartRef}
-                          options={options} 
-                          data={data}     
-                          onClick={(event) => {
-                            handleClick(event);
-                          }}      
-                      />
-                    </Box>
-                    
-                    <Divider 
-                      orientation="vertical"
-                      flexItem
-                      sx={{mb: 1}}
+                    <Scatter 
+                        ref={chartRef}
+                        options={options} 
+                        data={data}     
+                        onClick={(event) => {
+                          handleClick(event);
+                        }}      
                     />
-
-                    <Box
-                      sx={{
-                        width:"15%",
-                        px:1
-                      }}
-                    >
-                      <Typography
-                          color="textSecondary"
-                          variant="body2"
-                          align="center"
-                      >
-                        {`優先度`}
-                      </Typography>
-
-                      <Box
-                        sx={{
-                          px:1,
-                          pt:1,
-                        }}
-                      >
-                        <PriorityForm />
-                      </Box>
-                    </Box>
                   </Box>
 
-
-                </Box>
+                </>
               :
                 <Box
                   sx={{

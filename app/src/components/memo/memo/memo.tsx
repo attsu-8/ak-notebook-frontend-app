@@ -1,7 +1,7 @@
 import { useEffect, useState, VFC } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectMemoOptions, selectIsMemoNextPageLoading, fetchAsyncGetMemosNextPage, selectMemoNextPage, fetchAsyncCreateMemo, fetchAsyncLogicalDeleteMemo, selectIsMemoReflesh, startMemoReflesh, endMemoReflesh, selectLatestCreateMemo, resetLatestCreateMemo } from "../../../slices/memo/memoSlice";
-// import { fetchAsyncGetPurposes} from "../../../slices/memo/purposeSlice"; 
+import { fetchAsyncGetPurposes} from "../../../slices/memo/purposeSlice"; 
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { MemoCard } from "./memo-card";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -99,9 +99,9 @@ export const MemoMain: VFC = () => {
     }
 
 
-    // useEffect(() => {
-    //     dispatch(fetchAsyncGetPurposes());
-    // }, [] )
+    useEffect(() => {
+        dispatch(fetchAsyncGetPurposes());
+    }, [] )
 
     useEffect(() => {
         const functions = async () => {

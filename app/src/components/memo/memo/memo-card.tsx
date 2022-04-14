@@ -1,10 +1,11 @@
 import { useEffect, useState, VFC } from "react";
-import { Box, Card,CardActions,Collapse, Tooltip } from "@mui/material";
+import { Box, Card,CardActions,Collapse } from "@mui/material";
 import type { Memo } from "../../../types/memo/memo";
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { styled } from '@mui/material/styles';
 import { MemoCardTitle } from "./memo-card-title";
+import { MemoCardPurpose } from "./memo-card-purpose";
 import { MemoCardPriority } from "./memo-card-priority";
 import { MemoCardContent } from "./memo-card-content";
 import { MemoCardItemProperty } from "./memo-card-item-property";
@@ -100,91 +101,58 @@ export const MemoCard: VFC<MemoCardProps> = (props) => {
                         p:2,
                     }}>
                         <Box
-                            sx={{ 
-                                width: "75%",
-                                mt:2,
-                            }}
+                            sx={{ width: "95%"}}
                         >
                             <MemoCardTitle memo={memo} />
                         </Box>
 
                         <Box
+                            sx={{ 
+                                width: "5%",
+                                mx: 1
+                            }}
+                        >
+                            <MemoCardItemProperty 
+                                memo={memo}
+                                onClickDeleteProperty={onClickDeleteProperty} 
+                            />
+                        </Box>
+                    </Box>
+
+                    <CardActions 
+                        disableSpacing
+                    >
+                        <Box
                             sx={{
                                 mb:2,
-                                mx:2,
-                                width:"20%"
+                                width:"70%"
+                            }}
+                        >
+                            <MemoCardPurpose memo={memo} />
+                        </Box>
+
+                        <Box
+                            sx={{
+                                mb:2,
+                                width:"30%"
                             }}
                         >
                             <MemoCardPriority memo={memo} />
                         </Box>
 
-                        <Box
-                            sx={{ 
-                                width: "5%",
-                                mt: 2
-                            }}
+                        <ExpandMore
+                            expand={expanded}
+                            onClick={handleExpandClick}
+                            aria-expanded={expanded}
+                            aria-label="show more"
                         >
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    mr:2,
-                                }}
-                            >
-                                <Box sx={{
-                                    mb:2,
-                                    }}>
-                                    <MemoCardItemProperty 
-                                        memo={memo}
-                                        onClickDeleteProperty={onClickDeleteProperty} 
-                                    />
-                                </Box>
-                                
-                                <Box>
-                                </Box>
+                            <ExpandMoreIcon fontSize="large" />
+                        </ExpandMore>
+                    </CardActions>
 
-                            </Box>
-                        </Box>
-                    </Box>
-
-                    <Box
-                        sx={{
-                            display:"flex"
-                        }}
-                    >
-
-                        <Box
-                            sx={{width:"95%"}}
-                        >
-                            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                                <MemoCardContent memo={memo} />
-                            </Collapse>
-                        </Box>
-                        <Box
-                            sx={{
-                                width:"5%",
-                                mr:3.5,
-                                mb:2
-                            }}
-                        >
-                            <Tooltip
-                                title="メモの内容を確認"
-                            >
-                                <ExpandMore
-                                    expand={expanded}
-                                    onClick={handleExpandClick}
-                                    aria-expanded={expanded}
-                                    aria-label="show more"
-                                >
-                                    <ExpandMoreIcon fontSize="large" />
-                                </ExpandMore>
-                            </Tooltip>
-                        </Box>
-                    </Box>
-
-
+                    <Collapse in={expanded} timeout="auto" unmountOnExit>
+                        <MemoCardContent memo={memo} />
+                    </Collapse>
 
                 </Card>
             </Box>
