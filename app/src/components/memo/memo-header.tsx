@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { openMemoSidebar, closeMemoSidebar, selectIsMemoSidebarOpen, selectSelectNote } from "../../slices/memo/noteSlice";
 import { Box, Divider, IconButton } from "@mui/material";
 import DragHandleIcon from '@mui/icons-material/DragHandle';
-import { PurposeListDialogButton } from "./purpose/purpose-list-dialog-button";
+// import { PurposeListDialogButton } from "./purpose/purpose-list-dialog-button";
 import { MemoHeaderBreadcrumbs } from "./memo-header-breadcrumbs";
 
 export const MemoHeader: VFC = (props) => {
@@ -49,14 +49,14 @@ export const MemoHeader: VFC = (props) => {
                 </Box>
             }
                 
-            <Box
+            {/* <Box
                 sx={{
                     ml: "auto",
                     mr:3
                 }}
             >
                 {isSelectNote && <PurposeListDialogButton />}
-            </Box>
+            </Box> */}
 
         </Box>
     );

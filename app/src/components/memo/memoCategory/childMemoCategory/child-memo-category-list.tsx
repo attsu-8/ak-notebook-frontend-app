@@ -8,7 +8,7 @@ import { MemoAddButton } from "../../commons/button/memo-add-button";
 import { ChildMemoCategoryEditorDialog } from "./child-memo-category-editor-dialog";
 import { selectSelectNote } from "../../../../slices/memo/noteSlice";
 import { fetchAsyncGetMemosFilter, resetMemoOption, setIsMemoNextPageLoading } from "../../../../slices/memo/memoSlice";
-import { fetchAsyncGetPurposesFilter } from "../../../../slices/memo/purposeSlice";
+// import { fetchAsyncGetPurposesFilter } from "../../../../slices/memo/purposeSlice";
 import { MemoSubmitButton } from "../../commons/button/memo-submit-button";
 import { DeleteMemoCategoryButton } from "../memo-category-delete-memo-category-button";
 import { MemoCategoryDeleteDialog } from "../memo-category-delete-dialog";
@@ -32,7 +32,7 @@ export const ChildMemoCategory: VFC = () => {
             childMemoCategoryId: childMemoCategory.memoCategoryId
         }))
         dispatch(setIsMemoNextPageLoading())
-        dispatch(fetchAsyncGetPurposesFilter(childMemoCategory.note))
+        // dispatch(fetchAsyncGetPurposesFilter(childMemoCategory.note))
     }
 
     const onClickAddButton = () => {
