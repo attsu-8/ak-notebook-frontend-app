@@ -59,7 +59,7 @@ export const JWTRegister: VFC = (props) => {
                         await dispatch(resetIsInitialized());
                         await dispatch(fetchAsyncCreateProf(profile));
                         await dispatch(setIsAuthenticated());
-                        await initializeStoreData(dispatch);    
+                        // await initializeStoreData(dispatch);    
                     }
                 }
                 

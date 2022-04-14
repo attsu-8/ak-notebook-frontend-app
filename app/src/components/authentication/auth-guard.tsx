@@ -1,6 +1,6 @@
 import { VFC, ReactNode, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { logout, selectIsAuthenticated, setIsInitialized } from '../../slices/authentication/authSlice';
+import { logout, resetIsInitialized, selectIsAuthenticated, setIsInitialized } from '../../slices/authentication/authSlice';
 import { useSelector,useDispatch } from "react-redux";
 import PropTypes from 'prop-types';
 import {fetchAsyncGetMyProf,setIsAuthenticated} from '../../slices/authentication/authSlice';
@@ -35,7 +35,8 @@ export const AuthGuard: VFC<AuthGuardProps> = (props) => {
                     });
                 } else {
                     if (!isAuthenticated) {
-                        await initializeStoreData(dispatch)
+                        await dispatch(resetIsInitialized())
+                        // await initializeStoreData(dispatch)
                         await dispatch(setIsAuthenticated());
                     }
                     await setIsChecked(true);

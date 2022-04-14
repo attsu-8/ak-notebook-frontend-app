@@ -220,7 +220,7 @@ export const EachParentMemoCategoryLearningEfficiencyRate:VFC = () => {
                     :
                       <Typography
                           color="textSecondary"
-                          variant="body2"
+                          variant="body1"
                       >
                         ノート別学習効率チャートよりノートを選択してください。
                       </Typography>

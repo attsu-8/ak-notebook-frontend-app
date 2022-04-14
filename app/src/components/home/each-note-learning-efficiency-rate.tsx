@@ -2,7 +2,7 @@ import { useTheme } from '@mui/material/styles';
 import { Box, Card, Typography } from "@mui/material";
 import { BarControllerChartOptions, ChartData, CoreChartOptions, DatasetChartOptions, ElementChartOptions, PluginChartOptions, ScaleChartOptions } from "chart.js";
 import { _DeepPartialObject } from "chart.js/types/utils";
-import { MouseEvent, useRef, VFC } from "react";
+import { MouseEvent, useEffect, useRef, VFC } from "react";
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -14,7 +14,7 @@ import {
   } from 'chart.js';
 import { Bar, getElementAtEvent } from 'react-chartjs-2';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAsyncGetEachParentMemoCategoryLearningEfficiency, resetSelectEachParentMemoCategoryLearningEfficiency, selectAggregateDate, selectEachNoteLearningEfficiencyOptions, setIsFetchParentMemoCategoryData, setSelectEachNoteLearningEfficiency } from "../../slices/home/learningEfficiencySlice";
+import { fetchAsyncGetEachParentMemoCategoryLearningEfficiency, resetSelectEachParentMemoCategoryLearningEfficiency, selectAggregateDate, selectEachNoteLearningEfficiencyOptions, selectSelectEachNoteLearningEfficiency, setIsFetchParentMemoCategoryData, setSelectEachNoteLearningEfficiency } from "../../slices/home/learningEfficiencySlice";
 import { omitName } from '../../utils/omitName';
 // import { fetchAsyncGetPurposesFilter } from '../../slices/memo/purposeSlice';
 
@@ -39,6 +39,7 @@ export const EachNoteLearningEfficiencyRate:VFC = () => {
     const labels = eachNoteLearningEfficiencyOptions.map((option) => omitName(option.noteName));
     const chartData = eachNoteLearningEfficiencyOptions.map((option) => option.averageLearningEfficiencyRate);
     const aggregateDate = useSelector(selectAggregateDate)
+    const selectNote = useSelector(selectSelectEachNoteLearningEfficiency)
 
     
     const titleItem = (tooltipItem) => {
@@ -118,6 +119,13 @@ export const EachNoteLearningEfficiencyRate:VFC = () => {
         },
         
     }
+
+    useEffect(()=>{
+      if (selectNote){
+        dispatch(fetchAsyncGetEachParentMemoCategoryLearningEfficiency(selectNote.noteId))
+      }
+
+    },[eachNoteLearningEfficiencyOptions])
     return (
         <Card
           sx={{

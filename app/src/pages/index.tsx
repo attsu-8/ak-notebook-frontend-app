@@ -11,6 +11,8 @@ import { EachParentMemoCategoryLearningEfficiencyRate } from '../components/home
 import { EachMemoLearningEfficiency } from '../components/home/each-memo-learning-efficiency';
 import { selectIsInitialized } from '../slices/authentication/authSlice';
 import { useSelector } from 'react-redux';
+import { selectTodayLearningEfficiencyRate } from '../slices/home/learningEfficiencySlice';
+import { NoDataCard } from '../components/home/no-data-card';
 
 type Page<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactNode) => ReactNode;
@@ -18,6 +20,7 @@ type Page<P = {}> = NextPage<P> & {
 
 const Home: Page = () => {
   const isInitialized = useSelector(selectIsInitialized);
+  const todayLearningEfficiencyRate = useSelector(selectTodayLearningEfficiencyRate)
 
   return (
     <>
@@ -29,89 +32,99 @@ const Home: Page = () => {
 
       {isInitialized
         &&
-          <Container
-            component="main" 
-            maxWidth="xl"
-            sx={{
-              my:2,
-              position: 'relative',
-              height: '100%',
-              width: '100%',
-              overflow: 'hidden'
-            }}
-          >
-            <Box
+          todayLearningEfficiencyRate !== 0
+            ?
+              <Container
+              component="main" 
+              maxWidth="xl"
               sx={{
-                display: 'flex',
-                width: "50%",
-                pr: 2,
-              }}
-            >
-              <Box
-                sx={{
-                  pr:1,
-                  width: "50%"
+                  my:2,
+                  position: 'relative',
+                  height: '100%',
+                  width: '100%',
+                  overflow: 'hidden'
                 }}
-              >
-                <OverviewTodayLearningEfficiency />
-              </Box>
+                >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    width: "50%",
+                    pr: 2,
+                  }}
+                >
+                  <Box
+                    sx={{
+                      pr:1,
+                      width: "50%"
+                    }}
+                  >
+                    <OverviewTodayLearningEfficiency />
+                  </Box>
 
-              <Box
-                sx={{
-                  pl:1, 
-                  width: "50%"
-                }}
-              >
-                <OverviewThreeMonthAverageLearningEfficiency />
-              </Box>            
-            </Box>
+                  <Box
+                    sx={{
+                      pl:1, 
+                      width: "50%"
+                    }}
+                  >
+                    <OverviewThreeMonthAverageLearningEfficiency />
+                  </Box>            
+                </Box>
 
-            <Box
-              sx={{
-                my:2,
-                display: "flex",
-                alignItems: "stretch",
-              }}
-            >
-              <Box
-                sx={{
-                  mr:2,
-                  width: "50%",
-                  display: "flex",
-                  alignItems: "stretch", 
-                }}
-              >
-                <EachNoteLearningEfficiencyRate />
-              </Box>
-              <Box
-                sx={{
-                  mr:2,
-                  width: "50%",
-                  display: "flex",
-                  alignItems: "stretch", 
-                }}
-              >
-                <EachParentMemoCategoryLearningEfficiencyRate />
-              </Box>
-            </Box>
-            
-            <Box
-              sx={{
-                my:2,
-                display: "flex",
-              }}
-            >
-              <Box
-                sx={{
-                  mr:2,
-                  width: "100%",
-                }}
-              >
-                <EachMemoLearningEfficiency />
-              </Box>
-            </Box>
+                <Box
+                  sx={{
+                    my:2,
+                    display: "flex",
+                    alignItems: "stretch",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      mr:2,
+                      width: "50%",
+                      display: "flex",
+                      alignItems: "stretch", 
+                    }}
+                  >
+                    <EachNoteLearningEfficiencyRate />
+                  </Box>
+                  <Box
+                    sx={{
+                      mr:2,
+                      width: "50%",
+                      display: "flex",
+                      alignItems: "stretch", 
+                    }}
+                  >
+                    <EachParentMemoCategoryLearningEfficiencyRate />
+                  </Box>
+                </Box>
+                
+                <Box
+                  sx={{
+                    my:2,
+                    display: "flex",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      mr:2,
+                      width: "100%",
+                    }}
+                  >
+                    <EachMemoLearningEfficiency />
+                  </Box>
+                </Box>
 
-          </Container>
+              </Container>
+            :
+              <Container
+                sx={{
+                  m:2
+                }}
+              >
+                <NoDataCard />
+              </Container>
       }
     </>
   )

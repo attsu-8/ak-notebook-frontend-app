@@ -88,9 +88,12 @@ export const OverviewLearningEfficiencyCard: VFC<OverviewLearningEfficiencyCardP
                         mr: 2
                     }}
                 >
-                    <LearningEfficiencyRateOfIncrease 
-                        learningEfficiencyRateOfIncrease={learningEfficiencyRateOfIncrease}
-                    />
+                    {yesterdayLearningEfficiencyRate !== 0
+                        &&
+                            <LearningEfficiencyRateOfIncrease 
+                                learningEfficiencyRateOfIncrease={learningEfficiencyRateOfIncrease}
+                            />
+                    }
                 </Box>
 
         </Card>

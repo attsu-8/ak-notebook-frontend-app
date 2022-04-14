@@ -14,6 +14,8 @@ import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import ModelTrainingIcon from '@mui/icons-material/ModelTraining';
 import InsightsIcon from '@mui/icons-material/Insights';
 import { MainSidebarSection } from './main-sidebar-section';
+import { useDispatch } from 'react-redux';
+import { initializeStoreData } from '../../utils/load/initializeStoreData';
 
 interface MainSidebarProps {
     onClose: () => void;
@@ -90,6 +92,7 @@ const getSections = (t: TFunction): Section[] => [
 export const MainSidebar: VFC<MainSidebarProps> = (props) => {
     const { onClose, open } = props;
     const router = useRouter();
+    const dispatch = useDispatch();
     const { t } = useTranslation();
     const lgUp = useMediaQuery(
         (theme: Theme) => theme.breakpoints.up('lg'),
@@ -114,6 +117,20 @@ export const MainSidebar: VFC<MainSidebarProps> = (props) => {
         [router.isReady, router.asPath]
     )
 
+    useEffect(() => {
+        router.events.on('routeChangeComplete', handleChangeRoute);
+
+        return () => {
+          router.events.off('routeChangeComplete', handleChangeRoute)
+        }
+    }, [])
+
+    function handleChangeRoute (path) {
+        if (path === '/') {
+            initializeStoreData(dispatch)
+            // console.log('complete');
+        }
+      }
     const content = (
         <>
             <Scrollbar
