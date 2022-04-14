@@ -28,8 +28,17 @@ export interface EachMemoLearningEfficiency {
     childMemoCategoryIcon: string;
     memoId: string;
     memoTitle: string;
+    memoPriority: string;
     learningEfficiencyRate: number;
     elapsedDateCount: number;
+}
+
+export interface Priorities {
+    priority1: boolean;
+    priority2: boolean;
+    priority3: boolean;
+    priority4: boolean;
+    priority5: boolean;
 }
 
 export interface LearningEfficiencyState {
@@ -57,6 +66,7 @@ export interface LearningEfficiencyState {
         isFetchData: boolean;
     };
     selectMemo: Memo;
+    selectPriority: Priorities;
 }
 
 export interface LearningEfficiencyPostData {
