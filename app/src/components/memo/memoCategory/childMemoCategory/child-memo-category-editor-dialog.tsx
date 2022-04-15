@@ -101,7 +101,7 @@ export const ChildMemoCategoryEditorDialog: VFC<ChildMemoCategoryEditorDialogPro
                     <TextField
                         id="memoCategoryName"
                         name="memoCategoryName"
-                        label="memoCategoryName"
+                        label="子カテゴリ名"
                         fullWidth
                         value={formik.values.memoCategoryName}
                         onChange={formik.handleChange}
