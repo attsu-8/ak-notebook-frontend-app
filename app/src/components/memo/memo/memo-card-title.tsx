@@ -36,7 +36,7 @@ export const MemoCardTitle: VFC<MemoCardTitleProps> = (props) => {
             <TextField
                 id="memoTitle"
                 name="memoTitle"
-                label="memoTitle"
+                label="タイトル"
                 value={memoTitle}
                 fullWidth
                 size="small"

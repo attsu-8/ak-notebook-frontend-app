@@ -1,5 +1,5 @@
 import { useEffect, useState, VFC } from "react";
-import { Box, Card,CardActions,Collapse, Tooltip } from "@mui/material";
+import { Box, Card, Collapse, Tooltip } from "@mui/material";
 import type { Memo } from "../../../types/memo/memo";
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -162,26 +162,26 @@ export const MemoCard: VFC<MemoCardProps> = (props) => {
                                 <MemoCardContent memo={memo} />
                             </Collapse>
                         </Box>
-                        <Box
-                            sx={{
-                                width:"5%",
-                                mr:3.5,
-                                mb:2
-                            }}
+                        <Tooltip
+                            title="メモの内容を確認"
                         >
-                            <Tooltip
-                                title="メモの内容を確認"
+                            <Box
+                                sx={{
+                                    width:"5%",
+                                    mr:3.5,
+                                    mb:2
+                                }}
                             >
-                                <ExpandMore
-                                    expand={expanded}
-                                    onClick={handleExpandClick}
-                                    aria-expanded={expanded}
-                                    aria-label="show more"
-                                >
-                                    <ExpandMoreIcon fontSize="large" />
-                                </ExpandMore>
-                            </Tooltip>
-                        </Box>
+                                    <ExpandMore
+                                        expand={expanded}
+                                        onClick={handleExpandClick}
+                                        aria-expanded={expanded}
+                                        aria-label="show more"
+                                    >
+                                        <ExpandMoreIcon fontSize="large" />
+                                    </ExpandMore>
+                            </Box>
+                        </Tooltip>
                     </Box>
 
 

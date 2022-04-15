@@ -35,7 +35,12 @@ export const MemoCardPriority: VFC<MemoCardPriorityProps> = (props) => {
 
     return (
         <>
-            <Typography component="legend">優先度</Typography>
+            <Typography 
+                color="textSecondary"
+                component="legend"
+            >
+                重要度
+            </Typography>
             <Rating 
                 name="memoPriority"
                 value={memoPriority}
