@@ -145,7 +145,7 @@ export const AccountProfileEditorDialog: VFC<MemoDialogProps> = (props) => {
 
                         <TextField
                             fullWidth
-                            label="Nickname"
+                            label="ニックネーム"
                             placeholder="nickname"
                             type="text"
                             value={nickName}
