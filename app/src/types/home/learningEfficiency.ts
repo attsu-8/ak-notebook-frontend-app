@@ -66,6 +66,7 @@ export interface LearningEfficiencyState {
         isFetchData: boolean;
     };
     selectMemo: Memo;
+    selectChildMemoCategoryName: string;
     selectPriority: Priorities;
 }
 

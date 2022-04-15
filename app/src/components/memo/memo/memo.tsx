@@ -126,11 +126,13 @@ export const MemoMain: VFC = () => {
 
     return (
         
-        <>
+        <Box
+            sx={{height: "calc(100% - 64px)"}}
+        >
             <Box
                 id={scrollableTarget}
                 sx={{
-                    height: "calc(100% - 64px)",
+                    height: "100%",
                     display: 'flex',
                     flexDirection: 'column',
                     overflow: 'scroll',
@@ -139,10 +141,12 @@ export const MemoMain: VFC = () => {
                     pb:2,
                 }}
             >
-
                 <Typography
                     variant="h3"
-                    sx={{my:1}}
+                    sx={{
+                        my:1,
+                        height: "5%",
+                    }}
                 >
                     Memo
                 </Typography>
@@ -151,31 +155,39 @@ export const MemoMain: VFC = () => {
                 
                     <Box
                         sx={{
+                            height: "95%",
                             width: '100%',
                             px:2,
                             display: 'flex',
                             flexDirection: 'column',
                         }}
-                    >
-
-                            <InfiniteScroll
-                                dataLength={memoOptions.length}
-                                next={onClick}
-                                hasMore={isMemoNextPageLoading}
-                                loader={ hasMemoOptions && <MemoLoader/>}
-                                scrollableTarget={scrollableTarget}
-                                style={{width: "calc(100%-100px)"}}
-                                endMessage={ 
-                                    isSelectChildMemoCategory &&
-                                        <NewMemoButton
-                                            initialMemoProps={initialMemoProps}
-                                            handleCreateNewMemo={() => handleCreateNewMemo(initialMemoProps)}
-                                        />
-                                }
-                                
-                            >
-                                {isSelectChildMemoCategory
-                                    ?
+                        >
+                        <Box
+                            sx={{
+                                height: "calc(100% - 40px)",
+                            }}
+                        >
+                            {isSelectChildMemoCategory
+                                ?
+                                    <InfiniteScroll
+                                        dataLength={memoOptions.length}
+                                        next={onClick}
+                                        hasMore={isMemoNextPageLoading}
+                                        loader={ hasMemoOptions && <MemoLoader/>}
+                                        scrollableTarget={scrollableTarget}
+                                        style={{
+                                            width: "calc(100%-100px)",
+                                            height: "100%",
+                                        }}
+                                        endMessage={ 
+                                            isSelectChildMemoCategory &&
+                                                <NewMemoButton
+                                                    initialMemoProps={initialMemoProps}
+                                                    handleCreateNewMemo={() => handleCreateNewMemo(initialMemoProps)}
+                                                />
+                                        }
+                                        
+                                    >
                                         <>
                                             {memoOptions.map((memoOption) => (
                                                 <MemoCard 
@@ -184,13 +196,29 @@ export const MemoMain: VFC = () => {
                                                 />
                                             ))}
                                         </>
-                                    :
-                                        <Box>
-                                            choose a childMemoCategory
-                                        </Box>
-                                }
-                            </InfiniteScroll>
+                                    </InfiniteScroll>
+                                :
+                                    <Box
+                                    sx={{
+                                        height: "100%",
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                    }}
+                                    
+                                    >
+                                        <Typography
+                                            color="textSecondary"
+                                            variant="body1"    
+                                        >
+                                            子カテゴリを選択してください。
+                                        </Typography>
+                                    </Box>
+                            }
 
+
+                            </Box>
                     </Box>
                 }
 
@@ -208,6 +236,6 @@ export const MemoMain: VFC = () => {
                 formId="memoCategoryDel"
             />
             
-        </>
+        </Box>
     );
 };

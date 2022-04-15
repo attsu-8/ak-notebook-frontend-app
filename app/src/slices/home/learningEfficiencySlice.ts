@@ -157,6 +157,7 @@ const initialState: LearningEfficiencyState = {
     isFetchData: false,
   },
   selectMemo: null,
+  selectChildMemoCategoryName: "",
   selectPriority: {
     priority1: true,
     priority2: true,
@@ -202,6 +203,9 @@ export const learningEfficiencySlice = createSlice({
     },
     resetSelectMemoLearningEfficiency(state) {
       state.selectMemo = initialState.selectMemo;
+    },
+    setSelectChildMemoCategoryName(state, action) {
+      state.selectChildMemoCategoryName = action.payload;
     },
     changeSelectPriority(state, action) {
       state.selectPriority = action.payload
@@ -272,6 +276,7 @@ export const {
   setIsFetchMemoData,
   resetIsFetchMemoData,
   resetSelectMemoLearningEfficiency,
+  setSelectChildMemoCategoryName,
   changeSelectPriority,
 } = learningEfficiencySlice.actions;
 
@@ -289,6 +294,7 @@ export const selectEachMemoLearningEfficiencyOptions = (state: RootState) => sta
 export const selectSelectEachMemoLearningEfficiency = (state: RootState) => state.learningEfficiency.eachMemoLearningEfficiency.selectData;
 export const selectIsFetchMemoData = (state: RootState) => state.learningEfficiency.eachMemoLearningEfficiency.isFetchData;
 export const selectSelectMemoLearningEfficiency = (state: RootState) => state.learningEfficiency.selectMemo;
+export const selectSelectChildMemoCategoryName = (state: RootState) => state.learningEfficiency.selectChildMemoCategoryName;
 export const selectSelectPriority = (state: RootState) => state.learningEfficiency.selectPriority;
 
 export default learningEfficiencySlice.reducer;

@@ -79,7 +79,7 @@ export const NoteEditorDialog: VFC<NoteEditorDialogProps> = (props) => {
 
                     <Box ref={anchorRef}>
                         <MemoIconChangeButton
-                            toolTipTitle="choose color"
+                            toolTipTitle="色を変更"
                             toolTipPlacement="top"
                             onClickAction={setIsOpenColorPicker}
                             icon={<MemoNoteIcon 
@@ -99,7 +99,7 @@ export const NoteEditorDialog: VFC<NoteEditorDialogProps> = (props) => {
                     <TextField
                         id="noteName"
                         name="noteName"
-                        label="noteName"
+                        label="ノート名"
                         fullWidth
                         value={formik.values.noteName}
                         onChange={formik.handleChange}

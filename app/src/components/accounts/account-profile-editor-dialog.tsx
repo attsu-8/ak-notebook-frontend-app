@@ -116,6 +116,8 @@ export const AccountProfileEditorDialog: VFC<MemoDialogProps> = (props) => {
                             <input
                                 type="file"
                                 id="imageInput"
+                                // accept="image/*"
+                                accept=".jpe, .jpg, .jpeg, .gif, .png, .bmp, .ico, .tif, .tiff, .psd"
                                 hidden={true}
                                 onChange={(e) => updateProfileImage(e)}
                             />
@@ -143,7 +145,7 @@ export const AccountProfileEditorDialog: VFC<MemoDialogProps> = (props) => {
 
                         <TextField
                             fullWidth
-                            label="Nickname"
+                            label="ニックネーム"
                             placeholder="nickname"
                             type="text"
                             value={nickName}

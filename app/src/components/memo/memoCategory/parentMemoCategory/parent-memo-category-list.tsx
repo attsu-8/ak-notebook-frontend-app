@@ -116,8 +116,20 @@ export const ParentMemoCategory: VFC = () => {
 
                         </>
                     :
-                        <Box sx={{width:280}}>
-                            choose a note
+                        <Box sx={{
+                            width:280,
+                            height: "100%",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                        }}>
+                            <Typography
+                                color="textSecondary"
+                                variant="body1"    
+                            >
+                                ノートを選択してください。
+                            </Typography>
                         </Box>
                 }
             </Box>
