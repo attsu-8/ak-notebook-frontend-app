@@ -1,17 +1,27 @@
-import { VFC } from "react";
+import { useState, VFC } from "react";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useMounted } from "../../hooks/use-mounted";
 import { fetchAsyncLogin, fetchAsyncGetMyProf, setIsAuthenticated, resetIsInitialized, setIsInitialized } from "../../slices/authentication/authSlice";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import { TextField, Box, FormHelperText, Button} from "@mui/material";
-import {initializeStoreData} from "../../utils/load/initializeStoreData";
+import { TextField, Box, FormHelperText, Button, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton} from "@mui/material";
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 export const JWTLogin: VFC = (props) => {
     const isMounted = useMounted();
     const dispatch = useDispatch();
     const router = useRouter();
+    const [showPassword, setShowPassword] = useState(false)
+
+    const handleClickShowPassword = () => {
+        setShowPassword(!showPassword)
+    };
+
+    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+    };
 
     
     const formik = useFormik({
@@ -23,13 +33,13 @@ export const JWTLogin: VFC = (props) => {
         validationSchema: Yup.object({
             userEmail: Yup
                 .string()
-                .email('Must be a valid email')
+                .email('Eメールアドレスの形式で入力してください')
                 .max(255)
-                .required('Email is required'),
+                .required('Eメールアドレスは必須です'),
             password: Yup
                 .string()
                 .max(255)
-                .required('Password is required')
+                .required('パスワードは必須です')
         }),
         onSubmit: async (values, helpers): Promise<void> => {
             try {
@@ -42,7 +52,6 @@ export const JWTLogin: VFC = (props) => {
                     await dispatch(resetIsInitialized());
                     await dispatch(fetchAsyncGetMyProf());
                     await dispatch(setIsAuthenticated());
-                    // await initializeStoreData(dispatch);
                 }
                 
                 if (isMounted()) {
@@ -79,7 +88,7 @@ export const JWTLogin: VFC = (props) => {
                 helperText={
                     formik.touched.userEmail
                     && formik.errors.userEmail}
-                label="Email Address"
+                label="Eメールアドレス"
                 margin="normal"
                 name="userEmail"
                 onBlur={formik.handleBlur}
@@ -88,21 +97,49 @@ export const JWTLogin: VFC = (props) => {
                 value={formik.values.userEmail}
             />
 
-            <TextField
-                error={Boolean(
-                    formik.touched.password
-                    && formik.errors.password
-                )}
+            <FormControl 
+                sx={{ mt: 1}} 
                 fullWidth
-                helperText={formik.touched.password && formik.errors.password}
-                label="Password"
-                margin="normal"
-                name="password"
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                type="password"
-                value={formik.values.password}
-            />
+                variant="outlined"
+            >
+                <InputLabel 
+                    htmlFor="outlined-adornment-password"
+                >
+                    パスワード
+                </InputLabel>
+                <OutlinedInput
+                    id="outlined-adornment-password"
+                    type={showPassword ? 'text' : 'password'}
+                    name="password"
+                    error={Boolean(
+                        formik.touched.password
+                        && formik.errors.password
+                    )}
+                    endAdornment={
+                        <InputAdornment position="end">
+                            <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                            >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                        </InputAdornment>
+                    }
+                    label="Password"
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={formik.values.password}
+    
+                />
+                {formik.touched.password && formik.errors.password && (
+                    <FormHelperText error>
+                        {formik.errors.password}
+                    </FormHelperText>
+                )}
+            </FormControl>
+
             {formik.errors.submit && (
                 <Box sx={{mt: 3}}>
                     <FormHelperText error>
