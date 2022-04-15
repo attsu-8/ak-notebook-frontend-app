@@ -16,7 +16,7 @@ import {
 } from 'chart.js';
 import { getElementAtEvent, Scatter } from 'react-chartjs-2';
 import { useSelector, useDispatch } from "react-redux";
-import { selectEachMemoLearningEfficiencyOptions, fetchAsyncGetSelectMemoLearningEfficiency, selectSelectEachParentMemoCategoryLearningEfficiency, selectIsFetchMemoData, selectAggregateDate, fetchAsyncPatchLearningEfficiency, fetchAsyncGetEachMemoLearningEfficiency, selectSelectPriority } from "../../slices/home/learningEfficiencySlice";
+import { selectEachMemoLearningEfficiencyOptions, fetchAsyncGetSelectMemoLearningEfficiency, selectSelectEachParentMemoCategoryLearningEfficiency, selectIsFetchMemoData, selectAggregateDate, fetchAsyncPatchLearningEfficiency, fetchAsyncGetEachMemoLearningEfficiency, selectSelectPriority, setSelectChildMemoCategoryName } from "../../slices/home/learningEfficiencySlice";
 import { _DeepPartialObject } from "chart.js/types/utils";
 import { SelectMemoDialog } from "./select-memo-dialog";
 import { MemoEmojiIcon } from "../memo/commons/icon/memo-emoji-icon";
@@ -161,6 +161,7 @@ export const EachMemoLearningEfficiency: VFC = () => {
       if(element.length !== 0) {
         const memoId: string = element[0].element.$context.raw.memoId
         await dispatch(fetchAsyncGetSelectMemoLearningEfficiency(memoId));
+        await dispatch(setSelectChildMemoCategoryName(element[0].element.$context.raw.childMemoCategoryName))
         await setIsOpenSelectMemoDialog(true);
         await dispatch(fetchAsyncCountBrowsingMemo(memoId));
         await dispatch(fetchAsyncPatchLearningEfficiency(`${formatDate(new Date)}${memoId}`))
@@ -303,7 +304,7 @@ export const EachMemoLearningEfficiency: VFC = () => {
                           variant="body2"
                           align="center"
                       >
-                        {`優先度`}
+                        {`重要度`}
                       </Typography>
 
                       <Box
