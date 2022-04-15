@@ -73,7 +73,7 @@ export const NoteSelect:VFC = () => {
                 renderInput={(params) => (
                     <TextField
                         {...params}
-                        label="choose a note"
+                        label="ノート"
                         inputProps={{
                             ...params.inputProps,
                             autoComplete: 'new-password'
