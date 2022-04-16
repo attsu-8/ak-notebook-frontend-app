@@ -97,7 +97,14 @@ const  formats = [
     'list', 'bullet',
     'link', 'image',
   ]
-export const QuillEditor: VFC = (props) => {
+
+  interface QuillEditorProps {
+    defaultValue: string;
+    onChange: (content: any, delta: any, source: any, editor: any) => void;
+    onFocus: () => void;
+  }
+
+export const QuillEditor: VFC<QuillEditorProps> = (props) => {
   const smUp = useMediaQuery(
     (theme: Theme) => theme.breakpoints.up('sm'),
     {
