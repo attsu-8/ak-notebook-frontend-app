@@ -2,6 +2,8 @@ import 'react-quill/dist/quill.snow.css';
 import dynamic from 'next/dynamic';
 import { styled } from '@mui/material/styles';
 import 'react-quill/dist/quill.snow.css';
+import { VFC } from 'react';
+import { useMediaQuery, Theme } from '@mui/material';
 
 
 const Quill = dynamic(
@@ -86,29 +88,51 @@ const QuillEditorRoot = styled(Quill)(
     }
   })
 );
-
-const modules = {
-  toolbar: [
-    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-    [ {'indent': '-1'}, {'indent': '+1'}],
-    ['bold', 'italic', 'underline','strike', 'blockquote', 'code-block'],
-    [{ 'color': [] }, { 'background': [] }],   
-    [{'list': 'ordered'}, {'list': 'bullet'}],
-    ['link', 'image'],
-  ],
+  
+const  formats = [
+    'header',
+    'indent',
+    'bold', 'italic', 'underline', 'strike', 'blockquote', 'code-block',
+    'color', 'background',
+    'list', 'bullet',
+    'link', 'image',
+  ]
+export const QuillEditor: VFC = (props) => {
+  const smUp = useMediaQuery(
+    (theme: Theme) => theme.breakpoints.up('sm'),
+    {
+      noSsr: true
+    }
+  );      
+  
+  let modules
+  if (smUp) {
+    modules = {
+      toolbar: [
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        [ {'indent': '-1'}, {'indent': '+1'}],
+        ['bold', 'italic', 'underline','strike', 'blockquote', 'code-block'],
+        [{ 'color': [] }, { 'background': [] }],   
+        [{'list': 'ordered'}, {'list': 'bullet'}],
+        ['link', 'image'],
+      ],
+    }
+  } else {
+    modules = {
+      toolbar: [
+        ['bold', 'italic', 'underline','strike', 'blockquote', 'code-block'],
+        [{ 'color': [] }, { 'background': [] }],   
+        [{'list': 'ordered'}, {'list': 'bullet'}],
+        ['link', 'image'],
+      ],
+    }
+  }
+    
+  return(
+    <QuillEditorRoot
+      modules={modules} 
+      formats={formats}
+      {...props} 
+    />
+  )
 }
-const formats = [
-  'header',
-  'indent',
-  'bold', 'italic', 'underline', 'strike', 'blockquote', 'code-block',
-  'color', 'background',
-  'list', 'bullet',
-  'link', 'image',
-]
-export const QuillEditor = (props) => (
-  <QuillEditorRoot
-    modules={modules} 
-    formats={formats}
-    {...props} 
-  />
-);

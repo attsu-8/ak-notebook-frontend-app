@@ -1,8 +1,5 @@
-
-
-
 import { VFC } from "react";
-import { Box, Card,CardActions, Typography } from "@mui/material";
+import { Box, Card,CardActions, Grid, Typography } from "@mui/material";
 import type { Memo } from "../../types/memo/memo";
 import { MemoCardTitle } from "../memo/memo/memo-card-title";
 import { MemoCardPriority } from "../memo/memo/memo-card-priority";
@@ -55,31 +52,30 @@ export const SelectMemoCard: VFC<SelectMemoCardProps> = (props) => {
                                 {`子カテゴリ名：${selectChildMemoCategoryName}`}
                             </Typography>
                         </Box>
-
-                        <Box
-                            sx={{
-                                display: "flex",
-                                alignItems: "senter",
-                                width: "100%"
-                            }}
+                        <Grid
+                            container
+                            spacing={2}
+                            alignItems="center"
                         >
-                            <Box
-                                sx={{
-                                    mr:5,
-                                    width:"70%"
-                                }}
+                            <Grid
+                                item
+                                md={10}
+                                xs={12}
                             >
                                 <MemoCardTitle memo={memo} />
-                            </Box>
-
-                            <Box
-                                sx={{
-                                    width:"30%"
-                                }}
+                            </Grid>
+        
+                            <Grid
+                                item
+                                md={2}
+                                xs={12}
+                                sx={{pb:3}}
                             >
                                 <MemoCardPriority memo={memo} />
-                            </Box>
-                        </Box>
+                            </Grid>
+                            
+                        </Grid>
+
                     </CardActions>
 
                     <MemoCardContent memo={memo} />
