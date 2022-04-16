@@ -36,17 +36,13 @@ export const AuthGuard: VFC<AuthGuardProps> = (props) => {
                 } else {
                     if (!isAuthenticated) {
                         await dispatch(resetIsInitialized())
-                        // await initializeStoreData(dispatch)
+                        await initializeStoreData(dispatch)
                         await dispatch(setIsAuthenticated());
                     }
                     await setIsChecked(true);
-                    router.push({
-                        pathname: '/',
-                    });
                 }
             }
              else {
-                dispatch(logout())
                 dispatch(setIsInitialized());
                 router.push({
                     pathname: '/authentication/login',
