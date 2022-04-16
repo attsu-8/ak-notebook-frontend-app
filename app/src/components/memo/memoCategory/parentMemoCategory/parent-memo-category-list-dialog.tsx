@@ -32,6 +32,7 @@ export const ParentMemoCategoryListDialog: VFC<ParentMemoCategoryListDialogProps
     const selectNote = useSelector(selectSelectNote);
 
     const onCloseNewParentMemoCategoryDialog = (isOpen: boolean) => {
+        // isOpenはダミー
         dispatch(resetIsParentMemoCategoryNewEditorOpen())
     }
 
@@ -115,6 +116,7 @@ export const ParentMemoCategoryListDialog: VFC<ParentMemoCategoryListDialogProps
                 headerTitle="新規追加"
                 isOpen={isNewParentMemoCategoryOpen}
                 onClose={onCloseNewParentMemoCategoryDialog}
+                onCloseList={onClose}
                 footerButton={
                     <MemoSubmitButton
                         form="newparent"

@@ -1,7 +1,7 @@
 import { useState, VFC } from "react";
 import { Box, Divider, Typography } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { selectChildMemoCategoryOptions, selectSelectChildMemoCategory,  changeEditMemoCategory, resetEditMemoCategory, fetchAsyncCreateChildMemoCategory, changeSelectChildMemoCategory, selectSelectParentMemoCategory, fetchAsyncLogicalDeleteChildMemoCategory, fetchAsyncPatchChildMemoCategory } from "../../../../slices/memo/memoCategorySlice";
+import { selectChildMemoCategoryOptions, selectSelectChildMemoCategory,  changeEditMemoCategory, resetEditMemoCategory, fetchAsyncCreateChildMemoCategory, changeSelectChildMemoCategory, selectSelectParentMemoCategory, fetchAsyncLogicalDeleteChildMemoCategory, fetchAsyncPatchChildMemoCategory, selectIsChildMemoCategoryNewEditorOpen, resetIsChildMemoCategoryNewEditorOpen, setIsChildMemoCategoryNewEditorOpen } from "../../../../slices/memo/memoCategorySlice";
 import { ChildMemoCategory as ChildMemo} from "../../../../types/memo/memoCategory";
 import { MemoCategoryList } from "../memo-category-list";
 import { MemoAddButton } from "../../commons/button/memo-add-button";
@@ -17,12 +17,17 @@ export const ChildMemoCategory: VFC = () => {
     const dispatch = useDispatch();
     const childMemoCategoryOptions = useSelector(selectChildMemoCategoryOptions);
     const selectChildMemoCategory = useSelector(selectSelectChildMemoCategory);
-    const [isNewChildMemoCategoryOpen, setIsNewChildMemoCategoryOpen] = useState<boolean>(false);
+    const isNewChildMemoCategoryOpen = useSelector(selectIsChildMemoCategoryNewEditorOpen);
     const [isUpdateChildMemoCategoryOpen, setIsUpdateChildMemoCategoryOpen] = useState<boolean>(false);
     const [isDeleteChildMemoCategoryOpen, setIsDeleteChildMemoCategoryOpen] = useState<boolean>(false);
     const selectNote = useSelector(selectSelectNote);
     const selectParentMemoCategory = useSelector(selectSelectParentMemoCategory)
     const isSelectParentMemoCategory = selectParentMemoCategory.memoCategoryId
+    
+    const onCloseNewChildMemoCategoryDialog = (isOpen: boolean) => {
+        // isOpenはダミー
+        dispatch(resetIsChildMemoCategoryNewEditorOpen())
+    }
 
     const onClickListItem = (childMemoCategory: ChildMemo) => {
         dispatch(resetMemoOption())
@@ -41,7 +46,7 @@ export const ChildMemoCategory: VFC = () => {
             note: selectNote.noteId,
             parentMemoCategory: selectParentMemoCategory.memoCategoryId 
         }))
-        setIsNewChildMemoCategoryOpen(true);
+        dispatch(setIsChildMemoCategoryNewEditorOpen())
     }
 
     const onClickUpdateProperty = (childMemoCategory: ChildMemo) => {
@@ -156,7 +161,7 @@ export const ChildMemoCategory: VFC = () => {
             <ChildMemoCategoryEditorDialog
                 headerTitle="新規追加"
                 isOpen={isNewChildMemoCategoryOpen}
-                onClose={setIsNewChildMemoCategoryOpen}
+                onClose={onCloseNewChildMemoCategoryDialog}
                 footerButton={
                     <MemoSubmitButton
                         form="newChild"
