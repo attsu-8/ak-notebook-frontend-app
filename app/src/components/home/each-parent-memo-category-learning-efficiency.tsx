@@ -1,4 +1,4 @@
-import { Box, Card, CircularProgress, Typography } from "@mui/material";
+import { Box, Card, CircularProgress, Typography, useMediaQuery, Theme } from "@mui/material";
 import { BarControllerChartOptions, ChartData, CoreChartOptions, DatasetChartOptions, ElementChartOptions, PluginChartOptions, ScaleChartOptions } from "chart.js";
 import { _DeepPartialObject } from "chart.js/types/utils";
 import { MouseEvent, useRef,VFC } from "react";
@@ -17,7 +17,6 @@ import { fetchAsyncGetEachMemoLearningEfficiency, selectAggregateDate, selectEac
 import { useTheme } from '@mui/material/styles';
 import { omitName } from "../../utils/omitName";
 import { MemoNoteIcon } from "../memo/commons/icon/memo-note-icon";
-
 
 
 ChartJS.register(
@@ -43,6 +42,13 @@ export const EachParentMemoCategoryLearningEfficiencyRate:VFC = () => {
     const labels = eachParentMemoCategoryLearningEfficiencyOptions.map((option) => omitName(option.parentMemoCategoryName));
     const chartData = eachParentMemoCategoryLearningEfficiencyOptions.map((option) => option.averageLearningEfficiencyRate);
     const aggregateDate = useSelector(selectAggregateDate);
+    const smUp = useMediaQuery(
+      (theme: Theme) => theme.breakpoints.up('sm'),
+          {
+              noSsr: true
+          }
+    );      
+
     
     const titleItem = (tooltipItem) => {
       return eachParentMemoCategoryLearningEfficiencyOptions[tooltipItem[0].dataIndex].parentMemoCategoryName
@@ -121,6 +127,7 @@ export const EachParentMemoCategoryLearningEfficiencyRate:VFC = () => {
         <Card
           sx={{
             width: "100%",
+            height:"100%",
             p: 1
           }}
         >
@@ -146,16 +153,19 @@ export const EachParentMemoCategoryLearningEfficiencyRate:VFC = () => {
                     >
                       {`親カテゴリ別学習効率`}
                     </Typography>
-                    
-                    <Typography
-                        color="textSecondary"
-                        variant="body2"
-                        sx={{
-                          ml: "auto"
-                        }}
-                    >
-                      {`(${aggregateDate} 時点)`}
-                    </Typography>
+                    {smUp
+                      &&
+                        <Typography
+                            color="textSecondary"
+                            variant="body2"
+                            sx={{
+                              ml: "auto"
+                            }}
+                        >
+                          {`(${aggregateDate} 時点)`}
+                        </Typography>
+                    } 
+
                   </Box>
 
                   <Box
@@ -218,12 +228,22 @@ export const EachParentMemoCategoryLearningEfficiencyRate:VFC = () => {
                     ?
                       <CircularProgress />
                     :
-                      <Typography
-                          color="textSecondary"
-                          variant="body1"
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          height: "200px"
+                        }}
                       >
-                        ノート別学習効率チャートよりノートを選択してください。
-                      </Typography>
+                        <Typography
+                            color="textSecondary"
+                            variant="body1"
+                        >
+                          ノート別学習効率チャートよりノートを選択してください。
+                        </Typography>
+                      </Box>
+
                   }
                 </Box>
             }
