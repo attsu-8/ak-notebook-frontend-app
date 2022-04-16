@@ -99,6 +99,7 @@ export const NoteListDialog: VFC<NoteListDialogProps> = (props) => {
                 headerTitle="ノート新規追加"
                 isOpen={isOpenNewNoteEditor}
                 onClose={setIsOpenNewNoteEditor}
+                onCloseList={onClose}
                 footerButton={
                     <NewNoteButton 
                         formId={newNoteEditor}

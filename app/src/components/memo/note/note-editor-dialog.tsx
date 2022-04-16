@@ -10,11 +10,13 @@ import { changeEditNote, selectEditNote } from "../../../slices/memo/noteSlice";
 import { AsyncThunk } from "@reduxjs/toolkit";
 import { MemoIconChangeButton } from "../commons/button/memo-icon-change-button";
 import { MemoNoteIcon } from "../commons/icon/memo-note-icon";
+import { setIsParentMemoCategoryNewEditorOpen } from "../../../slices/memo/memoCategorySlice";
 
 interface NoteEditorDialogProps {
     headerTitle: string;
     isOpen: boolean;
     onClose: (isOpen:boolean) => void;
+    onCloseList?: (isOpenList: boolean) => void;
     footerButton: IconButtonProps | ButtonProps;
     formId: string;
     onSubmitAsyncThunk: AsyncThunk<any, NewNoteProps | UpdateNoteProps, {}>;
@@ -22,7 +24,7 @@ interface NoteEditorDialogProps {
 
 export const NoteEditorDialog: VFC<NoteEditorDialogProps> = (props) => {
 
-    const {headerTitle, isOpen, onClose, footerButton, formId, onSubmitAsyncThunk, ...other} = props; 
+    const {headerTitle, isOpen, onClose, onCloseList, footerButton, formId, onSubmitAsyncThunk, ...other} = props; 
     const [isOpenColorPicker, setIsOpenColorPicker] = useState<boolean>(false);
     const anchorRef = useRef<HTMLButtonElement | null>(null);
     const dispatch = useDispatch();
@@ -49,6 +51,10 @@ export const NoteEditorDialog: VFC<NoteEditorDialogProps> = (props) => {
             dispatch(changeEditNote({noteName: formik.values.noteName}))
             dispatch(onSubmitAsyncThunk(note))
             onClose(false)
+            if (formId === "newNoteEditor") {
+                onCloseList(false)
+                dispatch(setIsParentMemoCategoryNewEditorOpen())
+            }
         },
     })
 

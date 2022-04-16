@@ -219,6 +219,8 @@ const initialState: MemoCategoryState = {
       parentMemoCategories: [],
       childMemoCategories: [],
     },
+    isParentMemoCategoryNewEditorOpen: false,
+    isChildMemoCategoryNewEditorOpen: false,
 };
 
 export const memoCategorySlice = createSlice({
@@ -248,6 +250,18 @@ export const memoCategorySlice = createSlice({
     },
     resetChildMemoCategoryOptions(state){
       state.memoCategoryOptions.childMemoCategories =initialState.memoCategoryOptions.childMemoCategories
+    },
+    setIsParentMemoCategoryNewEditorOpen(state){
+      state.isParentMemoCategoryNewEditorOpen = true;
+    },
+    resetIsParentMemoCategoryNewEditorOpen(state){
+      state.isParentMemoCategoryNewEditorOpen = false;
+    },
+    setIsChildMemoCategoryNewEditorOpen(state){
+      state.isChildMemoCategoryNewEditorOpen = true;
+    },
+    resetIsChildMemoCategoryNewEditorOpen(state){
+      state.isChildMemoCategoryNewEditorOpen = false;
     },
   },
   extraReducers: (builder) => {
@@ -333,6 +347,10 @@ export const {
   resetSelectChildMemoCategory,
   resetParentMemoCategoryOptions,
   resetChildMemoCategoryOptions,
+  setIsParentMemoCategoryNewEditorOpen,
+  resetIsParentMemoCategoryNewEditorOpen,
+  setIsChildMemoCategoryNewEditorOpen,
+  resetIsChildMemoCategoryNewEditorOpen,
 } = memoCategorySlice.actions;
 
 export const selectEditMemoCategory = (state: RootState) => state.memoCategory.editMemoCategory
@@ -340,6 +358,8 @@ export const selectSelectParentMemoCategory = (state: RootState) => state.memoCa
 export const selectSelectChildMemoCategory = (state: RootState) => state.memoCategory.selectMemoCategory.childMemoCategory
 export const selectParentMemoCategoryOptions = (state: RootState) => state.memoCategory.memoCategoryOptions.parentMemoCategories
 export const selectChildMemoCategoryOptions = (state: RootState) => state.memoCategory.memoCategoryOptions.childMemoCategories
+export const selectIsParentMemoCategoryNewEditorOpen = (state: RootState) => state.memoCategory.isParentMemoCategoryNewEditorOpen
+export const selectIsChildMemoCategoryNewEditorOpen = (state: RootState) => state.memoCategory.isChildMemoCategoryNewEditorOpen
 
 export default memoCategorySlice.reducer;
 

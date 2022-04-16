@@ -1,7 +1,7 @@
 import type { VFC, ReactNode } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { changeEditMemoCategory, fetchAsyncCreateParentMemoCategory, fetchAsyncLogicalDeleteParentMemoCategory, fetchAsyncPatchParentMemoCategory, resetEditMemoCategory, selectParentMemoCategoryOptions } from "../../../../slices/memo/memoCategorySlice";
+import { changeEditMemoCategory, fetchAsyncCreateParentMemoCategory, fetchAsyncLogicalDeleteParentMemoCategory, fetchAsyncPatchParentMemoCategory, resetEditMemoCategory, resetIsParentMemoCategoryNewEditorOpen, selectIsParentMemoCategoryNewEditorOpen, selectParentMemoCategoryOptions, setIsParentMemoCategoryNewEditorOpen } from "../../../../slices/memo/memoCategorySlice";
 import { selectSelectNote } from "../../../../slices/memo/noteSlice";
 import { MemoCategoryDeleteDialog } from "../memo-category-delete-dialog";
 import { ParentMemoCategoryEditorDialog } from "./parent-memo-category-editor-dialog";
@@ -26,15 +26,19 @@ export const ParentMemoCategoryListDialog: VFC<ParentMemoCategoryListDialogProps
     const {children, isOpen, onClose, ...other} = props;
     const dispatch = useDispatch();
     const parentMemoCategoryOptions = useSelector(selectParentMemoCategoryOptions);
-    const [isNewParentMemoCategoryOpen, setIsNewParentMemoCategoryOpen] = useState<boolean>(false);
+    const isNewParentMemoCategoryOpen = useSelector(selectIsParentMemoCategoryNewEditorOpen);
     const [isUpdateParentMemoCategoryOpen, setIsUpdateParentMemoCategoryOpen] = useState<boolean>(false);
     const [isDeleteParentMemoCategoryOpen, setIsDeleteParentMemoCategoryOpen] = useState<boolean>(false);
     const selectNote = useSelector(selectSelectNote);
 
+    const onCloseNewParentMemoCategoryDialog = (isOpen: boolean) => {
+        dispatch(resetIsParentMemoCategoryNewEditorOpen())
+    }
+
     const onClickAddButton = () => {
         dispatch(resetEditMemoCategory())
         dispatch(changeEditMemoCategory({note: selectNote.noteId}))
-        setIsNewParentMemoCategoryOpen(true);
+        dispatch(setIsParentMemoCategoryNewEditorOpen())
     }
 
     const onClickUpdateProperty = (parentMemoCategory: ParentMemo) => {
@@ -110,7 +114,7 @@ export const ParentMemoCategoryListDialog: VFC<ParentMemoCategoryListDialogProps
             <ParentMemoCategoryEditorDialog
                 headerTitle="新規追加"
                 isOpen={isNewParentMemoCategoryOpen}
-                onClose={setIsNewParentMemoCategoryOpen}
+                onClose={onCloseNewParentMemoCategoryDialog}
                 footerButton={
                     <MemoSubmitButton
                         form="newparent"

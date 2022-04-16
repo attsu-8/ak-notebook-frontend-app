@@ -34,6 +34,8 @@ export interface MemoCategoryState {
         parentMemoCategories: ParentMemoCategory[];
         childMemoCategories: ChildMemoCategory[];
     };
+    isParentMemoCategoryNewEditorOpen: boolean;
+    isChildMemoCategoryNewEditorOpen: boolean;
 }
 
 export interface ParentMemoCategoryProps {

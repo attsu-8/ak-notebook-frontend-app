@@ -144,6 +144,7 @@ export const noteSlice = createSlice({
         return {
           ...state,
           noteOptions: [...state.noteOptions, action.payload],
+          selectNote: action.payload,
         };
       }
     );
