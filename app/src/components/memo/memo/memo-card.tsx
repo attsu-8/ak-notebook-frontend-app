@@ -1,5 +1,5 @@
 import { useEffect, useState, VFC } from "react";
-import { Box, Card,CardActions,Collapse, Tooltip } from "@mui/material";
+import { Box, Card, Collapse, Grid, Tooltip } from "@mui/material";
 import type { Memo } from "../../../types/memo/memo";
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -92,58 +92,64 @@ export const MemoCard: VFC<MemoCardProps> = (props) => {
                 }}
                 {...other}
             >
-                <Card            
-                >
+                <Card>
 
                     <Box sx={{
                         display: "flex",
                         p:2,
                     }}>
-                        <Box
-                            sx={{ 
-                                width: "75%",
-                                mt:2,
-                            }}
+                        <Grid
+                            container
+                            spacing={2}
+                            alignItems="top"
                         >
-                            <MemoCardTitle memo={memo} />
-                        </Box>
 
-                        <Box
-                            sx={{
-                                mb:2,
-                                mx:2,
-                                width:"20%"
-                            }}
-                        >
-                            <MemoCardPriority memo={memo} />
-                        </Box>
+                            <Grid
+                                item
+                                md={10}
+                                xs={12}
+                            >
+                                <MemoCardTitle memo={memo} />
+                            </Grid>
+        
+                            <Grid
+                                item
+                                md={2}
+                                xs={12}
+                            >
+                                <MemoCardPriority memo={memo} />
+                            </Grid>
 
-                        <Box
-                            sx={{ 
-                                width: "5%",
-                                mt: 2
-                            }}
-                        >
+
+                        </Grid>
+                        
+                        <Box sx={{ ml:2 }}>
                             <Box
                                 sx={{
                                     display: "flex",
                                     flexDirection: "column",
                                     alignItems: "center",
-                                    justifyContent: "center",
-                                    mr:2,
+                                    justifyContent: "flex-start",
                                 }}
                             >
-                                <Box sx={{
-                                    mb:2,
-                                    }}>
+                                <Box sx={{ mb:2 }}>
                                     <MemoCardItemProperty 
                                         memo={memo}
                                         onClickDeleteProperty={onClickDeleteProperty} 
                                     />
                                 </Box>
-                                
-                                <Box>
-                                </Box>
+                                <Tooltip title="メモの内容を確認">
+                                    <Box >
+                                            <ExpandMore
+                                                expand={expanded}
+                                                onClick={handleExpandClick}
+                                                aria-expanded={expanded}
+                                                aria-label="show more"
+                                            >
+                                                <ExpandMoreIcon fontSize="large" />
+                                            </ExpandMore>
+                                    </Box>
+                                </Tooltip>
 
                             </Box>
                         </Box>
@@ -151,40 +157,18 @@ export const MemoCard: VFC<MemoCardProps> = (props) => {
 
                     <Box
                         sx={{
-                            display:"flex"
+                            display:"flex",
                         }}
                     >
 
                         <Box
-                            sx={{width:"95%"}}
+                            sx={{width:"100%"}}
                         >
                             <Collapse in={expanded} timeout="auto" unmountOnExit>
                                 <MemoCardContent memo={memo} />
                             </Collapse>
                         </Box>
-                        <Box
-                            sx={{
-                                width:"5%",
-                                mr:3.5,
-                                mb:2
-                            }}
-                        >
-                            <Tooltip
-                                title="メモの内容を確認"
-                            >
-                                <ExpandMore
-                                    expand={expanded}
-                                    onClick={handleExpandClick}
-                                    aria-expanded={expanded}
-                                    aria-label="show more"
-                                >
-                                    <ExpandMoreIcon fontSize="large" />
-                                </ExpandMore>
-                            </Tooltip>
-                        </Box>
                     </Box>
-
-
 
                 </Card>
             </Box>

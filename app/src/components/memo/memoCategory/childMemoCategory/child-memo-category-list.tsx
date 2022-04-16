@@ -100,7 +100,7 @@ export const ChildMemoCategory: VFC = () => {
 
                             <Box
                                 sx={{
-                                    mt: "auto",
+                                    p: 1,
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center",
@@ -124,10 +124,20 @@ export const ChildMemoCategory: VFC = () => {
                         </>
 
                     :
-                        <Box
-                        sx={{width:280}}
-                        >
-                            choose a parent memo category
+                        <Box sx={{
+                            width:280,
+                            height: "100%",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                        }}>
+                            <Typography
+                                color="textSecondary"
+                                variant="body1"    
+                            >
+                                親カテゴリを選択してください。
+                            </Typography>
                         </Box>
                 }
             </Box>

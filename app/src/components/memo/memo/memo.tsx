@@ -2,7 +2,7 @@ import { useEffect, useState, VFC } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectMemoOptions, selectIsMemoNextPageLoading, fetchAsyncGetMemosNextPage, selectMemoNextPage, fetchAsyncCreateMemo, fetchAsyncLogicalDeleteMemo, selectIsMemoReflesh, startMemoReflesh, endMemoReflesh, selectLatestCreateMemo, resetLatestCreateMemo } from "../../../slices/memo/memoSlice";
 // import { fetchAsyncGetPurposes} from "../../../slices/memo/purposeSlice"; 
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography, useMediaQuery, Theme } from "@mui/material";
 import { MemoCard } from "./memo-card";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { selectSelectChildMemoCategory } from "../../../slices/memo/memoCategorySlice";
@@ -13,6 +13,7 @@ import { DeleteMemoButton } from "./memo-delete-memo-button";
 import { fetchAsyncCreateLearningEfficiency } from "../../../slices/home/learningEfficiencySlice";
 import { LearningEfficiencyPostData } from "../../../types/home/learningEfficiency";
 import { formatDate } from "../../../utils/date/formatDate";
+import CategoryIcon from '@mui/icons-material/Category';
 
 interface NewMemoButtonProps { 
     initialMemoProps: MemoProps;
@@ -27,14 +28,20 @@ const NewMemoButton: VFC<NewMemoButtonProps> = (props) => {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
+                justifyContent: 'center',
+                my:1,
             }}
         >
-            <MemoAddButton 
-                toolTipTitle="追加"
-                onClickAction={() => handleCreateNewMemo(initialMemoProps)}
+            <Box
+                sx={{width: "50%"}}
             >
-                追加
-            </MemoAddButton>
+                <MemoAddButton 
+                    toolTipTitle="追加"
+                    onClickAction={() => handleCreateNewMemo(initialMemoProps)}
+                >
+                    追加
+                </MemoAddButton>
+            </Box>
         </Box>
     )
 }
@@ -66,6 +73,12 @@ export const MemoMain: VFC = () => {
     const [isDeleteMemoOpen, setIsDeleteMemoOpen] = useState<boolean>(false);
     const isMemoReflesh = useSelector(selectIsMemoReflesh);
     const latestCreateMemo = useSelector(selectLatestCreateMemo);
+    const smUp = useMediaQuery(
+        (theme: Theme) => theme.breakpoints.up('sm'),
+            {
+                noSsr: true
+            }
+      );      
 
     const initialMemoProps: MemoProps = {
         memoTitle: null,
@@ -126,11 +139,13 @@ export const MemoMain: VFC = () => {
 
     return (
         
-        <>
+        <Box
+            sx={{height: "calc(100% - 64px)"}}
+        >
             <Box
                 id={scrollableTarget}
                 sx={{
-                    height: "calc(100% - 64px)",
+                    height: "100%",
                     display: 'flex',
                     flexDirection: 'column',
                     overflow: 'scroll',
@@ -139,10 +154,12 @@ export const MemoMain: VFC = () => {
                     pb:2,
                 }}
             >
-
                 <Typography
                     variant="h3"
-                    sx={{my:1}}
+                    sx={{
+                        my:1,
+                        height: "5%",
+                    }}
                 >
                     Memo
                 </Typography>
@@ -151,31 +168,39 @@ export const MemoMain: VFC = () => {
                 
                     <Box
                         sx={{
+                            height: "95%",
                             width: '100%',
                             px:2,
                             display: 'flex',
                             flexDirection: 'column',
                         }}
-                    >
-
-                            <InfiniteScroll
-                                dataLength={memoOptions.length}
-                                next={onClick}
-                                hasMore={isMemoNextPageLoading}
-                                loader={ hasMemoOptions && <MemoLoader/>}
-                                scrollableTarget={scrollableTarget}
-                                style={{width: "calc(100%-100px)"}}
-                                endMessage={ 
-                                    isSelectChildMemoCategory &&
-                                        <NewMemoButton
-                                            initialMemoProps={initialMemoProps}
-                                            handleCreateNewMemo={() => handleCreateNewMemo(initialMemoProps)}
-                                        />
-                                }
-                                
-                            >
-                                {isSelectChildMemoCategory
-                                    ?
+                        >
+                        <Box
+                            sx={{
+                                height: "calc(100% - 40px)",
+                            }}
+                        >
+                            {isSelectChildMemoCategory
+                                ?
+                                    <InfiniteScroll
+                                        dataLength={memoOptions.length}
+                                        next={onClick}
+                                        hasMore={isMemoNextPageLoading}
+                                        loader={ hasMemoOptions && <MemoLoader/>}
+                                        scrollableTarget={scrollableTarget}
+                                        style={{
+                                            width: "calc(100%-100px)",
+                                            height: "100%",
+                                        }}
+                                        endMessage={ 
+                                            isSelectChildMemoCategory &&
+                                                <NewMemoButton
+                                                    initialMemoProps={initialMemoProps}
+                                                    handleCreateNewMemo={() => handleCreateNewMemo(initialMemoProps)}
+                                                />
+                                        }
+                                        
+                                    >
                                         <>
                                             {memoOptions.map((memoOption) => (
                                                 <MemoCard 
@@ -184,13 +209,42 @@ export const MemoMain: VFC = () => {
                                                 />
                                             ))}
                                         </>
-                                    :
-                                        <Box>
-                                            choose a childMemoCategory
-                                        </Box>
-                                }
-                            </InfiniteScroll>
+                                    </InfiniteScroll>
+                                :
+                                    <Box
+                                    sx={{
+                                        height: "100%",
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                    }}
+                                    
+                                    >
+                                        <Typography
+                                            color="textSecondary"
+                                            variant="body1"    
+                                        >
+                                            {smUp
+                                                ?
+                                                    "子カテゴリを選択してください。"
+                                                :
+                                                    <Box
+                                                        sx={{
+                                                            display:"flex",
+                                                            alignItems: "center",
+                                                        }}
+                                                    >
+                                                        <CategoryIcon sx={{mr:0.5}}/>
+                                                        より表示するメモを選択してください。
+                                                    </Box>
+                                            }
+                                        </Typography>
+                                    </Box>
+                            }
 
+
+                            </Box>
                     </Box>
                 }
 
@@ -208,6 +262,6 @@ export const MemoMain: VFC = () => {
                 formId="memoCategoryDel"
             />
             
-        </>
+        </Box>
     );
 };

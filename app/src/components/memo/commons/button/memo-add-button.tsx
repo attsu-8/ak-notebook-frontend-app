@@ -22,6 +22,10 @@ export const MemoAddButton: VFC<MemoAddButtonProps> = (props) => {
         >
             <IconButton
                 onClick={onClickAction}
+                sx={{ 
+                    width: "100%",
+                    height: "100%",
+                }}
             >
                     <AddCircleOutlineIcon fontSize={fontSize} />
                     {children}
