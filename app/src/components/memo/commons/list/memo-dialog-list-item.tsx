@@ -4,6 +4,8 @@ import { MemoEditButton } from "../button/memo-edit-button";
 import { MemoDeleteButton } from "../button/memo-delete-button";
 import { Note } from "../../../../types/memo/note";
 import { Purpose } from "../../../../types/memo/purpose";
+import {ParentMemoCategory as ParentMemo} from "../../../../types/memo/memoCategory";
+import {ChildMemoCategory as ChildMemo} from "../../../../types/memo/memoCategory";
 
 interface MemoEmojiIconProps {
     emojiId: string | null;
@@ -11,7 +13,7 @@ interface MemoEmojiIconProps {
     defaultIcon: IconProps;
 }
 
-type ItemData = Note | Purpose
+type ItemData = Note | Purpose | ParentMemo | ChildMemo
 
 interface MemoDialogListProps {
     listItemIcon: IconProps | VFC<MemoEmojiIconProps>;
