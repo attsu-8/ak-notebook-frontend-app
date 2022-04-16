@@ -155,9 +155,10 @@ export const MemoMain: VFC = () => {
                 }}
             >
                 <Typography
-                    variant="h3"
+                    color="textSecondary"
+                    variant="h5"
                     sx={{
-                        my:1,
+                        mt:2,
                         height: "5%",
                     }}
                 >

@@ -1,5 +1,5 @@
 import { useState, VFC } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { selectParentMemoCategoryOptions, fetchAsyncGetChildMemoCategoriesFilter, changeSelectParentMemoCategory,  selectSelectParentMemoCategory,  changeEditMemoCategory, resetEditMemoCategory, fetchAsyncCreateParentMemoCategory, fetchAsyncPatchParentMemoCategory, fetchAsyncLogicalDeleteParentMemoCategory, resetSelectParentMemoCategory, resetSelectChildMemoCategory} from "../../../../slices/memo/memoCategorySlice";
 import {ParentMemoCategory as ParentMemo} from "../../../../types/memo/memoCategory";
@@ -74,6 +74,17 @@ export const ParentMemoCategory: VFC = () => {
                     width: "50%",
                 }}
             >
+                <Box>
+                    <Typography
+                        color="textSecondary"
+                        variant="h6"
+                        align="center"
+                        sx={{py:1}}
+                    >
+                        親カテゴリ
+                    </Typography>
+                    <Divider />
+                </Box>
                 {isSelectNote
                     ?
                         <>
