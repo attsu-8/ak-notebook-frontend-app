@@ -1,5 +1,5 @@
 import { useTheme } from '@mui/material/styles';
-import { Box, Card, Typography } from "@mui/material";
+import { Box, Card, Typography, useMediaQuery, Theme } from "@mui/material";
 import { BarControllerChartOptions, ChartData, CoreChartOptions, DatasetChartOptions, ElementChartOptions, PluginChartOptions, ScaleChartOptions } from "chart.js";
 import { _DeepPartialObject } from "chart.js/types/utils";
 import { MouseEvent, useEffect, useRef, VFC } from "react";
@@ -40,6 +40,12 @@ export const EachNoteLearningEfficiencyRate:VFC = () => {
     const chartData = eachNoteLearningEfficiencyOptions.map((option) => option.averageLearningEfficiencyRate);
     const aggregateDate = useSelector(selectAggregateDate)
     const selectNote = useSelector(selectSelectEachNoteLearningEfficiency)
+    const smUp = useMediaQuery(
+      (theme: Theme) => theme.breakpoints.up('sm'),
+          {
+              noSsr: true
+          }
+    );      
 
     
     const titleItem = (tooltipItem) => {
@@ -130,6 +136,7 @@ export const EachNoteLearningEfficiencyRate:VFC = () => {
         <Card
           sx={{
             width: "100%",
+            height:"100%",
             p:1,
             display: "flex",
             flexDirection: "column",
@@ -155,15 +162,18 @@ export const EachNoteLearningEfficiencyRate:VFC = () => {
               >
                   {`ノート別学習効率`}
               </Typography>
-              <Typography
-                  color="textSecondary"
-                  variant="body2"
-                  sx={{
-                    ml: "auto"
-                  }}
-              >
-                  {`(${aggregateDate} 時点)`}
-              </Typography>
+              {smUp
+                &&
+                  <Typography
+                      color="textSecondary"
+                      variant="body2"
+                      sx={{
+                        ml: "auto"
+                      }}
+                  >
+                      {`(${aggregateDate} 時点)`}
+                  </Typography>
+              }
             </Box>
             <Box
               sx={{
