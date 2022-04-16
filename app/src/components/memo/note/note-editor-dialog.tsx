@@ -6,11 +6,12 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { ColorPickerPopOver } from "../commons/picker/note-color-picker-popover";
 import { useDispatch, useSelector } from "react-redux";
-import { changeEditNote, selectEditNote } from "../../../slices/memo/noteSlice";
+import { changeEditNote, selectEditNote, selectSelectNote } from "../../../slices/memo/noteSlice";
 import { AsyncThunk } from "@reduxjs/toolkit";
 import { MemoIconChangeButton } from "../commons/button/memo-icon-change-button";
 import { MemoNoteIcon } from "../commons/icon/memo-note-icon";
-import { setIsParentMemoCategoryNewEditorOpen } from "../../../slices/memo/memoCategorySlice";
+import { changeEditMemoCategory, resetChildMemoCategoryOptions, resetParentMemoCategoryOptions, resetSelectChildMemoCategory, resetSelectParentMemoCategory, setIsParentMemoCategoryNewEditorOpen } from "../../../slices/memo/memoCategorySlice";
+import { resetMemoOption } from "../../../slices/memo/memoSlice";
 
 interface NoteEditorDialogProps {
     headerTitle: string;
@@ -29,6 +30,7 @@ export const NoteEditorDialog: VFC<NoteEditorDialogProps> = (props) => {
     const anchorRef = useRef<HTMLButtonElement | null>(null);
     const dispatch = useDispatch();
     const editNote = useSelector(selectEditNote);
+    const selectNote = useSelector(selectSelectNote)
     
     const onChangeNoteColor = (noteColor: string) => {
         dispatch(changeEditNote({
@@ -52,8 +54,13 @@ export const NoteEditorDialog: VFC<NoteEditorDialogProps> = (props) => {
             dispatch(onSubmitAsyncThunk(note))
             onClose(false)
             if (formId === "newNoteEditor") {
-                onCloseList(false)
+                dispatch(resetMemoOption());
+                dispatch(resetSelectChildMemoCategory())
+                dispatch(resetChildMemoCategoryOptions())
+                dispatch(resetSelectParentMemoCategory())   
+                dispatch(resetParentMemoCategoryOptions())
                 dispatch(setIsParentMemoCategoryNewEditorOpen())
+                onCloseList(false)
             }
         },
     })
@@ -61,6 +68,10 @@ export const NoteEditorDialog: VFC<NoteEditorDialogProps> = (props) => {
     useEffect(() => {
         formik.resetForm()
     },[isOpen])
+
+    useEffect(() => {
+        dispatch(changeEditMemoCategory({note: selectNote.noteId}))
+    },[selectNote])
 
     return (
         <MemoDialog
