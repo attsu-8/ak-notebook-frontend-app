@@ -1,4 +1,4 @@
-import type { VFC, ReactNode } from "react";
+import { VFC, ReactNode, useEffect } from "react";
 import { useState } from "react";
 import { selectSelectNote } from "../../slices/memo/noteSlice";
 import { MemoDialog } from "./commons/dialog/memo-dialog";
@@ -11,7 +11,7 @@ import { NoteSelect } from "./note/note-select";
 import EditIcon from '@mui/icons-material/Edit';
 import { ParentMemoCategorySelectMobile } from "./memoCategory/parentMemoCategory/parent-memo-category-select-mobile";
 import { MemoEmojiIcon } from "./commons/icon/memo-emoji-icon";
-import { selectSelectChildMemoCategory, selectSelectParentMemoCategory } from "../../slices/memo/memoCategorySlice";
+import { selectIsCreatedChildMemoCategory, selectSelectChildMemoCategory, selectSelectParentMemoCategory } from "../../slices/memo/memoCategorySlice";
 import { MemoCategoryIcon } from "./commons/icon/memo-category-icon";
 import { ChildMemoCategoryListDialog } from "./memoCategory/childMemoCategory/child-memo-category-list-dialog";
 import { ChildMemoCategorySelectMobile } from "./memoCategory/childMemoCategory/child-memo-category-select-mobile";
@@ -30,7 +30,13 @@ export const MemoListDialogMobile: VFC<MemoListDialogMobileProps> = (props) => {
     const selectNote = useSelector(selectSelectNote);
     const selectParentMemoCategory = useSelector(selectSelectParentMemoCategory);
     const selectChildMemoCategory = useSelector(selectSelectChildMemoCategory);
+    const isCreatedChildMemoCategory = useSelector(selectIsCreatedChildMemoCategory);
 
+    useEffect(() => {
+        if (isCreatedChildMemoCategory) {
+            onClose(false);
+        }
+    },[isCreatedChildMemoCategory])
 
     return (
         <>

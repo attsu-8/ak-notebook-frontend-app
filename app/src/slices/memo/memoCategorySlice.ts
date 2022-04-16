@@ -221,6 +221,7 @@ const initialState: MemoCategoryState = {
     },
     isParentMemoCategoryNewEditorOpen: false,
     isChildMemoCategoryNewEditorOpen: false,
+    isCreatedChildMemoCategory: false,
 };
 
 export const memoCategorySlice = createSlice({
@@ -263,6 +264,9 @@ export const memoCategorySlice = createSlice({
     resetIsChildMemoCategoryNewEditorOpen(state){
       state.isChildMemoCategoryNewEditorOpen = false;
     },
+    resetIsCreatedChildMemoCategory(state){
+      state.isCreatedChildMemoCategory = false;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(
@@ -289,6 +293,7 @@ export const memoCategorySlice = createSlice({
       (state, action) => {
         state.selectMemoCategory.childMemoCategory = action.payload;
         state.memoCategoryOptions.childMemoCategories = [...state.memoCategoryOptions.childMemoCategories,action.payload]
+        state.isCreatedChildMemoCategory = true;
       }
     );
     builder.addCase(
@@ -351,6 +356,7 @@ export const {
   resetIsParentMemoCategoryNewEditorOpen,
   setIsChildMemoCategoryNewEditorOpen,
   resetIsChildMemoCategoryNewEditorOpen,
+  resetIsCreatedChildMemoCategory,
 } = memoCategorySlice.actions;
 
 export const selectEditMemoCategory = (state: RootState) => state.memoCategory.editMemoCategory
@@ -360,6 +366,7 @@ export const selectParentMemoCategoryOptions = (state: RootState) => state.memoC
 export const selectChildMemoCategoryOptions = (state: RootState) => state.memoCategory.memoCategoryOptions.childMemoCategories
 export const selectIsParentMemoCategoryNewEditorOpen = (state: RootState) => state.memoCategory.isParentMemoCategoryNewEditorOpen
 export const selectIsChildMemoCategoryNewEditorOpen = (state: RootState) => state.memoCategory.isChildMemoCategoryNewEditorOpen
+export const selectIsCreatedChildMemoCategory = (state: RootState) => state.memoCategory.isCreatedChildMemoCategory
 
 export default memoCategorySlice.reducer;
 

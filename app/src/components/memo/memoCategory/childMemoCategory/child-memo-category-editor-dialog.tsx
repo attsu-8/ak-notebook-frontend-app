@@ -4,25 +4,27 @@ import { useSelector, useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { ChildMemoCategoryProps, ParentMemoCategoryProps, UpdateChildMemoCategoryProps, UpdateParentMemoCategoryProps } from "../../../../types/memo/memoCategory";
-import { changeEditMemoCategory, selectEditMemoCategory } from "../../../../slices/memo/memoCategorySlice";
+import { changeEditMemoCategory, resetEditMemoCategory, selectEditMemoCategory } from "../../../../slices/memo/memoCategorySlice";
 import { MemoDialog } from "../../commons/dialog/memo-dialog";
 import { AsyncThunk } from "@reduxjs/toolkit";
 import { MemoIconChangeButton } from "../../commons/button/memo-icon-change-button";
 import { MemoEmojiIcon } from "../../commons/icon/memo-emoji-icon";
 import { MemoCategoryIcon } from "../../commons/icon/memo-category-icon";
 import { EmojiPickerPopOver } from "../../commons/picker/emoji-picker-popover";
+import { resetMemoOption } from "../../../../slices/memo/memoSlice";
 
 interface ChildMemoCategoryEditorDialogProps  {
     headerTitle: string;
     isOpen: boolean;
     onClose: (isOpen:boolean) => void;
+    onCloseList?: (isOpenList: boolean) => void;
     footerButton: IconButtonProps | ButtonProps;
     formId: string;
     onSubmitAsyncThunk: AsyncThunk<any, ParentMemoCategoryProps | ChildMemoCategoryProps | UpdateParentMemoCategoryProps | UpdateChildMemoCategoryProps, {}>;
 }
 
 export const ChildMemoCategoryEditorDialog: VFC<ChildMemoCategoryEditorDialogProps> = (props) => {
-    const { headerTitle, isOpen, onClose, footerButton, formId, onSubmitAsyncThunk, ...other } = props;
+    const { headerTitle, isOpen, onClose, onCloseList, footerButton, formId, onSubmitAsyncThunk, ...other } = props;
     const [isOpenEmojiPicker, setIsOpenEmojiPicker] = useState(false) 
     const anchorRef = useRef<HTMLButtonElement | null>(null);
     const dispatch = useDispatch();
@@ -53,6 +55,11 @@ export const ChildMemoCategoryEditorDialog: VFC<ChildMemoCategoryEditorDialogPro
             dispatch(changeEditMemoCategory({ memoCategoryName: formik.values.memoCategoryName}));
             dispatch(onSubmitAsyncThunk(parentMemoCategory));
             onClose(false);
+            if (formId === "newChild") {
+                dispatch(resetMemoOption());
+                dispatch(resetEditMemoCategory())
+                onCloseList(false)
+            }
         },
     })
 
