@@ -114,6 +114,7 @@ export const NoteEditorDialog: VFC<NoteEditorDialogProps> = (props) => {
                         />
 
                     <TextField
+                        autoFocus
                         id="noteName"
                         name="noteName"
                         label="ノート名"

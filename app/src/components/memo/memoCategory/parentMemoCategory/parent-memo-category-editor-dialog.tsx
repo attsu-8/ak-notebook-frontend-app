@@ -53,9 +53,9 @@ export const ParentMemoCategoryEditorDialog: VFC<ParentMemoCategoryEditorDialogP
         initialValues: editParentMemoCategory,
         validationSchema: validationSchema,
         onSubmit: (parentMemoCategory=editParentMemoCategory) => {
+            onClose(false);
             dispatch(changeEditMemoCategory({ memoCategoryName: formik.values.memoCategoryName}));
             dispatch(onSubmitAsyncThunk(parentMemoCategory));
-            onClose(false);
             if (formId === "newparent") {
                 dispatch(resetMemoOption());
                 dispatch(resetSelectChildMemoCategory());
@@ -117,6 +117,7 @@ export const ParentMemoCategoryEditorDialog: VFC<ParentMemoCategoryEditorDialogP
                     />
 
                     <TextField
+                        autoFocus
                         id="memoCategoryName"
                         name="memoCategoryName"
                         label="親カテゴリ名"

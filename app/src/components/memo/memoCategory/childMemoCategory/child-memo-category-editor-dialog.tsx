@@ -43,8 +43,8 @@ export const ChildMemoCategoryEditorDialog: VFC<ChildMemoCategoryEditorDialogPro
     
     const validationSchema = Yup.object({
         memoCategoryName: Yup.string()
-            .max(50, "親メモカテゴリは50文字以内に収めてください。")
-            .required("親メモカテゴリを入力してください。"),
+            .max(50, "子メモカテゴリは50文字以内に収めてください。")
+            .required("子メモカテゴリを入力してください。"),
     });
     
     const formik = useFormik({
@@ -52,9 +52,9 @@ export const ChildMemoCategoryEditorDialog: VFC<ChildMemoCategoryEditorDialogPro
         initialValues: editParentMemoCategory,
         validationSchema: validationSchema,
         onSubmit: (parentMemoCategory=editParentMemoCategory) => {
+            onClose(false);
             dispatch(changeEditMemoCategory({ memoCategoryName: formik.values.memoCategoryName}));
             dispatch(onSubmitAsyncThunk(parentMemoCategory));
-            onClose(false);
             if (formId === "newChild") {
                 dispatch(resetMemoOption());
                 dispatch(resetEditMemoCategory())
@@ -106,6 +106,7 @@ export const ChildMemoCategoryEditorDialog: VFC<ChildMemoCategoryEditorDialogPro
                     />
 
                     <TextField
+                        autoFocus
                         id="memoCategoryName"
                         name="memoCategoryName"
                         label="子カテゴリ名"
