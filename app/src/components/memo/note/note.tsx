@@ -28,10 +28,15 @@ export const Note:VFC = () => {
                     iconColor={selectNote.noteColor}
                 />
 
-                <NoteSelect />
+                <Box sx={{width:"70%"}}>
+                    <NoteSelect />
+                </Box>
                 
                 <Box
-                    sx={{mx: "auto"}}
+                    sx={{
+                        mx: "auto",
+                        pr: 1,
+                    }}
                 >
                     <Button
                         onClick={() => setIsOpenMemoListDialog(true)}
