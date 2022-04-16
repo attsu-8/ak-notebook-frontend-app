@@ -100,7 +100,7 @@ export const ChildMemoCategory: VFC = () => {
 
                             <Box
                                 sx={{
-                                    mt: "auto",
+                                    p: 1,
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center",

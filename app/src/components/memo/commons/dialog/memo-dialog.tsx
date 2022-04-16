@@ -1,5 +1,5 @@
 import type { VFC, ReactNode } from "react";
-import { Dialog, Box, Typography, IconButton, Divider, IconButtonProps, ButtonProps } from "@mui/material";
+import { Dialog, Box, Typography, IconButton, Divider, IconButtonProps, ButtonProps, useMediaQuery, Theme } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 
 interface MemoDialogProps {
@@ -7,11 +7,25 @@ interface MemoDialogProps {
     isOpen: boolean;
     onClose: (isOpen: boolean)=> void;
     headerTitle: string;
-    footerButton: IconButtonProps | ButtonProps;
+    footerButton?: IconButtonProps | ButtonProps;
   }
 
 export const MemoDialog: VFC<MemoDialogProps> = (props) => {
     const {children, isOpen, onClose, headerTitle, footerButton, ...other} = props;
+    const smUp = useMediaQuery(
+        (theme: Theme) => theme.breakpoints.up('sm'),
+            {
+                noSsr: true
+            }
+      );
+      
+    let childWidth
+    if (smUp){
+        childWidth="80%"
+    } else {
+        childWidth="90%"
+    }
+
     return (
 
         <Dialog
@@ -64,19 +78,18 @@ export const MemoDialog: VFC<MemoDialogProps> = (props) => {
                 <Box
                     sx={{
                         height: "80%",
-                        width: "80%",
+                        width: childWidth,
                         overflow: "scroll",
                         my:1
                     }}
                     >  
                     { children }
                 </Box>
-                <Divider sx={{width: "95%"}} />
 
                 <Box
                     sx={{
                         height: "10%",
-                        my:1
+                        mb:1
                     }}
                 >  
                     { footerButton }
