@@ -8,7 +8,7 @@ import { ParentMemoCategoryEditorDialog } from "./parent-memo-category-editor-di
 import {ParentMemoCategory as ParentMemo} from "../../../../types/memo/memoCategory";
 import { MemoDialog } from "../../commons/dialog/memo-dialog";
 import { MemoAddButton } from "../../commons/button/memo-add-button";
-import { List } from "@mui/material";
+import { Box, List } from "@mui/material";
 import { MemoSubmitButton } from "../../commons/button/memo-submit-button";
 import { DeleteMemoCategoryButton } from "../memo-category-delete-memo-category-button";
 import { MemoDialogListItem } from "../../commons/list/memo-dialog-list-item";
@@ -97,22 +97,30 @@ export const ParentMemoCategoryListDialog: VFC<ParentMemoCategoryListDialogProps
                 >
                     {parentMemoCategoryOptions.map((option) => {
                         return (
-                            <MemoDialogListItem
-                                listItemIcon={
-                                    option.memoCategoryIcon
-                                        ?
-                                            <MemoEmojiIcon
-                                                emojiId={option.memoCategoryIcon}
-                                                emojiSize={22}
-                                            />
-                                        :
-                                            <MemoCategoryIcon fontSize="medium" />
-                                }
-                                listText={option.memoCategoryName}
-                                itemData={option}
-                                editButtonClick={onClickUpdateProperty}
-                                deleteButtonClick={onClickDeleteProperty}
-                            />
+                            <Box
+                                sx={{
+                                    width: "100%",
+                                    overflowWrap: "break-word",
+                                    wordWrap: "break-word",
+                                }}
+                            >
+                                <MemoDialogListItem
+                                    listItemIcon={
+                                        option.memoCategoryIcon
+                                            ?
+                                                <MemoEmojiIcon
+                                                    emojiId={option.memoCategoryIcon}
+                                                    emojiSize={22}
+                                                />
+                                            :
+                                                <MemoCategoryIcon fontSize="medium" />
+                                    }
+                                    listText={option.memoCategoryName}
+                                    itemData={option}
+                                    editButtonClick={onClickUpdateProperty}
+                                    deleteButtonClick={onClickDeleteProperty}
+                                />
+                            </Box>
                         )
                     })}
                 </List>

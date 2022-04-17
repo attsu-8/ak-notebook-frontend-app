@@ -1,5 +1,5 @@
 import { VFC } from "react";
-import { List, ListItem } from "@mui/material";
+import { List, ListItem, Box } from "@mui/material";
 import { ChildMemoCategory, ParentMemoCategory } from "../../../types/memo/memoCategory";
 import { MemoCategoryListItemButton } from "./memo-category-list-item-button";
 import { MemoCategoryListItemProperty } from "./memo-category-list-item-property";
@@ -28,17 +28,28 @@ export const MemoCategoryList: VFC<MemoCategoryListProps> = (props) => {
                         }
                     }}
                     >
-                        <MemoCategoryListItemButton
-                            memoCategoryOption={memoCategoryOption}
-                            selectMemoCategory={selectMemoCategory}
-                            onClickListItem={onClickListItem}
-                        />
+                        <Box
+                            sx={{
+                                width:"85%",
+                                pr: 1,
+                            }}
+                        >
+                            <MemoCategoryListItemButton
+                                memoCategoryOption={memoCategoryOption}
+                                selectMemoCategory={selectMemoCategory}
+                                onClickListItem={onClickListItem}
+                            />
+                        </Box>
 
-                        <MemoCategoryListItemProperty 
-                            memoCategory={memoCategoryOption}
-                            onClickUpdateProperty={onClickUpdateProperty}
-                            onClickDeleteProperty={onClickDeleteProperty}
-                        />
+                        <Box
+                            sx={{width:"15%"}}
+                        >
+                            <MemoCategoryListItemProperty 
+                                memoCategory={memoCategoryOption}
+                                onClickUpdateProperty={onClickUpdateProperty}
+                                onClickDeleteProperty={onClickDeleteProperty}
+                            />
+                        </Box>
 
                 </ListItem>
             ))}

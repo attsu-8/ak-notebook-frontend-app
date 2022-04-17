@@ -58,14 +58,20 @@ export const MemoListDialogMobile: VFC<MemoListDialogMobileProps> = (props) => {
                             alignItems: "center",
                         }}
                     >
-                        <MemoNoteIcon
-                                fontSize="large"
-                            iconColor={selectNote.noteColor}
-                        />
+                        <Box
+                            sx={{
+                                width: "10%"
+                            }}
+                        >
+                            <MemoNoteIcon
+                                    fontSize="large"
+                                iconColor={selectNote.noteColor}
+                            />
+                        </Box>
                         <Box 
                             sx={{
                                 ml:0.5,
-                                width: "100%"
+                                width: "65%"
                             }}
                         >
                             <NoteSelect />
@@ -74,7 +80,8 @@ export const MemoListDialogMobile: VFC<MemoListDialogMobileProps> = (props) => {
                         <Box
                             sx={{
                                 mx: "auto",
-                                pl:1
+                                pl:1,
+                                width: "25%"
                             }}
                         >
                             <Button
@@ -99,7 +106,9 @@ export const MemoListDialogMobile: VFC<MemoListDialogMobileProps> = (props) => {
                             alignItems: "center",
                         }}
                     >
-                        <Box>
+                        <Box
+                            sx={{width: "10%"}}
+                        >
                             {selectParentMemoCategory.memoCategoryIcon
                                 ?
                                     <MemoEmojiIcon
@@ -113,7 +122,7 @@ export const MemoListDialogMobile: VFC<MemoListDialogMobileProps> = (props) => {
                         <Box 
                             sx={{
                                 ml:0.5,
-                                width: "100%"
+                                width: "65%"
                             }}
                         >
                             <ParentMemoCategorySelectMobile />
@@ -122,7 +131,8 @@ export const MemoListDialogMobile: VFC<MemoListDialogMobileProps> = (props) => {
                         <Box
                             sx={{
                                 mx: "auto",
-                                pl:1
+                                pl:1,
+                                width: "25%"
                             }}
                         >
                             <Button
@@ -147,7 +157,9 @@ export const MemoListDialogMobile: VFC<MemoListDialogMobileProps> = (props) => {
                             alignItems: "center",
                         }}
                     >
-                        <Box>
+                        <Box
+                            sx={{width: "10%"}}
+                        >
                             {selectChildMemoCategory.memoCategoryIcon
                                 ?
                                     <MemoEmojiIcon
@@ -161,7 +173,7 @@ export const MemoListDialogMobile: VFC<MemoListDialogMobileProps> = (props) => {
                         <Box 
                             sx={{
                                 ml:0.5,
-                                width: "100%"
+                                width: "65%"
                             }}
                         >
                             <ChildMemoCategorySelectMobile />
@@ -170,7 +182,8 @@ export const MemoListDialogMobile: VFC<MemoListDialogMobileProps> = (props) => {
                         <Box
                             sx={{
                                 mx: "auto",
-                                pl:1
+                                pl:1,
+                                width:"25%"
                             }}
                         >
                             <Button

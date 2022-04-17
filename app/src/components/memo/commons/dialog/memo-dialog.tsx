@@ -23,7 +23,7 @@ export const MemoDialog: VFC<MemoDialogProps> = (props) => {
     if (smUp){
         childWidth="80%"
     } else {
-        childWidth="90%"
+        childWidth="95%"
     }
 
     return (

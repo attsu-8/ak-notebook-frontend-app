@@ -2,7 +2,7 @@ import type { VFC, ReactNode } from "react";
 import { useState } from "react";
 import { changeEditNote, fetchAsyncPatchNote, fetchAsyncCreateNote, resetEditNote,  selectNoteOptions, fetchAsyncLogicalDeleteNote, selectEditNote, selectSelectNote } from "../../../slices/memo/noteSlice";
 import { MemoDialog } from "../commons/dialog/memo-dialog";
-import { List } from "@mui/material"
+import { Box, List } from "@mui/material"
 import { MemoDialogListItem } from "../commons/list/memo-dialog-list-item";
 import { MemoNoteIcon } from "../commons/icon/memo-note-icon";
 import { MemoAddButton } from "../commons/button/memo-add-button";
@@ -92,13 +92,21 @@ export const NoteListDialog: VFC<NoteListDialogProps> = (props) => {
                 >
                     {noteOptions.map((note) => {
                         return (
-                            <MemoDialogListItem
-                                listItemIcon={<MemoNoteIcon iconColor={note.noteColor}/>}
-                                listText={note.noteName}
-                                itemData={note}
-                                editButtonClick={editButtonClick}
-                                deleteButtonClick={deleteButtonClick}
-                            />
+                            <Box
+                                sx={{
+                                    width: "100%",
+                                    overflowWrap: "break-word",
+                                    wordWrap: "break-word",
+                                }}
+                            >
+                                <MemoDialogListItem
+                                    listItemIcon={<MemoNoteIcon iconColor={note.noteColor}/>}
+                                    listText={note.noteName}
+                                    itemData={note}
+                                    editButtonClick={editButtonClick}
+                                    deleteButtonClick={deleteButtonClick}
+                                />
+                            </Box>
                         )
                     })}
                 </List>

@@ -54,6 +54,11 @@ export const NoteDeleteDialog: VFC<NoteDeleteDialogProps> = (props) => {
                 <Typography
                     color="textSecondary"
                     variant="h6"
+                    sx={{
+                        width: "100%",
+                        overflowWrap: "break-word",
+                        wordWrap: "break-word",
+                    }}
                 >
                     {`ノート名： ${editNote.noteName}`}
                 </Typography>
