@@ -62,8 +62,14 @@ export const ParentMemoCategory: VFC = () => {
         setIsDeleteParentMemoCategoryOpen(true)
     }
 
-    const onClickDeleteButton = (parentMemoCategoryId: string) => {
-        dispatch(fetchAsyncLogicalDeleteParentMemoCategory(parentMemoCategoryId));
+    const onClickDeleteButton = async (parentMemoCategoryId: string) => {
+        const result: any = await dispatch(fetchAsyncLogicalDeleteParentMemoCategory(parentMemoCategoryId));
+        if (fetchAsyncLogicalDeleteParentMemoCategory.fulfilled.match(result)) {
+            if (selectParentMemoCategory.memoCategoryId === parentMemoCategoryId){
+                dispatch(resetMemoOption())
+                dispatch(resetSelectChildMemoCategory())
+            }
+        }
         setIsDeleteParentMemoCategoryOpen(false)
     }
 
