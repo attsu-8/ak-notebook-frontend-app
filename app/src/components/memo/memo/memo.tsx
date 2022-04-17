@@ -5,7 +5,7 @@ import { selectMemoOptions, selectIsMemoNextPageLoading, fetchAsyncGetMemosNextP
 import { Box, CircularProgress, Typography, useMediaQuery, Theme } from "@mui/material";
 import { MemoCard } from "./memo-card";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { selectSelectChildMemoCategory } from "../../../slices/memo/memoCategorySlice";
+import { resetIsCreatedChildMemoCategory, selectChildMemoCategoryOptions, selectIsCreatedChildMemoCategory, selectSelectChildMemoCategory } from "../../../slices/memo/memoCategorySlice";
 import { MemoProps } from "../../../types/memo/memo";
 import { MemoAddButton } from "../commons/button/memo-add-button";
 import { MemoDeleteDialog } from "./memo-delete-dialog";
@@ -73,6 +73,8 @@ export const MemoMain: VFC = () => {
     const [isDeleteMemoOpen, setIsDeleteMemoOpen] = useState<boolean>(false);
     const isMemoReflesh = useSelector(selectIsMemoReflesh);
     const latestCreateMemo = useSelector(selectLatestCreateMemo);
+    const isCreatedChildMemoCategory = useSelector(selectIsCreatedChildMemoCategory);
+
     const smUp = useMediaQuery(
         (theme: Theme) => theme.breakpoints.up('sm'),
             {
@@ -117,6 +119,13 @@ export const MemoMain: VFC = () => {
     // }, [] )
 
     useEffect(() => {
+        if (isCreatedChildMemoCategory) {
+            handleCreateNewMemo(initialMemoProps);
+            dispatch(resetIsCreatedChildMemoCategory())
+        }
+    }, [isCreatedChildMemoCategory])
+
+    useEffect(() => {
         const functions = async () => {
             if (latestCreateMemo.memoId !== "") {
                 const date = await formatDate(new Date)
@@ -155,9 +164,10 @@ export const MemoMain: VFC = () => {
                 }}
             >
                 <Typography
-                    variant="h3"
+                    color="textSecondary"
+                    variant="h5"
                     sx={{
-                        my:1,
+                        mt:2,
                         height: "5%",
                     }}
                 >

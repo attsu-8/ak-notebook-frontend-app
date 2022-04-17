@@ -1,4 +1,4 @@
-import type { VFC, ReactNode } from "react";
+import { VFC, ReactNode, useEffect } from "react";
 import { useState } from "react";
 import { selectSelectNote } from "../../slices/memo/noteSlice";
 import { MemoDialog } from "./commons/dialog/memo-dialog";
@@ -11,7 +11,7 @@ import { NoteSelect } from "./note/note-select";
 import EditIcon from '@mui/icons-material/Edit';
 import { ParentMemoCategorySelectMobile } from "./memoCategory/parentMemoCategory/parent-memo-category-select-mobile";
 import { MemoEmojiIcon } from "./commons/icon/memo-emoji-icon";
-import { selectSelectChildMemoCategory, selectSelectParentMemoCategory } from "../../slices/memo/memoCategorySlice";
+import { selectIsCreatedChildMemoCategory, selectSelectChildMemoCategory, selectSelectParentMemoCategory } from "../../slices/memo/memoCategorySlice";
 import { MemoCategoryIcon } from "./commons/icon/memo-category-icon";
 import { ChildMemoCategoryListDialog } from "./memoCategory/childMemoCategory/child-memo-category-list-dialog";
 import { ChildMemoCategorySelectMobile } from "./memoCategory/childMemoCategory/child-memo-category-select-mobile";
@@ -30,7 +30,13 @@ export const MemoListDialogMobile: VFC<MemoListDialogMobileProps> = (props) => {
     const selectNote = useSelector(selectSelectNote);
     const selectParentMemoCategory = useSelector(selectSelectParentMemoCategory);
     const selectChildMemoCategory = useSelector(selectSelectChildMemoCategory);
+    const isCreatedChildMemoCategory = useSelector(selectIsCreatedChildMemoCategory);
 
+    useEffect(() => {
+        if (isCreatedChildMemoCategory) {
+            onClose(false);
+        }
+    },[isCreatedChildMemoCategory])
 
     return (
         <>
@@ -52,14 +58,20 @@ export const MemoListDialogMobile: VFC<MemoListDialogMobileProps> = (props) => {
                             alignItems: "center",
                         }}
                     >
-                        <MemoNoteIcon
-                                fontSize="large"
-                            iconColor={selectNote.noteColor}
-                        />
+                        <Box
+                            sx={{
+                                width: "10%"
+                            }}
+                        >
+                            <MemoNoteIcon
+                                    fontSize="large"
+                                iconColor={selectNote.noteColor}
+                            />
+                        </Box>
                         <Box 
                             sx={{
                                 ml:0.5,
-                                width: "100%"
+                                width: "65%"
                             }}
                         >
                             <NoteSelect />
@@ -68,7 +80,8 @@ export const MemoListDialogMobile: VFC<MemoListDialogMobileProps> = (props) => {
                         <Box
                             sx={{
                                 mx: "auto",
-                                pl:1
+                                pl:1,
+                                width: "25%"
                             }}
                         >
                             <Button
@@ -93,7 +106,9 @@ export const MemoListDialogMobile: VFC<MemoListDialogMobileProps> = (props) => {
                             alignItems: "center",
                         }}
                     >
-                        <Box>
+                        <Box
+                            sx={{width: "10%"}}
+                        >
                             {selectParentMemoCategory.memoCategoryIcon
                                 ?
                                     <MemoEmojiIcon
@@ -107,7 +122,7 @@ export const MemoListDialogMobile: VFC<MemoListDialogMobileProps> = (props) => {
                         <Box 
                             sx={{
                                 ml:0.5,
-                                width: "100%"
+                                width: "65%"
                             }}
                         >
                             <ParentMemoCategorySelectMobile />
@@ -116,7 +131,8 @@ export const MemoListDialogMobile: VFC<MemoListDialogMobileProps> = (props) => {
                         <Box
                             sx={{
                                 mx: "auto",
-                                pl:1
+                                pl:1,
+                                width: "25%"
                             }}
                         >
                             <Button
@@ -141,7 +157,9 @@ export const MemoListDialogMobile: VFC<MemoListDialogMobileProps> = (props) => {
                             alignItems: "center",
                         }}
                     >
-                        <Box>
+                        <Box
+                            sx={{width: "10%"}}
+                        >
                             {selectChildMemoCategory.memoCategoryIcon
                                 ?
                                     <MemoEmojiIcon
@@ -155,7 +173,7 @@ export const MemoListDialogMobile: VFC<MemoListDialogMobileProps> = (props) => {
                         <Box 
                             sx={{
                                 ml:0.5,
-                                width: "100%"
+                                width: "65%"
                             }}
                         >
                             <ChildMemoCategorySelectMobile />
@@ -164,7 +182,8 @@ export const MemoListDialogMobile: VFC<MemoListDialogMobileProps> = (props) => {
                         <Box
                             sx={{
                                 mx: "auto",
-                                pl:1
+                                pl:1,
+                                width:"25%"
                             }}
                         >
                             <Button

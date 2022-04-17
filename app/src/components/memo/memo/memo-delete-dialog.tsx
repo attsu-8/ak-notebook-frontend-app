@@ -54,6 +54,11 @@ export const MemoDeleteDialog: VFC<MemoDeleteDialogProps> = (props) => {
                 <Typography
                     color="textSecondary"
                     variant="h6"
+                    sx={{
+                        width: "100%",
+                        overflowWrap: "break-word",
+                        wordWrap: "break-word",
+                    }}
                 >
                     {`タイトル： ${editMemo.memoTitle}`}
                 </Typography>

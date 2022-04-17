@@ -54,6 +54,11 @@ export const MemoCategoryDeleteDialog: VFC<MemoCategoryDeleteDialogProps> = (pro
                 <Typography
                     color="textSecondary"
                     variant="h6"
+                    sx={{
+                        width: "100%",
+                        overflowWrap: "break-word",
+                        wordWrap: "break-word",
+                    }}
                 >
                     {`カテゴリ名： ${editMemoCategory.memoCategoryName}`}
                 </Typography>

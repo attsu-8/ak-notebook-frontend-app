@@ -24,8 +24,8 @@ export const NoteSelect:VFC = () => {
             dispatch(resetChildMemoCategoryOptions());
             dispatch(resetSelectParentMemoCategory())
         }
-        dispatch(changeSelectNote(note));
         dispatch(fetchAsyncGetParentMemoCategoriesFilter(note.noteId))
+        dispatch(changeSelectNote(note));
     }
 
     useEffect(
