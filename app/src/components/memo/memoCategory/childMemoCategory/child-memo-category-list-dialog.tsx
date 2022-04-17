@@ -125,7 +125,7 @@ export const ChildMemoCategoryListDialog: VFC<ChildMemoCategoryListDialogProps> 
 
 
             <ChildMemoCategoryEditorDialog
-                headerTitle="新規追加"
+                headerTitle="子カテゴリ新規追加"
                 isOpen={isNewChildMemoCategoryOpen}
                 onClose={onCloseNewChildMemoCategoryDialog}
                 footerButton={
@@ -141,7 +141,7 @@ export const ChildMemoCategoryListDialog: VFC<ChildMemoCategoryListDialogProps> 
             />
 
             <ChildMemoCategoryEditorDialog
-                headerTitle="編集"
+                headerTitle="子カテゴリ編集"
                 isOpen={isUpdateChildMemoCategoryOpen}
                 onClose={setIsUpdateChildMemoCategoryOpen}
                 footerButton={
@@ -157,7 +157,7 @@ export const ChildMemoCategoryListDialog: VFC<ChildMemoCategoryListDialogProps> 
             />
 
             <MemoCategoryDeleteDialog
-                headerTitle="メモカテゴリ削除"
+                headerTitle="子カテゴリ削除"
                 isOpen={isDeleteChildMemoCategoryOpen}
                 onClose={setIsDeleteChildMemoCategoryOpen}
                 footerButton={

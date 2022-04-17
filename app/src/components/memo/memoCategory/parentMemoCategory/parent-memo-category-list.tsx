@@ -155,7 +155,7 @@ export const ParentMemoCategory: VFC = () => {
             </Box>
 
             <ParentMemoCategoryEditorDialog
-                headerTitle="新規追加"
+                headerTitle="親カテゴリ新規追加"
                 isOpen={isNewParentMemoCategoryOpen}
                 onClose={onCloseNewParentMemoCategoryDialog}
                 footerButton={
@@ -171,7 +171,7 @@ export const ParentMemoCategory: VFC = () => {
             />
 
             <ParentMemoCategoryEditorDialog
-                headerTitle="編集"
+                headerTitle="親カテゴリ編集"
                 isOpen={isUpdateParentMemoCategoryOpen}
                 onClose={setIsUpdateParentMemoCategoryOpen}
                 footerButton={
@@ -187,7 +187,7 @@ export const ParentMemoCategory: VFC = () => {
             />
 
             <MemoCategoryDeleteDialog
-                headerTitle="メモカテゴリ削除"
+                headerTitle="親カテゴリ削除"
                 isOpen={isDeleteParentMemoCategoryOpen}
                 onClose={setIsDeleteParentMemoCategoryOpen}
                 footerButton={

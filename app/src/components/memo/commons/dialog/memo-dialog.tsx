@@ -53,6 +53,7 @@ export const MemoDialog: VFC<MemoDialogProps> = (props) => {
                 >
                     <Box sx={{mt: 1}}>
                         <Typography
+                            color="textSecondary"
                             align="center"
                             gutterBottom
                             variant="h5"
