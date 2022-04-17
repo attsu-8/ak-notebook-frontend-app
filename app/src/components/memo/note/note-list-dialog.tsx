@@ -1,6 +1,6 @@
 import type { VFC, ReactNode } from "react";
 import { useState } from "react";
-import { changeEditNote, fetchAsyncPatchNote, fetchAsyncCreateNote, resetEditNote,  selectNoteOptions, fetchAsyncLogicalDeleteNote, selectEditNote } from "../../../slices/memo/noteSlice";
+import { changeEditNote, fetchAsyncPatchNote, fetchAsyncCreateNote, resetEditNote,  selectNoteOptions, fetchAsyncLogicalDeleteNote, selectEditNote, selectSelectNote } from "../../../slices/memo/noteSlice";
 import { MemoDialog } from "../commons/dialog/memo-dialog";
 import { List } from "@mui/material"
 import { MemoDialogListItem } from "../commons/list/memo-dialog-list-item";
@@ -13,6 +13,8 @@ import { NewNoteButton } from "./note-new-note-button";
 import { UpdateNoteButton } from "./note-update-note-button";
 import { NoteDeleteDialog } from "./note-delete-dialog";
 import { DeleteNoteButton } from "./note-delete-note-button";
+import { resetParentMemoCategoryOptions, resetSelectChildMemoCategory, resetSelectParentMemoCategory } from "../../../slices/memo/memoCategorySlice";
+import { resetMemoOption } from "../../../slices/memo/memoSlice";
 
 interface NoteListDialogProps {
     children?: ReactNode;
@@ -23,6 +25,7 @@ interface NoteListDialogProps {
 export const NoteListDialog: VFC<NoteListDialogProps> = (props) => {
     const {children, isOpen, onClose, ...other} = props;
     const noteOptions = useSelector(selectNoteOptions);
+    const selectNote  = useSelector(selectSelectNote)
     const [isOpenNewNoteEditor, setIsOpenNewNoteEditor] = useState<boolean>(false);
     const [isOpenUpdateNoteEditor, setIsOpenUpdateNoteEditor] = useState<boolean>(false);
     const [isOpenDeleteNoteEditor, setIsOpenDeleteNoteEditor] = useState<boolean>(false);
@@ -49,8 +52,15 @@ export const NoteListDialog: VFC<NoteListDialogProps> = (props) => {
         setIsOpenDeleteNoteEditor(true)
     }
 
-    const onClickDelete = (noteId: string) => {
-        dispatch(fetchAsyncLogicalDeleteNote(noteId));
+    const onClickDelete = async (noteId: string) => {
+        const result: any = await dispatch(fetchAsyncLogicalDeleteNote(noteId));
+        if (fetchAsyncLogicalDeleteNote.fulfilled.match(result)) {
+            if (selectNote.noteId === noteId){
+                dispatch(resetMemoOption())
+                dispatch(resetSelectChildMemoCategory())
+                dispatch(resetSelectParentMemoCategory())
+            }
+        }
         setIsOpenDeleteNoteEditor(false)
     }
 
