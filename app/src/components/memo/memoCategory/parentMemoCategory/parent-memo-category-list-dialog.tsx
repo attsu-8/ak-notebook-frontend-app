@@ -1,19 +1,20 @@
 import type { VFC, ReactNode } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { changeEditMemoCategory, fetchAsyncCreateParentMemoCategory, fetchAsyncLogicalDeleteParentMemoCategory, fetchAsyncPatchParentMemoCategory, resetEditMemoCategory, selectParentMemoCategoryOptions } from "../../../../slices/memo/memoCategorySlice";
+import { changeEditMemoCategory, fetchAsyncCreateParentMemoCategory, fetchAsyncLogicalDeleteParentMemoCategory, fetchAsyncPatchParentMemoCategory, resetEditMemoCategory, resetIsParentMemoCategoryNewEditorOpen, resetSelectChildMemoCategory, selectIsParentMemoCategoryNewEditorOpen, selectParentMemoCategoryOptions, selectSelectParentMemoCategory, setIsParentMemoCategoryNewEditorOpen } from "../../../../slices/memo/memoCategorySlice";
 import { selectSelectNote } from "../../../../slices/memo/noteSlice";
 import { MemoCategoryDeleteDialog } from "../memo-category-delete-dialog";
 import { ParentMemoCategoryEditorDialog } from "./parent-memo-category-editor-dialog";
 import {ParentMemoCategory as ParentMemo} from "../../../../types/memo/memoCategory";
 import { MemoDialog } from "../../commons/dialog/memo-dialog";
 import { MemoAddButton } from "../../commons/button/memo-add-button";
-import { List } from "@mui/material";
+import { Box, List } from "@mui/material";
 import { MemoSubmitButton } from "../../commons/button/memo-submit-button";
 import { DeleteMemoCategoryButton } from "../memo-category-delete-memo-category-button";
 import { MemoDialogListItem } from "../../commons/list/memo-dialog-list-item";
 import { MemoEmojiIcon } from "../../commons/icon/memo-emoji-icon";
 import { MemoCategoryIcon } from "../../commons/icon/memo-category-icon";
+import { resetMemoOption } from "../../../../slices/memo/memoSlice";
 
 
 interface ParentMemoCategoryListDialogProps {
@@ -26,15 +27,21 @@ export const ParentMemoCategoryListDialog: VFC<ParentMemoCategoryListDialogProps
     const {children, isOpen, onClose, ...other} = props;
     const dispatch = useDispatch();
     const parentMemoCategoryOptions = useSelector(selectParentMemoCategoryOptions);
-    const [isNewParentMemoCategoryOpen, setIsNewParentMemoCategoryOpen] = useState<boolean>(false);
+    const selectParentMemoCategory = useSelector(selectSelectParentMemoCategory);
+    const isNewParentMemoCategoryOpen = useSelector(selectIsParentMemoCategoryNewEditorOpen);
     const [isUpdateParentMemoCategoryOpen, setIsUpdateParentMemoCategoryOpen] = useState<boolean>(false);
     const [isDeleteParentMemoCategoryOpen, setIsDeleteParentMemoCategoryOpen] = useState<boolean>(false);
     const selectNote = useSelector(selectSelectNote);
 
+    const onCloseNewParentMemoCategoryDialog = (isOpen: boolean) => {
+        // isOpenはダミー
+        dispatch(resetIsParentMemoCategoryNewEditorOpen())
+    }
+
     const onClickAddButton = () => {
         dispatch(resetEditMemoCategory())
         dispatch(changeEditMemoCategory({note: selectNote.noteId}))
-        setIsNewParentMemoCategoryOpen(true);
+        dispatch(setIsParentMemoCategoryNewEditorOpen())
     }
 
     const onClickUpdateProperty = (parentMemoCategory: ParentMemo) => {
@@ -57,8 +64,14 @@ export const ParentMemoCategoryListDialog: VFC<ParentMemoCategoryListDialogProps
         setIsDeleteParentMemoCategoryOpen(true)
     }
 
-    const onClickDeleteButton = (parentMemoCategoryId: string) => {
-        dispatch(fetchAsyncLogicalDeleteParentMemoCategory(parentMemoCategoryId));
+    const onClickDeleteButton = async (parentMemoCategoryId: string) => {
+        const result: any = await dispatch(fetchAsyncLogicalDeleteParentMemoCategory(parentMemoCategoryId));
+        if (fetchAsyncLogicalDeleteParentMemoCategory.fulfilled.match(result)) {
+            if (selectParentMemoCategory.memoCategoryId === parentMemoCategoryId){
+                dispatch(resetMemoOption())
+                dispatch(resetSelectChildMemoCategory())
+            }
+        }
         setIsDeleteParentMemoCategoryOpen(false)
     }
 
@@ -84,22 +97,30 @@ export const ParentMemoCategoryListDialog: VFC<ParentMemoCategoryListDialogProps
                 >
                     {parentMemoCategoryOptions.map((option) => {
                         return (
-                            <MemoDialogListItem
-                                listItemIcon={
-                                    option.memoCategoryIcon
-                                        ?
-                                            <MemoEmojiIcon
-                                                emojiId={option.memoCategoryIcon}
-                                                emojiSize={22}
-                                            />
-                                        :
-                                            <MemoCategoryIcon fontSize="medium" />
-                                }
-                                listText={option.memoCategoryName}
-                                itemData={option}
-                                editButtonClick={onClickUpdateProperty}
-                                deleteButtonClick={onClickDeleteProperty}
-                            />
+                            <Box
+                                sx={{
+                                    width: "100%",
+                                    overflowWrap: "break-word",
+                                    wordWrap: "break-word",
+                                }}
+                            >
+                                <MemoDialogListItem
+                                    listItemIcon={
+                                        option.memoCategoryIcon
+                                            ?
+                                                <MemoEmojiIcon
+                                                    emojiId={option.memoCategoryIcon}
+                                                    emojiSize={22}
+                                                />
+                                            :
+                                                <MemoCategoryIcon fontSize="medium" />
+                                    }
+                                    listText={option.memoCategoryName}
+                                    itemData={option}
+                                    editButtonClick={onClickUpdateProperty}
+                                    deleteButtonClick={onClickDeleteProperty}
+                                />
+                            </Box>
                         )
                     })}
                 </List>
@@ -108,9 +129,10 @@ export const ParentMemoCategoryListDialog: VFC<ParentMemoCategoryListDialogProps
 
 
             <ParentMemoCategoryEditorDialog
-                headerTitle="新規追加"
+                headerTitle="親カテゴリ新規追加"
                 isOpen={isNewParentMemoCategoryOpen}
-                onClose={setIsNewParentMemoCategoryOpen}
+                onClose={onCloseNewParentMemoCategoryDialog}
+                onCloseList={onClose}
                 footerButton={
                     <MemoSubmitButton
                         form="newparent"
@@ -124,7 +146,7 @@ export const ParentMemoCategoryListDialog: VFC<ParentMemoCategoryListDialogProps
             />
 
             <ParentMemoCategoryEditorDialog
-                headerTitle="編集"
+                headerTitle="親カテゴリ編集"
                 isOpen={isUpdateParentMemoCategoryOpen}
                 onClose={setIsUpdateParentMemoCategoryOpen}
                 footerButton={
@@ -140,7 +162,7 @@ export const ParentMemoCategoryListDialog: VFC<ParentMemoCategoryListDialogProps
             />
 
             <MemoCategoryDeleteDialog
-                headerTitle="メモカテゴリ削除"
+                headerTitle="親カテゴリ削除"
                 isOpen={isDeleteParentMemoCategoryOpen}
                 onClose={setIsDeleteParentMemoCategoryOpen}
                 footerButton={

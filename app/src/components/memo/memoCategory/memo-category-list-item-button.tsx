@@ -54,7 +54,13 @@ export const MemoCategoryListItemButton: VFC<MemoCategoryListItemButtonProps> = 
                                             emojiSize={22}
                                         />
                                     </Box>
-                                    <Box>
+                                    <Box
+                                        sx={{
+                                            width: "80%",
+                                            overflowWrap: "break-word",
+                                            wordWrap: "break-word",
+                                        }}
+                                    >
                                         {memoCategoryOption.memoCategoryName} 
                                     </Box>
                                 </>
@@ -69,7 +75,13 @@ export const MemoCategoryListItemButton: VFC<MemoCategoryListItemButtonProps> = 
                                             fontSize="medium" 
                                         />
                                     </Box>
-                                    <Box>
+                                    <Box
+                                        sx={{
+                                            width: "80%",
+                                            overflowWrap: "break-word",
+                                            wordWrap: "break-word",
+                                        }}
+                                    >
                                         {memoCategoryOption.memoCategoryName}
                                     </Box>
                                 </>

@@ -128,7 +128,6 @@ export const MainSidebar: VFC<MainSidebarProps> = (props) => {
     function handleChangeRoute (path) {
         if (path === '/') {
             initializeStoreData(dispatch)
-            // console.log('complete');
         }
       }
     const content = (
