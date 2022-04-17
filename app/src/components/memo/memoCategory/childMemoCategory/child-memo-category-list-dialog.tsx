@@ -1,7 +1,7 @@
 import type { VFC, ReactNode } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { changeEditMemoCategory, fetchAsyncCreateChildMemoCategory, fetchAsyncLogicalDeleteChildMemoCategory, fetchAsyncPatchChildMemoCategory, resetEditMemoCategory, resetIsChildMemoCategoryNewEditorOpen, selectChildMemoCategoryOptions, selectIsChildMemoCategoryNewEditorOpen, selectSelectParentMemoCategory, setIsChildMemoCategoryNewEditorOpen } from "../../../../slices/memo/memoCategorySlice";
+import { changeEditMemoCategory, fetchAsyncCreateChildMemoCategory, fetchAsyncLogicalDeleteChildMemoCategory, fetchAsyncPatchChildMemoCategory, resetEditMemoCategory, resetIsChildMemoCategoryNewEditorOpen, selectChildMemoCategoryOptions, selectIsChildMemoCategoryNewEditorOpen, selectSelectChildMemoCategory, selectSelectParentMemoCategory, setIsChildMemoCategoryNewEditorOpen } from "../../../../slices/memo/memoCategorySlice";
 import { selectSelectNote } from "../../../../slices/memo/noteSlice";
 import { MemoCategoryDeleteDialog } from "../memo-category-delete-dialog";
 import {ChildMemoCategory as ChildMemo} from "../../../../types/memo/memoCategory";
@@ -14,6 +14,7 @@ import { MemoDialogListItem } from "../../commons/list/memo-dialog-list-item";
 import { MemoEmojiIcon } from "../../commons/icon/memo-emoji-icon";
 import { MemoCategoryIcon } from "../../commons/icon/memo-category-icon";
 import { ChildMemoCategoryEditorDialog } from "./child-memo-category-editor-dialog";
+import { resetMemoOption } from "../../../../slices/memo/memoSlice";
 
 
 interface ChildMemoCategoryListDialogProps {
@@ -26,6 +27,7 @@ export const ChildMemoCategoryListDialog: VFC<ChildMemoCategoryListDialogProps> 
     const {children, isOpen, onClose, ...other} = props;
     const dispatch = useDispatch();
     const childMemoCategoryOptions = useSelector(selectChildMemoCategoryOptions);
+    const selectChildMemoCategory = useSelector(selectSelectChildMemoCategory);
     const isNewChildMemoCategoryOpen = useSelector(selectIsChildMemoCategoryNewEditorOpen);
     const [isUpdateChildMemoCategoryOpen, setIsUpdateChildMemoCategoryOpen] = useState<boolean>(false);
     const [isDeleteChildMemoCategoryOpen, setIsDeleteChildMemoCategoryOpen] = useState<boolean>(false);
@@ -67,8 +69,13 @@ export const ChildMemoCategoryListDialog: VFC<ChildMemoCategoryListDialogProps> 
         setIsDeleteChildMemoCategoryOpen(true)
     }
 
-    const onClickDeleteButton = (childMemoCategoryId: string) => {
-        dispatch(fetchAsyncLogicalDeleteChildMemoCategory(childMemoCategoryId));
+    const onClickDeleteButton = async (childMemoCategoryId: string) => {
+        const result: any = await dispatch(fetchAsyncLogicalDeleteChildMemoCategory(childMemoCategoryId));
+        if (fetchAsyncLogicalDeleteChildMemoCategory.fulfilled.match(result)) {
+            if (selectChildMemoCategory.memoCategoryId === childMemoCategoryId) {
+                dispatch(resetMemoOption())
+            }
+        }
         setIsDeleteChildMemoCategoryOpen(false)
     }
 
