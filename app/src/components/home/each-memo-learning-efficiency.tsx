@@ -39,7 +39,7 @@ export const EachMemoLearningEfficiency: VFC = () => {
                           color="textSecondary"
                           variant="body1"
                       >
-                        親カテゴリ別学習効率チャートよりノートを選択してください。
+                        親カテゴリ別学習効率チャートより親カテゴリを選択してください。
                       </Typography>
                   }
                 </Box>
