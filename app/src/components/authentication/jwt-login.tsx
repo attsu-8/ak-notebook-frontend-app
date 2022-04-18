@@ -51,7 +51,7 @@ export const JWTLogin: VFC = (props) => {
 
     const demoLogin = async () => {
         const auth = {
-            userEmail: "local.demo@gmail.com",
+            userEmail: "ak-notebook.demo@demo.com",
             password: "password",
         }
 
