@@ -5,15 +5,20 @@ import { useMounted } from "../../hooks/use-mounted";
 import { fetchAsyncLogin, fetchAsyncGetMyProf, setIsAuthenticated, resetIsInitialized, setIsInitialized } from "../../slices/authentication/authSlice";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import { TextField, Box, FormHelperText, Button, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton} from "@mui/material";
+import { TextField, Box, FormHelperText, Button, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Divider} from "@mui/material";
+import { useTheme } from '@mui/material/styles';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { initializeStoreData } from "../../utils/load/initializeStoreData";
+import { AuthProps } from "../../types/auth";
 
 export const JWTLogin: VFC = (props) => {
     const isMounted = useMounted();
     const dispatch = useDispatch();
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false)
+    const theme = useTheme();
+    const [isDemoSubmitting, setIsDemoSubmitting] = useState(false);
 
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword)
@@ -23,6 +28,36 @@ export const JWTLogin: VFC = (props) => {
         event.preventDefault();
     };
 
+    const login = async (auth: AuthProps) => {
+        setIsDemoSubmitting(true)
+        const result: any = await dispatch(fetchAsyncLogin(auth));
+        if (fetchAsyncLogin.fulfilled.match(result)) {
+            await dispatch(resetIsInitialized());
+            await dispatch(fetchAsyncGetMyProf());
+            await dispatch(setIsAuthenticated());
+            await initializeStoreData(dispatch);
+        }
+        
+        if (isMounted()) {
+            const returnUrl = await (router.query.returnUrl as string) || '/';
+            await router.push(returnUrl);
+        }
+
+        await dispatch(setIsInitialized());
+
+        setIsDemoSubmitting(false)
+
+    }
+
+    const demoLogin = async () => {
+        const auth = {
+            userEmail: "local.demo@gmail.com",
+            password: "password",
+        }
+
+        await login(auth);
+
+    }
     
     const formik = useFormik({
         initialValues: {
@@ -47,20 +82,7 @@ export const JWTLogin: VFC = (props) => {
                     userEmail: values.userEmail,
                     password: values.password,
                 }
-                const result: any = await dispatch(fetchAsyncLogin(auth));
-                if (fetchAsyncLogin.fulfilled.match(result)) {
-                    await dispatch(resetIsInitialized());
-                    await dispatch(fetchAsyncGetMyProf());
-                    await dispatch(setIsAuthenticated());
-                }
-                
-                if (isMounted()) {
-                    const returnUrl = await (router.query.returnUrl as string) || '/';
-                    await router.push(returnUrl);
-                }
-
-                await dispatch(setIsInitialized());
-
+                await login(auth)
             } catch (err) {
                 console.error(err);
 
@@ -155,7 +177,27 @@ export const JWTLogin: VFC = (props) => {
                     type="submit"
                     variant="contained"
                 >
-                    Log In
+                    ログイン
+                </Button>
+            </Box>
+
+            <Divider sx={{ my: 3 }} />
+
+            <Box sx={{ mt:2}}>
+                <Button
+                    disabled={isDemoSubmitting}
+                    onClick={() => demoLogin()}
+                    fullWidth
+                    size="large"
+                    variant="contained"
+                    sx={{
+                        backgroundColor: theme.palette.secondary.dark,
+                        '&:hover': {
+                            backgroundColor: theme.palette.secondary.main
+                          },
+                    }}
+                >
+                    ゲストログイン
                 </Button>
             </Box>
         </form>
