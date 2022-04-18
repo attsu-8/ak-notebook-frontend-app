@@ -5,7 +5,7 @@ import { useMounted } from "../../hooks/use-mounted";
 import { fetchAsyncLogin, fetchAsyncGetMyProf, setIsAuthenticated, resetIsInitialized, setIsInitialized } from "../../slices/authentication/authSlice";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import { TextField, Box, FormHelperText, Button, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Divider} from "@mui/material";
+import { TextField, Box, FormHelperText, Button, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Divider, Typography} from "@mui/material";
 import { useTheme } from '@mui/material/styles';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -184,6 +184,15 @@ export const JWTLogin: VFC = (props) => {
             <Divider sx={{ my: 3 }} />
 
             <Box sx={{ mt:2}}>
+                <Typography
+                    color="textSecondary"
+                    sx={{ mb: 1 }}
+                    variant="body2"
+                    align="center"
+                >
+                    ↓ゲストとしてログインする場合はこちら↓
+                </Typography>
+
                 <Button
                     disabled={isDemoSubmitting}
                     onClick={() => demoLogin()}
