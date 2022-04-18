@@ -52,8 +52,8 @@ const Login: NextPage = () => {
                                 width: 40,
                             }}
                         />
-                        <Typography variant="h4">
-                            Create Account
+                        <Typography variant="h5">
+                            アカウント作成
                         </Typography>
                         <Typography
                             color="textSecondary"
