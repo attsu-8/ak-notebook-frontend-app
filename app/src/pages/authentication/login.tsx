@@ -52,8 +52,8 @@ const Login: NextPage = () => {
                                 width: 40,
                             }}
                         />
-                        <Typography variant="h4">
-                            Log in
+                        <Typography variant="h5">
+                            ログイン
                         </Typography>
                     </Box>
                     <Box

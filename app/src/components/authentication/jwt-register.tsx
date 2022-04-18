@@ -192,7 +192,7 @@ export const JWTRegister: VFC = (props) => {
                     variant="contained"
                     color="secondary"
                 >
-                    Create
+                    作成
                 </Button>
             </Box>
         </form>
