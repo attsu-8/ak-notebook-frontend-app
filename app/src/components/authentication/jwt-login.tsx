@@ -2,7 +2,7 @@ import { useState, VFC } from "react";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useMounted } from "../../hooks/use-mounted";
-import { fetchAsyncLogin, fetchAsyncGetMyProf, setIsAuthenticated, resetIsInitialized, setIsInitialized } from "../../slices/authentication/authSlice";
+import { fetchAsyncLogin, fetchAsyncGetMyProf, setIsAuthenticated, resetIsInitialized, setIsInitialized, fetchAsyncRegister, fetchAsyncCreateProf, fetchAsyncCreateInitialUserData } from "../../slices/authentication/authSlice";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { TextField, Box, FormHelperText, Button, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Divider, Typography} from "@mui/material";
@@ -51,11 +51,32 @@ export const JWTLogin: VFC = (props) => {
 
     const demoLogin = async () => {
         const auth = {
-            userEmail: "ak-notebook.demo@demo.com",
+            userEmail: `ak-notebook.${Date.now()}@demo.com`,
             password: "password",
         }
 
-        await login(auth);
+        let profile = {
+            profileNickname: "デモユーザー"
+        }
+
+        const result: any = await dispatch(fetchAsyncRegister(auth));
+        if (fetchAsyncRegister.fulfilled.match(result)) {
+
+            const loginResult: any = await dispatch(fetchAsyncLogin(auth));
+            if (fetchAsyncLogin.fulfilled.match(loginResult)){
+                await dispatch(resetIsInitialized());
+                await dispatch(fetchAsyncCreateProf(profile));
+                await dispatch(fetchAsyncCreateInitialUserData());
+                await dispatch(setIsAuthenticated());
+            }
+        }
+        
+        if (isMounted()) {
+            const returnUrl = await (router.query.returnUrl as string) || '/';
+            await router.push(returnUrl);
+        }
+        
+        await initializeStoreData(dispatch)
 
     }
     
