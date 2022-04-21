@@ -2,12 +2,13 @@ import { useState, VFC } from "react";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useMounted } from "../../hooks/use-mounted";
-import { fetchAsyncLogin, setIsAuthenticated, resetIsInitialized, setIsInitialized, fetchAsyncRegister, fetchAsyncCreateProf } from "../../slices/authentication/authSlice";
+import { fetchAsyncLogin, setIsAuthenticated, resetIsInitialized, setIsInitialized, fetchAsyncRegister, fetchAsyncCreateProf, fetchAsyncCreateInitialUserData } from "../../slices/authentication/authSlice";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { TextField, Box, FormHelperText, Button, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton} from "@mui/material";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { initializeStoreData } from "../../utils/load/initializeStoreData";
 
 
 export const JWTRegister: VFC = (props) => {
@@ -69,6 +70,7 @@ export const JWTRegister: VFC = (props) => {
                     if (fetchAsyncLogin.fulfilled.match(loginResult)){
                         await dispatch(resetIsInitialized());
                         await dispatch(fetchAsyncCreateProf(profile));
+                        await dispatch(fetchAsyncCreateInitialUserData());
                         await dispatch(setIsAuthenticated());
                     }
                 }
@@ -77,8 +79,8 @@ export const JWTRegister: VFC = (props) => {
                     const returnUrl = await (router.query.returnUrl as string) || '/';
                     await router.push(returnUrl);
                 }
-
-                await dispatch(setIsInitialized());
+                
+                await initializeStoreData(dispatch)
 
             } catch (err) {
                 console.error(err);
