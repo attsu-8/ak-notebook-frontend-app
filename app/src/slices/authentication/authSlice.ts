@@ -37,6 +37,22 @@ export const fetchAsyncRegister = createAsyncThunk(
     return res.data.results;
   }
 );
+    
+export const fetchAsyncCreateInitialUserData = createAsyncThunk(
+  'auth/initialUserData',
+  async () => {
+    const res = await axios.get(
+      `${apiUrl}api/initial-data/`,
+      {
+        headers: {
+          'Content-Type': "application/json",
+          'Authorization': `JWT ${localStorage.accessToken}`
+        },
+      }
+    );
+    return res.data.results;
+  }
+);
 
 export const fetchAsyncCreateProf = createAsyncThunk(
   'profile/post',
