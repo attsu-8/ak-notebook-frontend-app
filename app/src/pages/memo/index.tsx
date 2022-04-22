@@ -14,30 +14,28 @@ type Page<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactNode) => ReactNode;
 };
 
-const MemoInner = styled(
-  'div',
-  { shouldForwardProp: (prop) => prop !== 'isMemoSidebarOpen' })<{ isMemoSidebarOpen?: boolean; }>(
-    ({ theme, isMemoSidebarOpen }) => ({
-      flexGrow: 1,
-      overflow: 'hidden',
-      [theme.breakpoints.up('md')]: {
-        marginLeft: -560
-      },
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen
-      }),
-      ...(isMemoSidebarOpen && {
-        [theme.breakpoints.up('md')]: {
-          marginLeft: 0
-        },
-        transition: theme.transitions.create('margin', {
-          easing: theme.transitions.easing.easeOut,
-          duration: theme.transitions.duration.enteringScreen
-        })
-     })
-  })
-)
+const MemoInner = styled('div', { shouldForwardProp: (prop) => prop !== 'isMemoSidebarOpen' })<{
+  isMemoSidebarOpen?: boolean;
+}>(({ theme, isMemoSidebarOpen }) => ({
+  flexGrow: 1,
+  overflow: 'hidden',
+  [theme.breakpoints.up('md')]: {
+    marginLeft: -560,
+  },
+  transition: theme.transitions.create('margin', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(isMemoSidebarOpen && {
+    [theme.breakpoints.up('md')]: {
+      marginLeft: 0,
+    },
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}));
 
 const Memo: Page = () => {
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -46,17 +44,15 @@ const Memo: Page = () => {
   return (
     <>
       <Head>
-        <title>
-          ak-notebook: memo
-        </title>
+        <title>ak-notebook: memo</title>
       </Head>
       <Box
-        component="main"
+        component='main'
         sx={{
           position: 'relative',
           height: '100%',
           width: '100%',
-          overflow: 'hidden'
+          overflow: 'hidden',
         }}
       >
         <Box
@@ -70,31 +66,22 @@ const Memo: Page = () => {
             left: 0,
           }}
         >
-          <MemoSidebar 
-            containerRef={rootRef}
-          />
-          <MemoInner
-            isMemoSidebarOpen={isMemoSidebarOpen}
-          >
-            <MemoHeader 
-            />
+          <MemoSidebar containerRef={rootRef} />
+          <MemoInner isMemoSidebarOpen={isMemoSidebarOpen}>
+            <MemoHeader />
             <Divider />
             <MemoMain />
-
           </MemoInner>
         </Box>
       </Box>
     </>
-  )
-}
+  );
+};
 
 Memo.getLayout = (page) => (
   <AuthGuard>
-    <MainLayout>
-      {page}
-    </MainLayout>
+    <MainLayout>{page}</MainLayout>
   </AuthGuard>
 );
 
 export default Memo;
-

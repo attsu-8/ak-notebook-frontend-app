@@ -9,12 +9,12 @@ const neutral = {
   600: '#4B5563',
   700: '#374151',
   800: '#1F2937',
-  900: '#111827'
+  900: '#111827',
 };
 
 const background = {
   default: '#F9FAFC',
-  paper: '#FFFFFF'
+  paper: '#FFFFFF',
 };
 
 const divider = '#E6E8F0';
@@ -23,48 +23,48 @@ const primary = {
   main: '#009688',
   light: '#52c7b8',
   dark: '#00675b',
-  contrastText: '#FFFFFF'
+  contrastText: '#FFFFFF',
 };
 
 const secondary = {
   main: '#ff9800',
   light: '#ffc947',
   dark: '#c66900',
-  contrastText: '#FFFFFF'
+  contrastText: '#FFFFFF',
 };
 
 const success = {
   main: '#14B8A6',
   light: '#43C6B7',
   dark: '#0E8074',
-  contrastText: '#FFFFFF'
+  contrastText: '#FFFFFF',
 };
 
 const info = {
   main: '#2196F3',
   light: '#64B6F7',
   dark: '#0B79D0',
-  contrastText: '#FFFFFF'
+  contrastText: '#FFFFFF',
 };
 
 const warning = {
   main: '#FFB020',
   light: '#FFBF4C',
   dark: '#B27B16',
-  contrastText: '#FFFFFF'
+  contrastText: '#FFFFFF',
 };
 
 const error = {
   main: '#D14343',
   light: '#DA6868',
   dark: '#922E2E',
-  contrastText: '#FFFFFF'
+  contrastText: '#FFFFFF',
 };
 
 const text = {
   primary: '#121828',
   secondary: '#65748B',
-  disabled: 'rgba(55, 65, 81, 0.48)'
+  disabled: 'rgba(55, 65, 81, 0.48)',
 };
 
 export const themeOptions: ThemeOptions = {
@@ -74,8 +74,8 @@ export const themeOptions: ThemeOptions = {
       sm: 600,
       md: 1000,
       lg: 1200,
-      xl: 1920
-    }
+      xl: 1920,
+    },
   },
   components: {
     MuiAvatar: {
@@ -85,79 +85,79 @@ export const themeOptions: ThemeOptions = {
           fontWeight: 600,
           letterSpacing: 0,
           backgroundColor: neutral[500],
-          color: '#FFFFFF'
-        }
-      }
+          color: '#FFFFFF',
+        },
+      },
     },
     MuiButton: {
       defaultProps: {
-        disableElevation: true
+        disableElevation: true,
       },
       styleOverrides: {
         root: {
-          textTransform: 'none'
+          textTransform: 'none',
         },
         sizeSmall: {
-          padding: '6px 16px'
+          padding: '6px 16px',
         },
         sizeMedium: {
-          padding: '8px 20px'
+          padding: '8px 20px',
         },
         sizeLarge: {
-          padding: '11px 24px'
+          padding: '11px 24px',
         },
         textSizeSmall: {
-          padding: '7px 12px'
+          padding: '7px 12px',
         },
         textSizeMedium: {
-          padding: '9px 16px'
+          padding: '9px 16px',
         },
         textSizeLarge: {
-          padding: '12px 16px'
-        }
-      }
+          padding: '12px 16px',
+        },
+      },
     },
     MuiButtonBase: {
       defaultProps: {
-        disableRipple: true
-      }
+        disableRipple: true,
+      },
     },
     MuiCardActions: {
       styleOverrides: {
         root: {
-          padding: '16px 24px'
-        }
-      }
+          padding: '16px 24px',
+        },
+      },
     },
     MuiCardContent: {
       styleOverrides: {
         root: {
           padding: '8px 16px',
           '&:last-child': {
-            paddingBottom: '24px'
-          }
-        }
-      }
+            paddingBottom: '24px',
+          },
+        },
+      },
     },
     MuiCardHeader: {
       defaultProps: {
         titleTypographyProps: {
-          variant: 'h6'
+          variant: 'h6',
         },
         subheaderTypographyProps: {
-          variant: 'body2'
-        }
+          variant: 'body2',
+        },
       },
       styleOverrides: {
         root: {
-          padding: '32px 24px'
-        }
-      }
+          padding: '32px 24px',
+        },
+      },
     },
     MuiCheckbox: {
       defaultProps: {
-        color: 'primary'
-      }
+        color: 'primary',
+      },
     },
     MuiChip: {
       styleOverrides: {
@@ -166,21 +166,21 @@ export const themeOptions: ThemeOptions = {
           '&.MuiChip-filledDefault': {
             backgroundColor: neutral[200],
             '& .MuiChip-deleteIcon': {
-              color: neutral[400]
-            }
+              color: neutral[400],
+            },
           },
           '&.MuiChip-outlinedDefault': {
             '& .MuiChip-deleteIcon': {
-              color: neutral[300]
-            }
+              color: neutral[300],
+            },
           },
-        }
-      }
+        },
+      },
     },
     MuiCssBaseline: {
       styleOverrides: {
         '*': {
-          boxSizing: 'border-box'
+          boxSizing: 'border-box',
         },
         html: {
           MozOsxFontSmoothing: 'grayscale',
@@ -188,24 +188,24 @@ export const themeOptions: ThemeOptions = {
           display: 'flex',
           flexDirection: 'column',
           minHeight: '100%',
-          width: '100%'
+          width: '100%',
         },
         body: {
           display: 'flex',
           flex: '1 1 auto',
           flexDirection: 'column',
           minHeight: '100%',
-          width: '100%'
+          width: '100%',
         },
         '#__next': {
           display: 'flex',
           flex: '1 1 auto',
           flexDirection: 'column',
           height: '100%',
-          width: '100%'
+          width: '100%',
         },
         '#nprogress': {
-          pointerEvents: 'none'
+          pointerEvents: 'none',
         },
         '#nprogress .bar': {
           backgroundColor: '#009688',
@@ -214,109 +214,109 @@ export const themeOptions: ThemeOptions = {
           position: 'fixed',
           top: 0,
           width: '100%',
-          zIndex: 2000
-        }
-      }
+          zIndex: 2000,
+        },
+      },
     },
     MuiIconButton: {
       styleOverrides: {
         root: {
           borderRadius: 8,
-          padding: 8
+          padding: 8,
         },
         sizeSmall: {
-          padding: 4
-        }
-      }
+          padding: 4,
+        },
+      },
     },
     MuiInputBase: {
       styleOverrides: {
         input: {
           '&::placeholder': {
             opacity: 1,
-            color: text.secondary
-          }
-        }
-      }
+            color: text.secondary,
+          },
+        },
+      },
     },
     MuiLinearProgress: {
       styleOverrides: {
         root: {
           borderRadius: 3,
-          overflow: 'hidden'
-        }
-      }
+          overflow: 'hidden',
+        },
+      },
     },
     MuiLink: {
       defaultProps: {
-        underline: 'hover'
-      }
+        underline: 'hover',
+      },
     },
     MuiListItemIcon: {
       styleOverrides: {
         root: {
           marginRight: '16px',
           '&.MuiListItemIcon-root': {
-            minWidth: 'unset'
-          }
-        }
-      }
+            minWidth: 'unset',
+          },
+        },
+      },
     },
     MuiMenu: {
       styleOverrides: {
         paper: {
           borderColor: divider,
           borderStyle: 'solid',
-          borderWidth: 1
-        }
-      }
+          borderWidth: 1,
+        },
+      },
     },
     MuiOutlinedInput: {
       styleOverrides: {
         input: {
-          fontWeight: 500
+          fontWeight: 500,
         },
         notchedOutline: {
-          borderColor: divider
+          borderColor: divider,
         },
       },
     },
     MuiPaper: {
       styleOverrides: {
         root: {
-          backgroundImage: 'none'
+          backgroundImage: 'none',
         },
-      }
+      },
     },
     MuiPopover: {
       defaultProps: {
-        elevation: 16
+        elevation: 16,
       },
       styleOverrides: {
         paper: {
           borderColor: divider,
           borderStyle: 'solid',
-          borderWidth: 1
+          borderWidth: 1,
         },
-      },      
+      },
     },
     MuiRadio: {
       defaultProps: {
-        color: 'primary'
-      }
+        color: 'primary',
+      },
     },
     MuiSwitch: {
       defaultProps: {
-        color: 'primary'
+        color: 'primary',
       },
       styleOverrides: {
         switchBase: {
-          color: neutral[500]
+          color: neutral[500],
         },
         track: {
           backgroundColor: neutral[400],
-          opacity: 1
-        }
+          opacity: 1,
+        },
       },
     },
     MuiTab: {
@@ -330,18 +330,18 @@ export const themeOptions: ThemeOptions = {
           paddingRight: 0,
           textTransform: 'none',
           '& + &': {
-            marginLeft: 24
-          }
-        }
-      }
+            marginLeft: 24,
+          },
+        },
+      },
     },
     MuiTableCell: {
       styleOverrides: {
         root: {
           padding: '15px 16px',
-          borderBottom: `1px solid ${divider}`
-        }
-      }
+          borderBottom: `1px solid ${divider}`,
+        },
+      },
     },
     MuiTableHead: {
       styleOverrides: {
@@ -353,19 +353,19 @@ export const themeOptions: ThemeOptions = {
             fontWeight: 600,
             lineHeight: 1,
             letterSpacing: 0.5,
-            textTransform: 'uppercase'
+            textTransform: 'uppercase',
           },
           '& .MuiTableCell-paddingCheckbox': {
             paddingTop: 4,
-            paddingBottom: 4
+            paddingBottom: 4,
           },
           backgroundColor: neutral[100],
           '.MuiTableCell-root': {
-            color: neutral[700]
+            color: neutral[700],
           },
-        }
-      }
-    }
+        },
+      },
+    },
   },
   palette: {
     action: {
@@ -374,7 +374,7 @@ export const themeOptions: ThemeOptions = {
       hover: 'rgba(55, 65, 81, 0.04)',
       selected: 'rgba(55, 65, 81, 0.08)',
       disabledBackground: 'rgba(55, 65, 81, 0.12)',
-      disabled: 'rgba(55, 65, 81, 0.26)'
+      disabled: 'rgba(55, 65, 81, 0.26)',
     },
     background,
     divider,
@@ -385,7 +385,7 @@ export const themeOptions: ThemeOptions = {
     secondary,
     success,
     text,
-    warning
+    warning,
   },
   shadows: [
     'none',
@@ -412,81 +412,82 @@ export const themeOptions: ThemeOptions = {
     '0px 25px 50px rgba(100, 116, 139, 0.25)',
     '0px 25px 50px rgba(100, 116, 139, 0.25)',
     '0px 25px 50px rgba(100, 116, 139, 0.25)',
-    '0px 25px 50px rgba(100, 116, 139, 0.25)'
+    '0px 25px 50px rgba(100, 116, 139, 0.25)',
   ],
   shape: {
-    borderRadius: 8
+    borderRadius: 8,
   },
   typography: {
     button: {
-      fontWeight: 600
+      fontWeight: 600,
     },
-    fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
+    fontFamily:
+      '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
     body1: {
       fontSize: '1rem',
       fontWeight: 400,
-      lineHeight: 1.5
+      lineHeight: 1.5,
     },
     body2: {
       fontSize: '0.875rem',
       fontWeight: 400,
-      lineHeight: 1.57
+      lineHeight: 1.57,
     },
     subtitle1: {
       fontSize: '1rem',
       fontWeight: 500,
-      lineHeight: 1.75
+      lineHeight: 1.75,
     },
     subtitle2: {
       fontSize: '0.875rem',
       fontWeight: 500,
-      lineHeight: 1.57
+      lineHeight: 1.57,
     },
     overline: {
       fontSize: '0.75rem',
       fontWeight: 600,
       letterSpacing: '0.5px',
       lineHeight: 2.5,
-      textTransform: 'uppercase'
+      textTransform: 'uppercase',
     },
     caption: {
       fontSize: '0.75rem',
       fontWeight: 400,
-      lineHeight: 1.66
+      lineHeight: 1.66,
     },
     h1: {
       fontWeight: 700,
       fontSize: '3.5rem',
-      lineHeight: 1.375
+      lineHeight: 1.375,
     },
     h2: {
       fontWeight: 700,
       fontSize: '3rem',
-      lineHeight: 1.375
+      lineHeight: 1.375,
     },
     h3: {
       fontWeight: 700,
       fontSize: '2.25rem',
-      lineHeight: 1.375
+      lineHeight: 1.375,
     },
     h4: {
       fontWeight: 700,
       fontSize: '2rem',
-      lineHeight: 1.375
+      lineHeight: 1.375,
     },
     h5: {
       fontWeight: 600,
       fontSize: '1.5rem',
-      lineHeight: 1.375
+      lineHeight: 1.375,
     },
     h6: {
       fontWeight: 600,
       fontSize: '1.125rem',
-      lineHeight: 1.375
-    }
+      lineHeight: 1.375,
+    },
   },
   zIndex: {
     appBar: 1200,
-    drawer: 1100
-  }
+    drawer: 1100,
+  },
 };

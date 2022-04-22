@@ -6,109 +6,79 @@ import { LogicalDeleteProps } from './commons';
 
 const apiUrl = process.env.NEXT_PUBLIC_AKNOTEBOOK_API_URL;
 
-export const fetchAsyncGetNotes = createAsyncThunk(
-  'notes/get',
-  async () => {
-    const res = await axios.get(
-      `${apiUrl}api/note/`,
-      {
-        headers: {
-            'Authorization': `JWT ${localStorage.accessToken}`,
-        },
-      }
-    );
-    return res.data.results;
-  }
-);
+export const fetchAsyncGetNotes = createAsyncThunk('notes/get', async () => {
+  const res = await axios.get(`${apiUrl}api/note/`, {
+    headers: {
+      Authorization: `JWT ${localStorage.accessToken}`,
+    },
+  });
+  return res.data.results;
+});
 
-export const fetchAsyncGetSelectNote = createAsyncThunk(
-  'note/get',
-  async (noteId: string) => {
-    const res = await axios.get(
-      `${apiUrl}api/note/${noteId}/`,
-      {
-        headers: {
-            'Authorization': `JWT ${localStorage.accessToken}`,
-        },
-      }
-    );
-    return res.data.results;
-  }
-);
+export const fetchAsyncGetSelectNote = createAsyncThunk('note/get', async (noteId: string) => {
+  const res = await axios.get(`${apiUrl}api/note/${noteId}/`, {
+    headers: {
+      Authorization: `JWT ${localStorage.accessToken}`,
+    },
+  });
+  return res.data.results;
+});
 
-export const fetchAsyncCreateNote = createAsyncThunk(
-  'note/post',
-  async (note: NewNoteProps) => {
-    const res = await axios.post(
-      `${apiUrl}api/note/`,
-      note,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `JWT ${localStorage.accessToken}`,
-        },
-      }
-    );
-    return res.data;
-  }
-);
+export const fetchAsyncCreateNote = createAsyncThunk('note/post', async (note: NewNoteProps) => {
+  const res = await axios.post(`${apiUrl}api/note/`, note, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.accessToken}`,
+    },
+  });
+  return res.data;
+});
 
-export const fetchAsyncPatchNote = createAsyncThunk(
-  'note/patch',
-  async (note: UpdateNoteProps) => {
-    const updateData: NewNoteProps = {
-      noteName: note.noteName,
-      noteColor: note.noteColor
-    }
-    const res = await axios.patch(
-      `${apiUrl}api/note/${note.noteId}/`,
-      updateData,
-      {
-        headers:{
-          'Content-Type': 'application/json',
-          'Authorization': `JWT ${localStorage.accessToken}`,
-        },
-      }
-    );
-    return res.data;
-  }
-);
+export const fetchAsyncPatchNote = createAsyncThunk('note/patch', async (note: UpdateNoteProps) => {
+  const updateData: NewNoteProps = {
+    noteName: note.noteName,
+    noteColor: note.noteColor,
+  };
+  const res = await axios.patch(`${apiUrl}api/note/${note.noteId}/`, updateData, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${localStorage.accessToken}`,
+    },
+  });
+  return res.data;
+});
 
 export const fetchAsyncLogicalDeleteNote = createAsyncThunk(
   'note/delete',
   async (noteId: string) => {
     const updateData: LogicalDeleteProps = {
-      isActive: false
-    }
-    const res = await axios.patch(
-      `${apiUrl}api/note/${noteId}/`,
-      updateData,
-      {
-        headers:{
-          'Content-Type': 'application/json',
-          'Authorization': `JWT ${localStorage.accessToken}`,
-        },
-      }
-    );
+      isActive: false,
+    };
+    const res = await axios.patch(`${apiUrl}api/note/${noteId}/`, updateData, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `JWT ${localStorage.accessToken}`,
+      },
+    });
     return res.data;
-  }
+  },
 );
 
 const initialState: NoteState = {
-    isMemoSidebarOpen: true,
-    editNote: {
-      noteName: "",
-      noteColor: "#9CA3AF"
-    },
-    selectNote: {
-      noteId: "",
-      noteName: "",
-      noteColor: "#9CA3AF",
-      user: "",
-      createdAt: "",
-      updatedAt: "",  
-    },
-    noteOptions: []
+  isMemoSidebarOpen: true,
+  editNote: {
+    noteName: '',
+    noteColor: '#9CA3AF',
+  },
+  selectNote: {
+    noteId: '',
+    noteName: '',
+    noteColor: '#9CA3AF',
+    user: '',
+    createdAt: '',
+    updatedAt: '',
+  },
+  noteOptions: [],
 };
 
 export const noteSlice = createSlice({
@@ -122,64 +92,49 @@ export const noteSlice = createSlice({
       state.isMemoSidebarOpen = false;
     },
     changeSelectNote(state, action) {
-      state.selectNote = action.payload
+      state.selectNote = action.payload;
     },
     changeEditNote(state, action) {
-      state.editNote = {...state.editNote, ...action.payload}
+      state.editNote = { ...state.editNote, ...action.payload };
     },
     resetEditNote(state) {
       state.editNote = initialState.editNote;
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(
-      fetchAsyncGetNotes.fulfilled,
-      (state, action) => {
-          state.noteOptions = action.payload;
+    builder.addCase(fetchAsyncGetNotes.fulfilled, (state, action) => {
+      state.noteOptions = action.payload;
+    });
+    builder.addCase(fetchAsyncCreateNote.fulfilled, (state, action) => {
+      return {
+        ...state,
+        noteOptions: [...state.noteOptions, action.payload],
+        selectNote: action.payload,
+      };
+    });
+    builder.addCase(fetchAsyncGetSelectNote.fulfilled, (state, action) => {
+      state.selectNote = action.payload;
+    });
+    builder.addCase(fetchAsyncPatchNote.fulfilled, (state, action) => {
+      if (state.selectNote.noteId === action.payload.noteId) {
+        state.selectNote = action.payload;
       }
-    );
-    builder.addCase(
-      fetchAsyncCreateNote.fulfilled,
-      (state, action) => {
-        return {
-          ...state,
-          noteOptions: [...state.noteOptions, action.payload],
-          selectNote: action.payload,
-        };
-      }
-    );
-    builder.addCase(
-      fetchAsyncGetSelectNote.fulfilled,
-      (state, action) => {
-        state.selectNote = action.payload
-      }
+      state.noteOptions = state.noteOptions.map((note) =>
+        note.noteId === action.payload.noteId ? action.payload : note,
       );
-    builder.addCase(
-      fetchAsyncPatchNote.fulfilled,
-      (state, action) => {
-        if (state.selectNote.noteId === action.payload.noteId) {
-          state.selectNote = action.payload
-        }
-        state.noteOptions = state.noteOptions.map((note) => 
-        note.noteId === action.payload.noteId ? action.payload : note
-        )
+    });
+    builder.addCase(fetchAsyncLogicalDeleteNote.fulfilled, (state, action) => {
+      if (state.selectNote.noteId === action.payload.noteId) {
+        state.selectNote = initialState.selectNote;
       }
-    );
-    builder.addCase(
-      fetchAsyncLogicalDeleteNote.fulfilled,
-      (state, action) => {
-        if (state.selectNote.noteId === action.payload.noteId) {
-          state.selectNote = initialState.selectNote;
-        } 
-        state.noteOptions = state.noteOptions.filter((note) => {
-          return note.noteId !== action.payload.noteId
-        })
-      }
-    );
+      state.noteOptions = state.noteOptions.filter((note) => {
+        return note.noteId !== action.payload.noteId;
+      });
+    });
   },
 });
 
-export const { 
+export const {
   openMemoSidebar,
   closeMemoSidebar,
   changeEditNote,

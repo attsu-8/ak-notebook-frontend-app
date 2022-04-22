@@ -1,235 +1,219 @@
-import { useState, VFC } from "react";
+import { useState, VFC } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useMounted } from "../../hooks/use-mounted";
-import { fetchAsyncLogin, fetchAsyncGetMyProf, setIsAuthenticated, resetIsInitialized, setIsInitialized, fetchAsyncRegister, fetchAsyncCreateProf, fetchAsyncCreateInitialUserData } from "../../slices/authentication/authSlice";
-import { useDispatch } from "react-redux";
-import { useRouter } from "next/router";
-import { TextField, Box, FormHelperText, Button, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Divider, Typography} from "@mui/material";
+import { useMounted } from '../../hooks/use-mounted';
+import {
+  fetchAsyncLogin,
+  fetchAsyncGetMyProf,
+  setIsAuthenticated,
+  resetIsInitialized,
+  setIsInitialized,
+  fetchAsyncRegister,
+  fetchAsyncCreateProf,
+  fetchAsyncCreateInitialUserData,
+} from '../../slices/authentication/authSlice';
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
+import {
+  TextField,
+  Box,
+  FormHelperText,
+  Button,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  InputAdornment,
+  IconButton,
+  Divider,
+  Typography,
+} from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { initializeStoreData } from "../../utils/load/initializeStoreData";
-import { AuthProps } from "../../types/auth";
+import { initializeStoreData } from '../../utils/load/initializeStoreData';
+import { AuthProps } from '../../types/auth';
 
 export const JWTLogin: VFC = (props) => {
-    const isMounted = useMounted();
-    const dispatch = useDispatch();
-    const router = useRouter();
-    const [showPassword, setShowPassword] = useState(false)
-    const theme = useTheme();
-    const [isDemoSubmitting, setIsDemoSubmitting] = useState(false);
+  const isMounted = useMounted();
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const theme = useTheme();
+  const [isDemoSubmitting, setIsDemoSubmitting] = useState(false);
 
-    const handleClickShowPassword = () => {
-        setShowPassword(!showPassword)
-    };
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
 
-    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-    };
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
 
-    const login = async (auth: AuthProps) => {
-        setIsDemoSubmitting(true)
-        const result: any = await dispatch(fetchAsyncLogin(auth));
-        if (fetchAsyncLogin.fulfilled.match(result)) {
-            await dispatch(resetIsInitialized());
-            await dispatch(fetchAsyncGetMyProf());
-            await dispatch(setIsAuthenticated());
-            await initializeStoreData(dispatch);
-        }
-        
-        if (isMounted()) {
-            const returnUrl = await (router.query.returnUrl as string) || '/';
-            await router.push(returnUrl);
-        }
-
-        await dispatch(setIsInitialized());
-
-        setIsDemoSubmitting(false)
-
+  const login = async (auth: AuthProps) => {
+    setIsDemoSubmitting(true);
+    const result: any = await dispatch(fetchAsyncLogin(auth));
+    if (fetchAsyncLogin.fulfilled.match(result)) {
+      await dispatch(resetIsInitialized());
+      await dispatch(fetchAsyncGetMyProf());
+      await dispatch(setIsAuthenticated());
+      await initializeStoreData(dispatch);
     }
 
-    const demoLogin = async () => {
+    if (isMounted()) {
+      const returnUrl = (await (router.query.returnUrl as string)) || '/';
+      await router.push(returnUrl);
+    }
+
+    await dispatch(setIsInitialized());
+
+    setIsDemoSubmitting(false);
+  };
+
+  const demoLogin = async () => {
+    const auth = {
+      userEmail: `ak-notebook.${Date.now()}@demo.com`,
+      password: 'password',
+    };
+
+    let profile = {
+      profileNickname: 'デモユーザー',
+    };
+
+    const result: any = await dispatch(fetchAsyncRegister(auth));
+    if (fetchAsyncRegister.fulfilled.match(result)) {
+      const loginResult: any = await dispatch(fetchAsyncLogin(auth));
+      if (fetchAsyncLogin.fulfilled.match(loginResult)) {
+        await dispatch(resetIsInitialized());
+        await dispatch(fetchAsyncCreateProf(profile));
+        await dispatch(fetchAsyncCreateInitialUserData());
+        await dispatch(setIsAuthenticated());
+      }
+    }
+
+    if (isMounted()) {
+      const returnUrl = (await (router.query.returnUrl as string)) || '/';
+      await router.push(returnUrl);
+    }
+
+    await initializeStoreData(dispatch);
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      userEmail: '',
+      password: '',
+      submit: null,
+    },
+    validationSchema: Yup.object({
+      userEmail: Yup.string()
+        .email('Eメールアドレスの形式で入力してください')
+        .max(255)
+        .required('Eメールアドレスは必須です'),
+      password: Yup.string().max(255).required('パスワードは必須です'),
+    }),
+    onSubmit: async (values, helpers): Promise<void> => {
+      try {
         const auth = {
-            userEmail: `ak-notebook.${Date.now()}@demo.com`,
-            password: "password",
-        }
+          userEmail: values.userEmail,
+          password: values.password,
+        };
+        await login(auth);
+      } catch (err) {
+        console.error(err);
 
-        let profile = {
-            profileNickname: "デモユーザー"
-        }
-
-        const result: any = await dispatch(fetchAsyncRegister(auth));
-        if (fetchAsyncRegister.fulfilled.match(result)) {
-
-            const loginResult: any = await dispatch(fetchAsyncLogin(auth));
-            if (fetchAsyncLogin.fulfilled.match(loginResult)){
-                await dispatch(resetIsInitialized());
-                await dispatch(fetchAsyncCreateProf(profile));
-                await dispatch(fetchAsyncCreateInitialUserData());
-                await dispatch(setIsAuthenticated());
-            }
-        }
-        
         if (isMounted()) {
-            const returnUrl = await (router.query.returnUrl as string) || '/';
-            await router.push(returnUrl);
+          helpers.setStatus({ success: false });
+          helpers.setErrors({ submit: err.message });
+          helpers.setSubmitting(false);
         }
-        
-        await initializeStoreData(dispatch)
+      }
+    },
+  });
 
-    }
-    
-    const formik = useFormik({
-        initialValues: {
-            userEmail: '',
-            password: '',
-            submit: null
-        },
-        validationSchema: Yup.object({
-            userEmail: Yup
-                .string()
-                .email('Eメールアドレスの形式で入力してください')
-                .max(255)
-                .required('Eメールアドレスは必須です'),
-            password: Yup
-                .string()
-                .max(255)
-                .required('パスワードは必須です')
-        }),
-        onSubmit: async (values, helpers): Promise<void> => {
-            try {
-                const auth = {
-                    userEmail: values.userEmail,
-                    password: values.password,
-                }
-                await login(auth)
-            } catch (err) {
-                console.error(err);
+  return (
+    <form noValidate onSubmit={formik.handleSubmit} {...props}>
+      <TextField
+        error={Boolean(formik.touched.userEmail && formik.errors.userEmail)}
+        fullWidth
+        helperText={formik.touched.userEmail && formik.errors.userEmail}
+        label='Eメールアドレス'
+        margin='normal'
+        name='userEmail'
+        onBlur={formik.handleBlur}
+        onChange={formik.handleChange}
+        type='email'
+        value={formik.values.userEmail}
+      />
 
-                if (isMounted()) {
-                    helpers.setStatus({ success: false });
-                    helpers.setErrors({ submit: err.message });
-                    helpers.setSubmitting(false);
-                }
-            }
-        }
-    });
+      <FormControl sx={{ mt: 1 }} fullWidth variant='outlined'>
+        <InputLabel htmlFor='outlined-adornment-password'>パスワード</InputLabel>
+        <OutlinedInput
+          id='outlined-adornment-password'
+          type={showPassword ? 'text' : 'password'}
+          name='password'
+          error={Boolean(formik.touched.password && formik.errors.password)}
+          endAdornment={
+            <InputAdornment position='end'>
+              <IconButton
+                aria-label='toggle password visibility'
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge='end'
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          }
+          label='Password'
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+          value={formik.values.password}
+        />
+        {formik.touched.password && formik.errors.password && (
+          <FormHelperText error>{formik.errors.password}</FormHelperText>
+        )}
+      </FormControl>
 
-    return (
-        <form
-            noValidate
-            onSubmit={formik.handleSubmit}
-            {...props}
+      {formik.errors.submit && (
+        <Box sx={{ mt: 3 }}>
+          <FormHelperText error>{formik.errors.submit}</FormHelperText>
+        </Box>
+      )}
+      <Box sx={{ mt: 2 }}>
+        <Button
+          disabled={formik.isSubmitting}
+          fullWidth
+          size='large'
+          type='submit'
+          variant='contained'
         >
-            <TextField
-                error={Boolean(
-                    formik.touched.userEmail
-                    && formik.errors.userEmail
-                )}
-                fullWidth
-                helperText={
-                    formik.touched.userEmail
-                    && formik.errors.userEmail}
-                label="Eメールアドレス"
-                margin="normal"
-                name="userEmail"
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                type="email"
-                value={formik.values.userEmail}
-            />
+          ログイン
+        </Button>
+      </Box>
 
-            <FormControl 
-                sx={{ mt: 1}} 
-                fullWidth
-                variant="outlined"
-            >
-                <InputLabel 
-                    htmlFor="outlined-adornment-password"
-                >
-                    パスワード
-                </InputLabel>
-                <OutlinedInput
-                    id="outlined-adornment-password"
-                    type={showPassword ? 'text' : 'password'}
-                    name="password"
-                    error={Boolean(
-                        formik.touched.password
-                        && formik.errors.password
-                    )}
-                    endAdornment={
-                        <InputAdornment position="end">
-                            <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                            >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                            </IconButton>
-                        </InputAdornment>
-                    }
-                    label="Password"
-                    onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
-                    value={formik.values.password}
-    
-                />
-                {formik.touched.password && formik.errors.password && (
-                    <FormHelperText error>
-                        {formik.errors.password}
-                    </FormHelperText>
-                )}
-            </FormControl>
+      <Divider sx={{ my: 3 }} />
 
-            {formik.errors.submit && (
-                <Box sx={{mt: 3}}>
-                    <FormHelperText error>
-                        {formik.errors.submit}
-                    </FormHelperText>
-                </Box>
-            )}
-            <Box sx={{ mt:2}}>
-                <Button
-                    disabled={formik.isSubmitting}
-                    fullWidth
-                    size="large"
-                    type="submit"
-                    variant="contained"
-                >
-                    ログイン
-                </Button>
-            </Box>
+      <Box sx={{ mt: 2 }}>
+        <Typography color='textSecondary' sx={{ mb: 1 }} variant='body2' align='center'>
+          ↓ゲストとしてログインする場合はこちら↓
+        </Typography>
 
-            <Divider sx={{ my: 3 }} />
-
-            <Box sx={{ mt:2}}>
-                <Typography
-                    color="textSecondary"
-                    sx={{ mb: 1 }}
-                    variant="body2"
-                    align="center"
-                >
-                    ↓ゲストとしてログインする場合はこちら↓
-                </Typography>
-
-                <Button
-                    disabled={isDemoSubmitting}
-                    onClick={() => demoLogin()}
-                    fullWidth
-                    size="large"
-                    variant="contained"
-                    sx={{
-                        backgroundColor: theme.palette.secondary.dark,
-                        '&:hover': {
-                            backgroundColor: theme.palette.secondary.main
-                          },
-                    }}
-                >
-                    ゲストログイン
-                </Button>
-            </Box>
-        </form>
-    );
+        <Button
+          disabled={isDemoSubmitting}
+          onClick={() => demoLogin()}
+          fullWidth
+          size='large'
+          variant='contained'
+          sx={{
+            backgroundColor: theme.palette.secondary.dark,
+            '&:hover': {
+              backgroundColor: theme.palette.secondary.main,
+            },
+          }}
+        >
+          ゲストログイン
+        </Button>
+      </Box>
+    </form>
+  );
 };

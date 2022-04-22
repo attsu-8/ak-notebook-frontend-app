@@ -31,7 +31,7 @@ FROM node:16.13.1-alpine as production
 
 ENV NODE_ENV=production
 
-WORKDIR /root/src/app
+WORKDIR /root/src
 
 RUN apk add bash
 

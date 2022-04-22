@@ -16,7 +16,7 @@ export const SplashScreen: FC = () => (
       position: 'fixed',
       top: 0,
       width: '100%',
-      zIndex: 2000
+      zIndex: 2000,
     }}
   >
     <Logo
@@ -28,7 +28,7 @@ export const SplashScreen: FC = () => (
     <Box
       sx={{
         mt: 5,
-        width: "25%"
+        width: '25%',
       }}
     >
       <LinearProgress />
