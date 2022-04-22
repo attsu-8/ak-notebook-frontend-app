@@ -103,9 +103,10 @@ export const NoteListDialog: VFC<NoteListDialogProps> = (props) => {
             bgcolor: 'Background.paper',
           }}
         >
-          {noteOptions.map((note) => {
+          {noteOptions.map((note, index) => {
             return (
               <Box
+                key={index} //ESLINTのエラーを回避するためにkeyを定義
                 sx={{
                   width: '100%',
                   overflowWrap: 'break-word',

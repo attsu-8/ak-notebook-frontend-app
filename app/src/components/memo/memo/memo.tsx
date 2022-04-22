@@ -218,8 +218,9 @@ export const MemoMain: VFC = () => {
                   }
                 >
                   <>
-                    {memoOptions.map((memoOption) => (
+                    {memoOptions.map((memoOption, index) => (
                       <MemoCard
+                        key={index} //ESLINTのエラーを回避するためにkeyを定義
                         memo={memoOption}
                         onClickDeletePropertyButton={setIsDeleteMemoOpen}
                       />

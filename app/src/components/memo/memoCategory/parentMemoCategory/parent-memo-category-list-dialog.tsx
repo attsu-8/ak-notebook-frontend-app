@@ -111,9 +111,10 @@ export const ParentMemoCategoryListDialog: VFC<ParentMemoCategoryListDialogProps
             bgcolor: 'Background.paper',
           }}
         >
-          {parentMemoCategoryOptions.map((option) => {
+          {parentMemoCategoryOptions.map((option, index) => {
             return (
               <Box
+                key={index}
                 sx={{
                   width: '100%',
                   overflowWrap: 'break-word',

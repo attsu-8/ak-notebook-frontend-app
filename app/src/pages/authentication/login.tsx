@@ -64,7 +64,7 @@ const Login: NextPage = () => {
                 justifyContent: 'flex-end',
               }}
             >
-              <NextLink href={'/authentication/register'}>
+              <NextLink href={'/authentication/register'} passHref>
                 <Link
                   color='textSecondary'
                   variant='body1'

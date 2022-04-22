@@ -52,8 +52,9 @@ export const NoteSelect: VFC = () => {
           }}
           renderValue={(selected) => selected.noteName}
         >
-          {noteOptions.map((option) => (
-            <MenuItem value={option}>
+          {noteOptions.map((option, index) => (
+            //ESLINTのエラーを回避するためにkeyを定義
+            <MenuItem key={index} value={option}>
               <BookIcon
                 sx={{
                   color: option.noteColor,

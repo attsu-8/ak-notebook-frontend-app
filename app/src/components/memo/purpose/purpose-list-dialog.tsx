@@ -87,9 +87,11 @@ export const PurposeListDialog: VFC<PurposeListDialogProps> = (props) => {
         }
       >
         <List sx={{ bgcolor: 'Background.paper' }}>
-          {purposeOptions.map((purpose) => {
+          {purposeOptions.map((purpose, index) => {
             return (
+              //ESLINTのエラーを回避するためにkeyを定義
               <MemoDialogListItem
+                key={index}
                 listItemIcon={
                   <MemoEmojiIcon
                     emojiId={purpose.purposeIcon}

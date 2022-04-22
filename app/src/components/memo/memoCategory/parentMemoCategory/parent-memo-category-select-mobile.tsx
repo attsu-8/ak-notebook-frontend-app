@@ -39,8 +39,9 @@ export const ParentMemoCategorySelectMobile: VFC = () => {
         onChange={(event) => onChangeListItem(event.target.value)}
         renderValue={(selected) => selected.memoCategoryName}
       >
-        {parentMemoCategoryOptions.map((option) => (
-          <MenuItem value={option}>
+        {parentMemoCategoryOptions.map((option, index) => (
+          //ESLINTのエラーを回避するためにkeyを定義
+          <MenuItem key={index} value={option}>
             <Box
               sx={{
                 display: 'flex',

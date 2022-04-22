@@ -24,8 +24,9 @@ export const MemoCategoryList: VFC<MemoCategoryListProps> = (props) => {
 
   return (
     <List>
-      {memoCategoryOptions.map((memoCategoryOption) => (
+      {memoCategoryOptions.map((memoCategoryOption, index) => (
         <ListItem
+          key={index} //ESLINTのエラーを回避するためにkeyを定義
           disableGutters
           disablePadding
           sx={{

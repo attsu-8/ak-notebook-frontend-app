@@ -117,9 +117,11 @@ export const ChildMemoCategoryListDialog: VFC<ChildMemoCategoryListDialogProps> 
             bgcolor: 'Background.paper',
           }}
         >
-          {childMemoCategoryOptions.map((option) => {
+          {childMemoCategoryOptions.map((option, index) => {
             return (
+              //ESLINTのエラーを回避するためにkeyを定義
               <Box
+                key={index}
                 sx={{
                   width: '100%',
                   overflowWrap: 'break-word',

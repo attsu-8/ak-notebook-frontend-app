@@ -70,7 +70,7 @@ const Login: NextPage = () => {
                 justifyContent: 'flex-end',
               }}
             >
-              <NextLink href={'/authentication/login'}>
+              <NextLink href={'/authentication/login'} passHref>
                 <Link
                   color='textSecondary'
                   variant='body1'

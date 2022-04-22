@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { ReactNode, useEffect, useMemo, useState, VFC } from 'react';
 import { Box } from '@mui/system';
 import NextLink from 'next/link';
-import { Scrollbar } from '../commons/scrollbar';
 import { TFunction, useTranslation } from 'react-i18next';
 import { Logo } from '../logo';
 import HomeIcon from '@mui/icons-material/Home';
@@ -125,79 +124,70 @@ export const MainSidebar: VFC<MainSidebarProps> = (props) => {
   }
   const content = (
     <>
-      <Scrollbar
+      <Box
         sx={{
+          display: 'flex',
+          flexDirection: 'column',
           height: '100%',
-          '& .simplebar-content': {
-            height: '100%',
-          },
         }}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            height: '100%',
-          }}
-        >
-          <div>
-            <Box
-              sx={{
-                px: 2,
-                py: 1,
-                height: 64,
-              }}
-            >
-              <NextLink href='/' passHref>
-                <Box
+        <div>
+          <Box
+            sx={{
+              px: 2,
+              py: 1,
+              height: 64,
+            }}
+          >
+            <NextLink href='/' passHref>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  cursor: 'pointer',
+                  height: '100%',
+                }}
+              >
+                <Logo
                   sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    cursor: 'pointer',
-                    height: '100%',
+                    height: 36,
+                    width: 36,
+                  }}
+                />
+                <Typography
+                  variant='h5'
+                  sx={{
+                    ml: 0.5,
+                    color: 'neutral.300',
                   }}
                 >
-                  <Logo
-                    sx={{
-                      height: 36,
-                      width: 36,
-                    }}
-                  />
-                  <Typography
-                    variant='h5'
-                    sx={{
-                      ml: 0.5,
-                      color: 'neutral.300',
-                    }}
-                  >
-                    ak-notebook
-                  </Typography>
-                </Box>
-              </NextLink>
-            </Box>
-          </div>
-          <Divider
-            sx={{
-              borderColor: '#2D3748',
-            }}
-          />
-          <Box sx={{ flexGrow: 1 }}>
-            {sections.map((section) => (
-              <MainSidebarSection
-                key={section.title}
-                path={router.asPath}
-                sx={{
-                  mt: 2,
-                  '& + &': {
-                    mt: 2,
-                  },
-                }}
-                {...section}
-              />
-            ))}
+                  ak-notebook
+                </Typography>
+              </Box>
+            </NextLink>
           </Box>
+        </div>
+        <Divider
+          sx={{
+            borderColor: '#2D3748',
+          }}
+        />
+        <Box sx={{ flexGrow: 1 }}>
+          {sections.map((section) => (
+            <MainSidebarSection
+              key={section.title}
+              path={router.asPath}
+              sx={{
+                mt: 2,
+                '& + &': {
+                  mt: 2,
+                },
+              }}
+              {...section}
+            />
+          ))}
         </Box>
-      </Scrollbar>
+      </Box>
     </>
   );
 
