@@ -19,6 +19,8 @@ import {
   selectUser,
 } from '../../slices/authentication/authSlice';
 import { debounce } from '../../utils/debounce';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 interface MemoDialogProps {
   isOpen: boolean;
@@ -60,8 +62,28 @@ export const AccountProfileEditorDialog: VFC<MemoDialogProps> = (props) => {
       },
       profileNicknameTimerId,
       setProfileNicknameTimerId,
-      1000,
+      2000,
     )();
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      profileNickname: userProfile.profileNickname,
+      submit: null,
+    },
+    validationSchema: Yup.object({
+      profileNickname: Yup.string()
+        .max(30, 'ニックネームは30文字以内で入力してください')
+        .required('ニックネームを入力してください'),
+    }),
+    onSubmit: async (values, helpers): Promise<void> => {
+      await updateProfileNickname(values.profileNickname);
+    },
+  });
+
+  const handleNicknameChange = async (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    await formik.handleChange(event);
+    await formik.handleSubmit();
   };
 
   return (
@@ -138,12 +160,16 @@ export const AccountProfileEditorDialog: VFC<MemoDialogProps> = (props) => {
           </Box>
 
           <TextField
+            error={Boolean(formik.touched.profileNickname && formik.errors.profileNickname)}
             fullWidth
+            helperText={formik.touched.profileNickname && formik.errors.profileNickname}
             label='ニックネーム'
             placeholder='nickname'
+            name='profileNickname'
+            onBlur={formik.handleBlur}
+            onChange={(event) => handleNicknameChange(event)}
             type='text'
-            value={nickName}
-            onChange={(e) => updateProfileNickname(e.target.value)}
+            value={formik.values.profileNickname}
           />
         </Box>
       </Box>
