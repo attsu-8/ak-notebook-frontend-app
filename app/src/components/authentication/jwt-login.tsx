@@ -57,6 +57,8 @@ export const JWTLogin: VFC = (props) => {
       await dispatch(fetchAsyncGetMyProf());
       await dispatch(setIsAuthenticated());
       await initializeStoreData(dispatch);
+    } else {
+      throw 'Eメールアドレスまたはパスワードが正しくありません';
     }
 
     if (isMounted()) {
@@ -119,11 +121,10 @@ export const JWTLogin: VFC = (props) => {
         };
         await login(auth);
       } catch (err) {
-        console.error(err);
-
+        setIsDemoSubmitting(false);
         if (isMounted()) {
           helpers.setStatus({ success: false });
-          helpers.setErrors({ submit: err.message });
+          helpers.setErrors({ submit: err });
           helpers.setSubmitting(false);
         }
       }

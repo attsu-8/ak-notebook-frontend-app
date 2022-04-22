@@ -82,6 +82,9 @@ export const JWTRegister: VFC = (props) => {
             await dispatch(fetchAsyncCreateInitialUserData());
             await dispatch(setIsAuthenticated());
           }
+        } else {
+          console.log(result);
+          throw 'このEメールアドレスは使用済みです';
         }
 
         if (isMounted()) {
@@ -91,11 +94,9 @@ export const JWTRegister: VFC = (props) => {
 
         await initializeStoreData(dispatch);
       } catch (err) {
-        console.error(err);
-
         if (isMounted()) {
           helpers.setStatus({ success: false });
-          helpers.setErrors({ submit: err.message });
+          helpers.setErrors({ submit: err });
           helpers.setSubmitting(false);
         }
       }
