@@ -1,4 +1,4 @@
-import type { File } from "./file";
+import type { File } from './file';
 
 export interface User {
   profileId: String;

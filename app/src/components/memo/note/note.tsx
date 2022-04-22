@@ -1,58 +1,46 @@
-import { VFC, useState } from "react";
-import { Box, Button } from "@mui/material";
-import { NoteSelect } from "./note-select";
-import { useSelector } from "react-redux";
-import { selectSelectNote } from "../../../slices/memo/noteSlice";
-import { NoteListDialog } from "./note-list-dialog";
-import { MemoNoteIcon } from "../commons/icon/memo-note-icon";
+import { VFC, useState } from 'react';
+import { Box, Button } from '@mui/material';
+import { NoteSelect } from './note-select';
+import { useSelector } from 'react-redux';
+import { selectSelectNote } from '../../../slices/memo/noteSlice';
+import { NoteListDialog } from './note-list-dialog';
+import { MemoNoteIcon } from '../commons/icon/memo-note-icon';
 
-export const Note:VFC = () => {
-    const selectNote = useSelector(selectSelectNote);
-    const [isOpenMemoListDialog, setIsOpenMemoListDialog] = useState<boolean>(false);
+export const Note: VFC = () => {
+  const selectNote = useSelector(selectSelectNote);
+  const [isOpenMemoListDialog, setIsOpenMemoListDialog] = useState<boolean>(false);
 
-    return (
-        <>
-            <Box
-                sx={{
-                    height: 64,
-                    display: 'flex',
-                    alignItems: 'center',
-                    width: "100%",
-                    ml:1,
-                    py: 3
-                }}
-            >
+  return (
+    <>
+      <Box
+        sx={{
+          height: 64,
+          display: 'flex',
+          alignItems: 'center',
+          width: '100%',
+          ml: 1,
+          py: 3,
+        }}
+      >
+        <MemoNoteIcon fontSize='large' iconColor={selectNote.noteColor} />
 
-                <MemoNoteIcon
-                    fontSize="large"
-                    iconColor={selectNote.noteColor}
-                />
+        <Box sx={{ width: '70%' }}>
+          <NoteSelect />
+        </Box>
 
-                <Box sx={{width:"70%"}}>
-                    <NoteSelect />
-                </Box>
-                
-                <Box
-                    sx={{
-                        mx: "auto",
-                        pr: 1,
-                    }}
-                >
-                    <Button
-                        onClick={() => setIsOpenMemoListDialog(true)}
-                        variant="contained"
-                    >
-                        ノート編集
-                    </Button>
-                </Box>
+        <Box
+          sx={{
+            mx: 'auto',
+            pr: 1,
+          }}
+        >
+          <Button onClick={() => setIsOpenMemoListDialog(true)} variant='contained'>
+            ノート編集
+          </Button>
+        </Box>
+      </Box>
 
-            </Box>
-
-            <NoteListDialog
-                isOpen={isOpenMemoListDialog}
-                onClose={setIsOpenMemoListDialog}
-            />
-            
-        </>
-    )
-}
+      <NoteListDialog isOpen={isOpenMemoListDialog} onClose={setIsOpenMemoListDialog} />
+    </>
+  );
+};

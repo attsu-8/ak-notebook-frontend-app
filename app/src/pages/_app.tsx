@@ -1,7 +1,6 @@
-
-import { Provider as ReduxProvider } from 'react-redux'
+import { Provider as ReduxProvider } from 'react-redux';
 import store from '../store/store';
-import type { VFC,ReactNode } from 'react';
+import type { VFC, ReactNode } from 'react';
 import type { AppProps } from 'next/app';
 import { NextPage } from 'next';
 import Router from 'next/router';
@@ -14,14 +13,13 @@ import ja from 'date-fns/locale/ja';
 import { ThemeProvider } from '../components/themeProvider';
 import { Splash } from '../components/splash';
 
-
 type Page<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactNode) => ReactNode;
 };
 
 type EnhancedAppProps = AppProps & {
   Component: Page;
-}
+};
 
 Router.events.on('routeChangeStart', nProgress.start);
 Router.events.on('routeChangeError', nProgress.done);
@@ -34,26 +32,19 @@ const App: VFC<EnhancedAppProps> = (props) => {
   return (
     <>
       <Head>
-        <title>
-          ak-notebook
-        </title>
-        <meta
-          name="viewport" 
-          content="initial-scale=1, width=device-width"
-        />
+        <title>ak-notebook</title>
+        <meta name='viewport' content='initial-scale=1, width=device-width' />
       </Head>
       <ReduxProvider store={store}>
         <LocalizationProvider dateAdapter={AdapterDateFns} locale={ja}>
           <ThemeProvider>
             <CssBaseline />
-              <Splash>
-                {getLayout(<Component {...pageProps} />)}
-              </Splash>
+            <Splash>{getLayout(<Component {...pageProps} />)}</Splash>
           </ThemeProvider>
         </LocalizationProvider>
       </ReduxProvider>
     </>
-  )
-} 
+  );
+};
 
 export default App;

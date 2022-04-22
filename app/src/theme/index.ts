@@ -25,9 +25,7 @@ declare module '@mui/material/styles' {
 }
 
 export const createTheme = (): Theme => {
-  const theme = createMuiTheme(
-    themeOptions,
-  );
+  const theme = createMuiTheme(themeOptions);
 
   return responsiveFontSizes(theme);
 };
