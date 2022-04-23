@@ -333,6 +333,36 @@ export const memoCategorySlice = createSlice({
           return childMemoCategory.memoCategoryId !== action.payload.memoCategoryId;
         });
     });
+    builder.addCase(fetchAsyncGetParentMemoCategories.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncGetParentMemoCategoriesFilter.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncGetChildMemoCategories.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncGetChildMemoCategoriesFilter.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncCreateParentMemoCategory.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncCreateChildMemoCategory.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncPatchParentMemoCategory.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncPatchChildMemoCategory.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncLogicalDeleteParentMemoCategory.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncLogicalDeleteChildMemoCategory.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
   },
 });
 

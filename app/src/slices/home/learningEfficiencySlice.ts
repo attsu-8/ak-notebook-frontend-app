@@ -245,6 +245,33 @@ export const learningEfficiencySlice = createSlice({
       builder.addCase(fetchAsyncGetSelectMemoLearningEfficiency.fulfilled, (state, action) => {
         state.selectMemo = action.payload[0];
       });
+    builder.addCase(fetchAsyncGetTodayLearningEfficiency.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncGetThreeMonthAverageLearningEfficiency.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncGetEachNoteLearningEfficiency.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(
+      fetchAsyncGetEachParentMemoCategoryLearningEfficiency.rejected,
+      (state, error) => {
+        console.error(error.error.message);
+      },
+    );
+    builder.addCase(fetchAsyncGetEachMemoLearningEfficiency.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncGetSelectMemoLearningEfficiency.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncCreateLearningEfficiency.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncPatchLearningEfficiency.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
   },
 });
 

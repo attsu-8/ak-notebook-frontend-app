@@ -137,6 +137,21 @@ export const authSlice = createSlice({
     builder.addCase(fetchAsyncPatchProfileNickname.fulfilled, (state, action) => {
       state.user.profileNickname = action.meta.arg.profileNickname;
     });
+    builder.addCase(fetchAsyncCreateInitialUserData.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncCreateProf.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncPatchProfileNickname.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncGetMyProf.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncLogin.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
   },
 });
 

@@ -81,7 +81,16 @@ export const AccountPopover: VFC<AccountPopoverProps> = (props) => {
               ml: 1,
             }}
           >
-            <Typography variant='body1'>{user.profileNickname}</Typography>
+            <Typography
+              variant='body1'
+              sx={{
+                width: '100%',
+                overflowWrap: 'break-word',
+                wordWrap: 'break-word',
+              }}
+            >
+              {user.profileNickname}
+            </Typography>
           </Box>
         </Box>
         <Divider />
