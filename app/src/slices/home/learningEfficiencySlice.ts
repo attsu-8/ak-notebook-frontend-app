@@ -1,98 +1,89 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../store/store';
 import axios from 'axios';
-import { LearningEfficiencyPostData, LearningEfficiencyState } from '../../types/home/learningEfficiency';
+import {
+  LearningEfficiencyPostData,
+  LearningEfficiencyState,
+} from '../../types/home/learningEfficiency';
 
 const apiUrl = process.env.NEXT_PUBLIC_AKNOTEBOOK_API_URL;
 
 export const fetchAsyncGetTodayLearningEfficiency = createAsyncThunk(
   'todayLearningEfficiency/get',
   async () => {
-      const res = await axios.get(
-          `${apiUrl}api/dm/today-learning-efficiency-rate/`,
-          {
-              headers: {
-                  'Authorization': `JWT ${localStorage.accessToken}`,
-              },
-          }
-      );
-      return res.data.results;
-  }
+    const res = await axios.get(`${apiUrl}api/dm/today-learning-efficiency-rate/`, {
+      headers: {
+        Authorization: `JWT ${localStorage.accessToken}`,
+      },
+    });
+    return res.data.results;
+  },
 );
 
 export const fetchAsyncGetThreeMonthAverageLearningEfficiency = createAsyncThunk(
   'threeMonthAverageLearningEfficiency/get',
   async () => {
-      const res = await axios.get(
-          `${apiUrl}api/dm/three-month-ago-avg-learning-efficiency-rate/`,
-          {
-              headers: {
-                  'Authorization': `JWT ${localStorage.accessToken}`,
-              },
-          }
-      );
-      return res.data.results;
-  }
+    const res = await axios.get(`${apiUrl}api/dm/three-month-ago-avg-learning-efficiency-rate/`, {
+      headers: {
+        Authorization: `JWT ${localStorage.accessToken}`,
+      },
+    });
+    return res.data.results;
+  },
 );
 
 export const fetchAsyncGetEachNoteLearningEfficiency = createAsyncThunk(
   'eachNoteLearningEfficiency/get',
   async () => {
-      const res = await axios.get(
-          `${apiUrl}api/dm/each-note-learning-efficiency-rate/`,
-          {
-              headers: {
-                  'Authorization': `JWT ${localStorage.accessToken}`,
-              },
-          }
-      );
-      return res.data.results;
-  }
+    const res = await axios.get(`${apiUrl}api/dm/each-note-learning-efficiency-rate/`, {
+      headers: {
+        Authorization: `JWT ${localStorage.accessToken}`,
+      },
+    });
+    return res.data.results;
+  },
 );
 
 export const fetchAsyncGetEachParentMemoCategoryLearningEfficiency = createAsyncThunk(
   'eachParentMemoCategoryLearningEfficiency/get',
   async (noteId: string) => {
-      const res = await axios.get(
-          `${apiUrl}api/dm/each-parent-memo-category-learning-efficiency-rate/?note=${noteId}`,
-          {
-              headers: {
-                  'Authorization': `JWT ${localStorage.accessToken}`,
-              },
-          }
-      );
-      return res.data.results;
-  }
+    const res = await axios.get(
+      `${apiUrl}api/dm/each-parent-memo-category-learning-efficiency-rate/?note=${noteId}`,
+      {
+        headers: {
+          Authorization: `JWT ${localStorage.accessToken}`,
+        },
+      },
+    );
+    return res.data.results;
+  },
 );
 
 export const fetchAsyncGetEachMemoLearningEfficiency = createAsyncThunk(
   'eachMemoLearningEfficiency/get',
   async (parentMemoCategoryId: string) => {
-      const res = await axios.get(
-          `${apiUrl}api/dm/each-memo-learning-efficiency-rate/?parent_memo_category=${parentMemoCategoryId}`,
-          {
-              headers: {
-                  'Authorization': `JWT ${localStorage.accessToken}`,
-              },
-          }
-      );
-      return res.data.results;
-  }
+    const res = await axios.get(
+      `${apiUrl}api/dm/each-memo-learning-efficiency-rate/?parent_memo_category=${parentMemoCategoryId}`,
+      {
+        headers: {
+          Authorization: `JWT ${localStorage.accessToken}`,
+        },
+      },
+    );
+    return res.data.results;
+  },
 );
 
 export const fetchAsyncGetSelectMemoLearningEfficiency = createAsyncThunk(
   'selectMemoLearningEfficiency/get',
   async (memoId: string) => {
-      const res = await axios.get(
-          `${apiUrl}api/filter/memo/?memo_id=${memoId}`,
-          {
-              headers: {
-                  'Authorization': `JWT ${localStorage.accessToken}`,
-              },
-          }
-      );
-      return res.data.results;
-  }
+    const res = await axios.get(`${apiUrl}api/filter/memo/?memo_id=${memoId}`, {
+      headers: {
+        Authorization: `JWT ${localStorage.accessToken}`,
+      },
+    });
+    return res.data.results;
+  },
 );
 
 export const fetchAsyncCreateLearningEfficiency = createAsyncThunk(
@@ -104,37 +95,37 @@ export const fetchAsyncCreateLearningEfficiency = createAsyncThunk(
       {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `JWT ${localStorage.accessToken}`,
+          Authorization: `JWT ${localStorage.accessToken}`,
         },
-      }
+      },
     );
     return res.data;
-  }
+  },
 );
 
 export const fetchAsyncPatchLearningEfficiency = createAsyncThunk(
   'learningEfficiency/patch',
   async (learningEfficiencyId: string) => {
     const patchData = {
-      learningEfficiencyRate: 100
-    }
+      learningEfficiencyRate: 100,
+    };
     const res = await axios.patch(
       `${apiUrl}api/dm-learning-efficiency/${learningEfficiencyId}/`,
       patchData,
       {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `JWT ${localStorage.accessToken}`,
+          Authorization: `JWT ${localStorage.accessToken}`,
         },
-      }
+      },
     );
     return res.data;
-  }
+  },
 );
 
 const initialState: LearningEfficiencyState = {
   todayLearningEfficiency: {
-    aggregateDate: "",
+    aggregateDate: '',
     todayLearningEfficiencyRate: 0,
     yesterdayLearningEfficiencyRate: 0,
   },
@@ -157,14 +148,14 @@ const initialState: LearningEfficiencyState = {
     isFetchData: false,
   },
   selectMemo: null,
-  selectChildMemoCategoryName: "",
+  selectChildMemoCategoryName: '',
   selectPriority: {
     priority1: true,
     priority2: true,
     priority3: true,
     priority4: true,
-    priority5: true
-  }
+    priority5: true,
+  },
 };
 
 export const learningEfficiencySlice = createSlice({
@@ -175,13 +166,15 @@ export const learningEfficiencySlice = createSlice({
       state.eachNoteLearningEfficiency.selectData = action.payload;
     },
     resetSelectEachNoteLearningEfficiency(state) {
-      state.eachNoteLearningEfficiency.selectData = initialState.eachNoteLearningEfficiency.selectData;
+      state.eachNoteLearningEfficiency.selectData =
+        initialState.eachNoteLearningEfficiency.selectData;
     },
     setSelectEachParentMemoCategoryLearningEfficiency(state, action) {
       state.eachParentMemoCategoryLearningEfficiency.selectData = action.payload;
     },
     resetSelectEachParentMemoCategoryLearningEfficiency(state) {
-      state.eachParentMemoCategoryLearningEfficiency.selectData = initialState.eachParentMemoCategoryLearningEfficiency.selectData;
+      state.eachParentMemoCategoryLearningEfficiency.selectData =
+        initialState.eachParentMemoCategoryLearningEfficiency.selectData;
     },
     setIsFetchParentMemoCategoryData(state) {
       state.eachParentMemoCategoryLearningEfficiency.isFetchData = true;
@@ -193,7 +186,8 @@ export const learningEfficiencySlice = createSlice({
       state.eachMemoLearningEfficiency.selectData = action.payload;
     },
     resetSelectEachMemoLearningEfficiency(state) {
-      state.eachMemoLearningEfficiency.selectData = initialState.eachMemoLearningEfficiency.selectData;
+      state.eachMemoLearningEfficiency.selectData =
+        initialState.eachMemoLearningEfficiency.selectData;
     },
     setIsFetchMemoData(state) {
       state.eachMemoLearningEfficiency.isFetchData = true;
@@ -208,63 +202,80 @@ export const learningEfficiencySlice = createSlice({
       state.selectChildMemoCategoryName = action.payload;
     },
     changeSelectPriority(state, action) {
-      state.selectPriority = action.payload
-    }
+      state.selectPriority = action.payload;
+    },
   },
   extraReducers: (builder) => {
-    builder.addCase(
-      fetchAsyncGetTodayLearningEfficiency.fulfilled,
-      (state, action) => {
-        if (action.payload[0]){
-          state.todayLearningEfficiency.aggregateDate = action.payload[0].aggregateDate;
-          state.todayLearningEfficiency.todayLearningEfficiencyRate = action.payload[0].averageLearningEfficiencyRate;
-        }
-        if (action.payload[1]){
-          state.todayLearningEfficiency.yesterdayLearningEfficiencyRate = action.payload[1].averageLearningEfficiencyRate;
-        }
+    builder.addCase(fetchAsyncGetTodayLearningEfficiency.fulfilled, (state, action) => {
+      if (action.payload[0]) {
+        state.todayLearningEfficiency.aggregateDate = action.payload[0].aggregateDate;
+        state.todayLearningEfficiency.todayLearningEfficiencyRate =
+          action.payload[0].averageLearningEfficiencyRate;
       }
-    ),
-    builder.addCase(
-      fetchAsyncGetThreeMonthAverageLearningEfficiency.fulfilled,
-      (state,action) => {
-        action.payload.map((threeMonthAverageData) => {
-          threeMonthAverageData.aggregateUnit === 'today'
-            ?
-              state.threeMonthAverageLearningEfficiency.threeMonthAverageLearningEfficiencyRateToday = threeMonthAverageData.averageLearningEfficiencyRate
-            :
-              state.threeMonthAverageLearningEfficiency.threeMonthAverageLearningEfficiencyRateYesterday = threeMonthAverageData.averageLearningEfficiencyRate
-        })
+      if (action.payload[1]) {
+        state.todayLearningEfficiency.yesterdayLearningEfficiencyRate =
+          action.payload[1].averageLearningEfficiencyRate;
       }
-    ),
-    builder.addCase(
-      fetchAsyncGetEachNoteLearningEfficiency.fulfilled,
-      (state, action) => {
+    }),
+      builder.addCase(
+        fetchAsyncGetThreeMonthAverageLearningEfficiency.fulfilled,
+        (state, action) => {
+          action.payload.map((threeMonthAverageData) => {
+            threeMonthAverageData.aggregateUnit === 'today'
+              ? (state.threeMonthAverageLearningEfficiency.threeMonthAverageLearningEfficiencyRateToday =
+                  threeMonthAverageData.averageLearningEfficiencyRate)
+              : (state.threeMonthAverageLearningEfficiency.threeMonthAverageLearningEfficiencyRateYesterday =
+                  threeMonthAverageData.averageLearningEfficiencyRate);
+          });
+        },
+      ),
+      builder.addCase(fetchAsyncGetEachNoteLearningEfficiency.fulfilled, (state, action) => {
         state.eachNoteLearningEfficiency.options = action.payload;
-      }
-    ),
-    builder.addCase(
-      fetchAsyncGetEachParentMemoCategoryLearningEfficiency.fulfilled,
-      (state,action) => {
-        state.eachParentMemoCategoryLearningEfficiency.options = action.payload;
-        resetIsFetchParentMemoCategoryData();
-      }
-    ),
-    builder.addCase(
-      fetchAsyncGetEachMemoLearningEfficiency.fulfilled,
-      (state,action) => {
+      }),
+      builder.addCase(
+        fetchAsyncGetEachParentMemoCategoryLearningEfficiency.fulfilled,
+        (state, action) => {
+          state.eachParentMemoCategoryLearningEfficiency.options = action.payload;
+          resetIsFetchParentMemoCategoryData();
+        },
+      ),
+      builder.addCase(fetchAsyncGetEachMemoLearningEfficiency.fulfilled, (state, action) => {
         state.eachMemoLearningEfficiency.options = action.payload;
-      }
-    ),
+      }),
+      builder.addCase(fetchAsyncGetSelectMemoLearningEfficiency.fulfilled, (state, action) => {
+        state.selectMemo = action.payload[0];
+      });
+    builder.addCase(fetchAsyncGetTodayLearningEfficiency.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncGetThreeMonthAverageLearningEfficiency.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncGetEachNoteLearningEfficiency.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
     builder.addCase(
-      fetchAsyncGetSelectMemoLearningEfficiency.fulfilled,
-      (state, action) => {
-        state.selectMemo = action.payload[0]
-      }
-    )
-  }
+      fetchAsyncGetEachParentMemoCategoryLearningEfficiency.rejected,
+      (state, error) => {
+        console.error(error.error.message);
+      },
+    );
+    builder.addCase(fetchAsyncGetEachMemoLearningEfficiency.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncGetSelectMemoLearningEfficiency.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncCreateLearningEfficiency.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncPatchLearningEfficiency.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+  },
 });
 
-export const { 
+export const {
   setSelectEachNoteLearningEfficiency,
   resetSelectEachNoteLearningEfficiency,
   setSelectEachParentMemoCategoryLearningEfficiency,
@@ -280,21 +291,38 @@ export const {
   changeSelectPriority,
 } = learningEfficiencySlice.actions;
 
-export const selectAggregateDate = (state: RootState) => state.learningEfficiency.todayLearningEfficiency.aggregateDate;
-export const selectTodayLearningEfficiencyRate = (state: RootState) => state.learningEfficiency.todayLearningEfficiency.todayLearningEfficiencyRate;
-export const selectYesterdayLearningEfficiencyRate = (state: RootState) => state.learningEfficiency.todayLearningEfficiency.yesterdayLearningEfficiencyRate;
-export const selectThreeMonthAverageLearningEfficiencyRateToday = (state: RootState) => state.learningEfficiency.threeMonthAverageLearningEfficiency.threeMonthAverageLearningEfficiencyRateToday;
-export const selectThreeMonthAverageLearningEfficiencyRateYesterday = (state: RootState) => state.learningEfficiency.threeMonthAverageLearningEfficiency.threeMonthAverageLearningEfficiencyRateYesterday
-export const selectEachNoteLearningEfficiencyOptions = (state: RootState) => state.learningEfficiency.eachNoteLearningEfficiency.options;
-export const selectSelectEachNoteLearningEfficiency = (state: RootState) => state.learningEfficiency.eachNoteLearningEfficiency.selectData;
-export const selectEachParentMemoCategoryLearningEfficiencyOptions = (state: RootState) => state.learningEfficiency.eachParentMemoCategoryLearningEfficiency.options;
-export const selectSelectEachParentMemoCategoryLearningEfficiency = (state: RootState) => state.learningEfficiency.eachParentMemoCategoryLearningEfficiency.selectData;
-export const selectIsFetchParentMemoCategoryData = (state: RootState) => state.learningEfficiency.eachParentMemoCategoryLearningEfficiency.isFetchData;
-export const selectEachMemoLearningEfficiencyOptions = (state: RootState) => state.learningEfficiency.eachMemoLearningEfficiency.options;
-export const selectSelectEachMemoLearningEfficiency = (state: RootState) => state.learningEfficiency.eachMemoLearningEfficiency.selectData;
-export const selectIsFetchMemoData = (state: RootState) => state.learningEfficiency.eachMemoLearningEfficiency.isFetchData;
-export const selectSelectMemoLearningEfficiency = (state: RootState) => state.learningEfficiency.selectMemo;
-export const selectSelectChildMemoCategoryName = (state: RootState) => state.learningEfficiency.selectChildMemoCategoryName;
+export const selectAggregateDate = (state: RootState) =>
+  state.learningEfficiency.todayLearningEfficiency.aggregateDate;
+export const selectTodayLearningEfficiencyRate = (state: RootState) =>
+  state.learningEfficiency.todayLearningEfficiency.todayLearningEfficiencyRate;
+export const selectYesterdayLearningEfficiencyRate = (state: RootState) =>
+  state.learningEfficiency.todayLearningEfficiency.yesterdayLearningEfficiencyRate;
+export const selectThreeMonthAverageLearningEfficiencyRateToday = (state: RootState) =>
+  state.learningEfficiency.threeMonthAverageLearningEfficiency
+    .threeMonthAverageLearningEfficiencyRateToday;
+export const selectThreeMonthAverageLearningEfficiencyRateYesterday = (state: RootState) =>
+  state.learningEfficiency.threeMonthAverageLearningEfficiency
+    .threeMonthAverageLearningEfficiencyRateYesterday;
+export const selectEachNoteLearningEfficiencyOptions = (state: RootState) =>
+  state.learningEfficiency.eachNoteLearningEfficiency.options;
+export const selectSelectEachNoteLearningEfficiency = (state: RootState) =>
+  state.learningEfficiency.eachNoteLearningEfficiency.selectData;
+export const selectEachParentMemoCategoryLearningEfficiencyOptions = (state: RootState) =>
+  state.learningEfficiency.eachParentMemoCategoryLearningEfficiency.options;
+export const selectSelectEachParentMemoCategoryLearningEfficiency = (state: RootState) =>
+  state.learningEfficiency.eachParentMemoCategoryLearningEfficiency.selectData;
+export const selectIsFetchParentMemoCategoryData = (state: RootState) =>
+  state.learningEfficiency.eachParentMemoCategoryLearningEfficiency.isFetchData;
+export const selectEachMemoLearningEfficiencyOptions = (state: RootState) =>
+  state.learningEfficiency.eachMemoLearningEfficiency.options;
+export const selectSelectEachMemoLearningEfficiency = (state: RootState) =>
+  state.learningEfficiency.eachMemoLearningEfficiency.selectData;
+export const selectIsFetchMemoData = (state: RootState) =>
+  state.learningEfficiency.eachMemoLearningEfficiency.isFetchData;
+export const selectSelectMemoLearningEfficiency = (state: RootState) =>
+  state.learningEfficiency.selectMemo;
+export const selectSelectChildMemoCategoryName = (state: RootState) =>
+  state.learningEfficiency.selectChildMemoCategoryName;
 export const selectSelectPriority = (state: RootState) => state.learningEfficiency.selectPriority;
 
 export default learningEfficiencySlice.reducer;

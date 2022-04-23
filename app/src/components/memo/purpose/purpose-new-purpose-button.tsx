@@ -1,22 +1,16 @@
-import type { VFC } from "react";
-import { MemoSubmitButton } from "../commons/button/memo-submit-button";
+import type { VFC } from 'react';
+import { MemoSubmitButton } from '../commons/button/memo-submit-button';
 
 interface NewPurposeButtonProps {
-    formId: string;
+  formId: string;
 }
 
 export const NewPurposeButton: VFC<NewPurposeButtonProps> = (props) => {
-    const { formId, ...other} = props;
-    
-    return(
-        <MemoSubmitButton
-            toolTipTitle="submit"
-            form={formId}
-        >
-            <>
-                New
-            </>
-       </MemoSubmitButton>
+  const { formId, ...other } = props;
 
-    )
-}
+  return (
+    <MemoSubmitButton toolTipTitle='submit' form={formId}>
+      <>New</>
+    </MemoSubmitButton>
+  );
+};
