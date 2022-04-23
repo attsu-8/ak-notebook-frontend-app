@@ -42,7 +42,9 @@ export const MemoCardPriority: VFC<MemoCardPriorityProps> = (props) => {
         name='memoPriority'
         value={memoPriority}
         onChange={(event, newValue) => {
-          handleChangePriority(newValue);
+          if (newValue) {
+            handleChangePriority(newValue);
+          }
         }}
       />
     </>
