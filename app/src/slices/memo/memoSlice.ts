@@ -305,6 +305,33 @@ export const memoSlice = createSlice({
         return memo.memoId !== action.payload.memoId;
       });
     });
+    builder.addCase(fetchAsyncGetMemos.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncGetMemosFilter.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncGetMemosNextPage.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncCreateMemo.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncCountBrowsingMemo.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncPatchMemoTitle.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncPatchMemoText.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncPatchPriority.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncLogicalDeleteMemo.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
   },
 });
 

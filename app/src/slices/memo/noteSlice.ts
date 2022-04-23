@@ -131,6 +131,21 @@ export const noteSlice = createSlice({
         return note.noteId !== action.payload.noteId;
       });
     });
+    builder.addCase(fetchAsyncGetNotes.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncGetSelectNote.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncCreateNote.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncPatchNote.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
+    builder.addCase(fetchAsyncLogicalDeleteNote.rejected, (state, error) => {
+      console.error(error.error.message);
+    });
   },
 });
 
