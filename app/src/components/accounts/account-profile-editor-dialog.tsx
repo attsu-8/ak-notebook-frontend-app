@@ -81,7 +81,9 @@ export const AccountProfileEditorDialog: VFC<MemoDialogProps> = (props) => {
     },
   });
 
-  const handleNicknameChange = async (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleNicknameChange = async (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     await formik.handleChange(event);
     await formik.handleSubmit();
   };
