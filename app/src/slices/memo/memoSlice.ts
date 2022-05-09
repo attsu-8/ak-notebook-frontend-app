@@ -15,7 +15,9 @@ import { LogicalDeleteProps } from './commons';
 const apiUrl = process.env.NEXT_PUBLIC_AKNOTEBOOK_API_URL;
 
 const changeHttpToHttps = (nextPage: string): string => {
-  return nextPage.replace('http', 'https');
+  if (nextPage !== null){
+    return nextPage.replace('http', 'https');
+  }
 };
 
 export const fetchAsyncGetMemos = createAsyncThunk('memo/get', async () => {
