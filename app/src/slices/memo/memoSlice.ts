@@ -14,6 +14,10 @@ import { LogicalDeleteProps } from './commons';
 
 const apiUrl = process.env.NEXT_PUBLIC_AKNOTEBOOK_API_URL;
 
+const changeHttpToHttps = (nextPage: string): string => {
+  return nextPage.replace('http', 'https');
+};
+
 export const fetchAsyncGetMemos = createAsyncThunk('memo/get', async () => {
   const res = await axios.get(`${apiUrl}api/memo/?limit=1000`, {
     headers: {
@@ -253,7 +257,11 @@ export const memoSlice = createSlice({
     });
     builder.addCase(fetchAsyncGetMemosFilter.fulfilled, (state, action) => {
       state.memoOptions = action.payload.results;
-      state.memoNextPage = action.payload.next;
+      if (process.env.NEXT_PUBLIC_IS_PRODUCTION === 'true') {
+        state.memoNextPage = changeHttpToHttps(action.payload.next);
+      } else {
+        state.memoNextPage = action.payload.next;
+      }
       if (state.memoNextPage) {
         state.isMemoNextPageLoading = true;
       } else {
@@ -262,7 +270,11 @@ export const memoSlice = createSlice({
     });
     builder.addCase(fetchAsyncGetMemosNextPage.fulfilled, (state, action) => {
       state.memoOptions = [...state.memoOptions, ...action.payload.results];
-      state.memoNextPage = action.payload.next;
+      if (process.env.NEXT_PUBLIC_IS_PRODUCTION === 'true') {
+        state.memoNextPage = changeHttpToHttps(action.payload.next);
+      } else {
+        state.memoNextPage = action.payload.next;
+      }
       if (state.memoNextPage) {
         state.isMemoNextPageLoading = true;
       } else {
